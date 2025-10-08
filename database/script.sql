@@ -17,7 +17,11 @@ INSERT INTO tbl_filme
 (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa)
 VALUES
 ('Koe no Katachi',
- 'Um jovem que praticava bullying contra uma colega surda tenta se redimir anos depois, buscando o perdão dela e a própria paz interior.',
+ 'Como um jovem rebelde, o aluno do ensino fundamental Shouya Ishida buscava combater o tédio das formas mais cruéis. Quando a surda Shouko Nishimiya se transfere para sua turma, Shouya e o restante da turma a intimidam irrefletidamente por diversão. No entanto, quando sua mãe notifica a escola, ele é apontado como culpado por tudo o que lhe foi feito. Com a transferência de Shouko para fora da escola, Shouya fica à mercê de seus colegas. Ele é cruelmente ostracizado durante todo o ensino fundamental e médio, enquanto os professores fazem vista grossa.
+
+Agora em seu terceiro ano do ensino médio, Shouya ainda é atormentado por seus erros de menino. Sinceramente arrependido de suas ações passadas, ele parte em uma jornada de redenção: reencontrar Shouko e fazer as pazes.
+
+Koe no Katachi conta a história comovente do reencontro de Shouya com Shouko e suas tentativas honestas de se redimir, enquanto é continuamente assombrado pelas sombras de seu passado.',
  '2016-09-17',
  '02:10:00',
  2000000.00,
@@ -25,7 +29,9 @@ VALUES
  'https://upload.wikimedia.org/wikipedia/pt/thumb/4/47/Koe-no-Katachi-poster-film.jpg/250px-Koe-no-Katachi-poster-film.jpg'
 ),
 ('Redline',
- 'Num futuro distante, um piloto ousado participa de uma perigosa corrida ilegal chamada Redline, onde vale tudo para vencer.',
+ 'A cada cinco anos, uma corrida emocionante chamada Redline é realizada, e a competição mais esperada do universo tem apenas uma regra: não há nenhuma. Os pilotos são levados ao seu limite absoluto — uma sensação que o piloto aventureiro JP conhece muito bem. Tendo acabado de se classificar para participar da Redline, ele está ansioso para competir contra outros pilotos altamente qualificados, especialmente a bela estrela em ascensão e a única outra humana que se classificou, Sonoshee McLaren.
+
+Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anunciado que acontecerá no planeta Roboworld, com seus militares e criminosos impulsivos que buscam usar a corrida a seu favor. No entanto, o perigo potencial não detém os pilotos; na verdade, só aumenta a emoção. Confiando apenas na velocidade de seu veículo, JP se prepara para o evento que está por vir, com o objetivo de conquistar o primeiro lugar na maior corrida de sua vida.',
  '2009-08-14',
  '01:42:00',
  3000000.00,

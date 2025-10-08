@@ -12,7 +12,7 @@
                 npm install prisma --save           -> Instalar o prisma (conexão com Database).
                 npm install @prisma/client --save   -> Instalar o cliente do prisma (Executar scripts SQL no BD).
                 npx prisma init                     -> Prompt de comando para inicializar o prisma no projeto.
-                npx prisma migrate dev              -> Realiza o sincronismo entre o prisma e o BD (CUIDADO, 
+                npx prisma migrate dev              -> Realiza o sincronismo entre o prisma e o BD (CUIDADO,
                                                     nesse processo você poderá perder dados reais do BD, pois 
                                                     ele pega e cria as tabelas programadas no ORM schema.prisma).
                 npx prisma generate                 -> Apenas realiza o sincronismo entre o prisma e o BD, geralmente 
@@ -24,6 +24,7 @@
 */
 
 // Import da dependencia do Prisma qu permite a execução de script SQL no BD
+// const { PrismaClient } = require('@prisma/client')
 const { PrismaClient } = require('../../generated/prisma')
 
 // Cria um novo objeto baseado na classe do PrismaClient
@@ -54,7 +55,7 @@ const getSelectAllMovies = async () => {
         // Encaminha para o BD o script SQL
         let result = await prisma.$queryRawUnsafe(sql)
 
-        if (result.length > 0)
+        if (Array.isArray(result))
             return result
         else
             return false
@@ -66,7 +67,21 @@ const getSelectAllMovies = async () => {
 
 // Retorna um filme filtrando pelo id do banco de dados
 const getSelectByIdMovies = async (id) => {
+    try {
+        // Script SQL
+        let sql = `select * from tbl_filme where id = ${id}`
 
+        // Encaminha para o BD o script SQL
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if (Array.isArray(result))
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
 }
 
 // Insere um filme novo no banco de dados
@@ -85,5 +100,6 @@ const setDeleteMovies = async (id) => {
 }
 
 module.exports = {
-    getSelectAllMovies
+    getSelectAllMovies,
+    getSelectByIdMovies
 }
