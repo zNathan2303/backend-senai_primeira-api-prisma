@@ -40,3 +40,23 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
 );
 
 select * from tbl_filme;
+
+-- {
+--     "nome": "Jujutsu Kaisen 0",
+--     "sinopse": "Infortúnios violentos ocorrem frequentemente em torno de Yuuta Okkotsu, um jovem de 16 anos, uma tímida vítima de bullying no ensino médio. Yuuta é carregado com uma maldição monstruosa, um poder que distribui vingança brutal contra seus valentões. Rika Orimoto, a maldição de Yuuta, é uma sombra de sua infância trágica e uma ameaça potencialmente letal para qualquer um que ouse enganá-lo.\n\nA situação singular de Yuuta chama a atenção de Satoru Gojou, um poderoso feiticeiro que leciona na Escola de Jujutsu da Prefeitura de Tóquio. Gojou vê um imenso potencial em Yuuta e espera ajudar o garoto a canalizar seu fardo mortal em uma força do bem. No entanto, Yuuta luta para encontrar seu lugar entre seus talentosos colegas de classe: o seletivamente mudo Toge Inumaki, a especialista em armas Maki Zenin e Panda.\n\nYuuta utiliza Rika desajeitadamente em missões com os outros alunos do primeiro ano, mas as consequências terríveis das tremendas demonstrações de poder de Rika despertam o interesse do calculista usuário de maldições, Suguru Getou. Enquanto Getou se esforça para reivindicar a força de Rika e usá-la para eliminar todos os que não são usuários de jujutsu do mundo, Yuuta luta ao lado de seus amigos para impedir o plano genocida.",
+--     "data_lancamento": "2021-12-24",
+--     "duracao": "01:44:00",
+--     "orcamento": 45600000.00,
+--     "trailer": "https://youtu.be/2docezZl574?si=tp_f9XoXPapiL1jR",
+--     "capa": "https://br.web.img2.acsta.net/pictures/21/10/27/11/49/5430171.jpg"
+-- }
+
+-- {
+--     "nome": "Spy x Family Code: White",
+--     "sinopse": "Loid Forger, um espião de elite, é avisado por seu supervisor de que pode ser transferido de sua missão em andamento, a Operação Strix. Para manter sua posição, ele precisa progredir significativamente em direção aos objetivos da operação, que envolve fazer com que sua filha adotiva, Anya, ganhe Estrelas Stella suficientes para se tornar uma Acadêmica Imperial na Academia Eden.\n\nApós descobrir um concurso de culinária que premia o aluno vencedor com uma Estrela Stella, Loid pesquisa a sobremesa preferida do juiz para ajudar a aumentar as chances de Anya. No entanto, recriar perfeitamente o meremere favorito do juiz exige mais do que apenas seguir uma receita. Assim, os Forgers embarcam em férias na região de Frigis para experimentar um meremere autêntico. Nem tudo corre bem na viagem, pois a família Forger acaba se envolvendo em uma trama sinistra para reacender a guerra entre os países de Ostania e Westalis.",
+--     "data_lancamento": "2023-12-22",
+--     "duracao": "01:50:00",
+--     "orcamento": 28000000,
+--     "trailer": "https://youtu.be/m5TxWbtQ7qU?si=wJjiqYNa2aCwQHOC",
+--     "capa": "https://a.storyblok.com/f/178900/848x1200/f957a417aa/spy-x-family-code-white-poster.jpg/m/filters:quality(95)format(webp)"
+-- }
