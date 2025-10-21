@@ -1,0 +1,67 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.6 Chrome/138.0.7204.100 Electron/37.2.3 Safari/537.36" version="28.0.6">
+  <diagram name="Página-1" id="I-7i-WtJHylYiYFPQm8o">
+    <mxGraphModel dx="1371" dy="741" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2336" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-1" value="filme" style="whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1131" y="652" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-2" value="ator" style="whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1461" y="740" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-3" value="genero" style="whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="870" y="787" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-4" value="id" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="1031" y="599" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-5" value="id" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="1422" y="634" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-6" value="id" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="730" y="787" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-7" value="Attribute" style="ellipse;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1036" y="756" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-8" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="908" y="913" as="sourcePoint" />
+            <mxPoint x="1068" y="913" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-9" value="nome" style="ellipse;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1136" y="559" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-10" value="sinopse" style="ellipse;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="605" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-11" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="8UmoSVPX2Ag410WzAP6h-4" target="8UmoSVPX2Ag410WzAP6h-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1200" y="830" as="sourcePoint" />
+            <mxPoint x="1360" y="830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-12" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="8UmoSVPX2Ag410WzAP6h-9" target="8UmoSVPX2Ag410WzAP6h-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1153" y="822" as="sourcePoint" />
+            <mxPoint x="1313" y="822" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-13" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="8UmoSVPX2Ag410WzAP6h-10" target="8UmoSVPX2Ag410WzAP6h-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1181" y="822" as="sourcePoint" />
+            <mxPoint x="1341" y="822" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-14" value="altura" style="ellipse;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1590" y="725" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8UmoSVPX2Ag410WzAP6h-15" value="nome" style="ellipse;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1499" y="674" width="100" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

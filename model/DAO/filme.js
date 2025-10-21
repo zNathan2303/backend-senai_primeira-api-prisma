@@ -105,11 +105,29 @@ const setInsertMovies = async (filme) => {
                 '${filme.capa}'
             )`
 
-        // $executeRawUnsafe() -> Executa o script SQL que não tem retorno de valores
+        // Encaminha para o BD o script SQL
         let result = await prisma.$executeRawUnsafe(sql)
 
         if (result)
             return true
+        else
+            return false
+    } catch (error) {
+        return false
+    }
+}
+
+// Retorna o ultimo ID gerado no BD
+const getSelectLastID = async () => {
+    try {
+        // Script SQL para retornar apenas o ultimo ID do BD
+        let sql = `select id from tbl_filme order by id desc limit 1;`
+
+        // Encaminha para o BD o script SQL
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if (Array.isArray(result))
+            return Number(result[0].id)
         else
             return false
     } catch (error) {
@@ -166,5 +184,6 @@ module.exports = {
     getSelectByIdMovies,
     setInsertMovies,
     setUpdateMovies,
-    setDeleteMovies
+    setDeleteMovies,
+    getSelectLastID
 }
