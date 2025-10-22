@@ -41,6 +41,7 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
 
 select * from tbl_filme;
 
+-- BODY PARA AS REQUISIÇÕES DE INSERÇÃO DE FILMES
 -- {
 --     "nome": "Jujutsu Kaisen 0",
 --     "sinopse": "Infortúnios violentos ocorrem frequentemente em torno de Yuuta Okkotsu, um jovem de 16 anos, uma tímida vítima de bullying no ensino médio. Yuuta é carregado com uma maldição monstruosa, um poder que distribui vingança brutal contra seus valentões. Rika Orimoto, a maldição de Yuuta, é uma sombra de sua infância trágica e uma ameaça potencialmente letal para qualquer um que ouse enganá-lo.\n\nA situação singular de Yuuta chama a atenção de Satoru Gojou, um poderoso feiticeiro que leciona na Escola de Jujutsu da Prefeitura de Tóquio. Gojou vê um imenso potencial em Yuuta e espera ajudar o garoto a canalizar seu fardo mortal em uma força do bem. No entanto, Yuuta luta para encontrar seu lugar entre seus talentosos colegas de classe: o seletivamente mudo Toge Inumaki, a especialista em armas Maki Zenin e Panda.\n\nYuuta utiliza Rika desajeitadamente em missões com os outros alunos do primeiro ano, mas as consequências terríveis das tremendas demonstrações de poder de Rika despertam o interesse do calculista usuário de maldições, Suguru Getou. Enquanto Getou se esforça para reivindicar a força de Rika e usá-la para eliminar todos os que não são usuários de jujutsu do mundo, Yuuta luta ao lado de seus amigos para impedir o plano genocida.",
@@ -60,3 +61,56 @@ select * from tbl_filme;
 --     "trailer": "https://youtu.be/m5TxWbtQ7qU?si=wJjiqYNa2aCwQHOC",
 --     "capa": "https://a.storyblok.com/f/178900/848x1200/f957a417aa/spy-x-family-code-white-poster.jpg/m/filters:quality(95)format(webp)"
 -- }
+
+CREATE TABLE tbl_cargo (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(50) NOT NULL,
+	descricao TEXT
+);
+
+CREATE TABLE tbl_profissional (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(100) NOT NULL,
+	data_nascimento date,
+	nacionalidade varchar(50) NOT NULL,
+	biografia text
+);
+
+CREATE TABLE tbl_personagem (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(200) NOT NULL,
+	idade int,
+	descricao varchar(200),
+	papel varchar(100) NOT NULL
+);
+
+CREATE TABLE tbl_producao (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	pais_origem varchar(50),
+	fundacao date,
+	site varchar(255)
+);
+
+CREATE TABLE tbl_genero (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(50) NOT NULL
+);
+
+CREATE TABLE tbl_midia (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(20) NOT NULL
+);
+
+CREATE TABLE tbl_distribuidora (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(100) NOT NULL,
+	pais_origem varchar(50),
+	site varchar(255)
+);
+
+CREATE TABLE tbl_plataforma_streaming (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(100) NOT NULL,
+	site varchar(255),
+	pais_origem varchar(50)
+);
