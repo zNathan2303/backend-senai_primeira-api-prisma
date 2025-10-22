@@ -62,6 +62,11 @@ select * from tbl_filme;
 --     "capa": "https://a.storyblok.com/f/178900/848x1200/f957a417aa/spy-x-family-code-white-poster.jpg/m/filters:quality(95)format(webp)"
 -- }
 
+CREATE TABLE tbl_genero (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(50) NOT NULL
+);
+
 CREATE TABLE tbl_cargo (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	nome varchar(50) NOT NULL,
@@ -91,12 +96,7 @@ CREATE TABLE tbl_producao (
 	site varchar(255)
 );
 
-CREATE TABLE tbl_genero (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nome varchar(50) NOT NULL
-);
-
-CREATE TABLE tbl_midia (
+CREATE TABLE tbl_formato_audiovisual (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	nome varchar(20) NOT NULL
 );
