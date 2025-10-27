@@ -73,6 +73,11 @@ CREATE TABLE tbl_cargo (
 	descricao TEXT
 );
 
+CREATE TABLE tbl_genero_pessoa (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(20) NOT NULL
+);
+
 CREATE TABLE tbl_profissional (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	nome varchar(100) NOT NULL,
