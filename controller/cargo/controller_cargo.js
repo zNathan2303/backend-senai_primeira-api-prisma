@@ -132,7 +132,7 @@ const atualizarCargo = async (cargo, id, contentType) => {
             if (!validar) {
 
                 // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-                let validarID = await buscarCargoId()
+                let validarID = await buscarCargoId(id)
 
                 if (validarID.status_code == 200) {
 
