@@ -114,7 +114,6 @@ INSERT INTO tbl_cargo (nome, descricao) VALUES
 --   "descricao": "Cria o roteiro e a estrutura narrativa da obra."
 -- }
 -- {
---   "id": 6,
 --   "nome": "Editor de Vídeo",
 --   "descricao": "Responsável pela edição final das cenas filmadas."
 -- }
@@ -128,7 +127,7 @@ CREATE TABLE tbl_genero_pessoa (
 CREATE TABLE tbl_producao (
 	id int PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
-	pais_origem varchar(50),
+	pais_origem varchar(50) NOT NULL,
 	fundacao date,
 	site varchar(255)
 );
@@ -153,11 +152,35 @@ INSERT INTO tbl_producao (nome, pais_origem, fundacao, site) VALUES
 --   "site": "https://www.warnerbros.com"
 -- }
 -- {
---   "id": 3,
 --   "nome": "Paramount Global",
 --   "pais_origem": "Estados Unidos",
 --   "fundacao": "1912-05-08",
 --   "site": "https://www.paramount.com"
+-- }
+
+CREATE TABLE tbl_formato_audiovisual (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(40) NOT NULL
+);
+
+INSERT INTO tbl_formato_audiovisual (nome) VALUES
+('Filme'),
+('Série'),
+('Documentário'),
+('Curta-metragem'),
+('Animação'),
+('Minissérie'),
+('Programa de TV'),
+('Websérie'),
+('Show'),
+('Videoclipe');
+
+-- BODY PARA REQUISIÇÕES POST E PUT
+-- {
+--   "nome": "Filme"
+-- }
+-- {
+--   "nome": "Documentário Curto"
 -- }
 
 -- TABELAS FALTANDO FAZER O CRUD
@@ -176,11 +199,6 @@ CREATE TABLE tbl_personagem (
 	idade int,
 	descricao varchar(200),
 	papel varchar(100) NOT NULL
-);
-
-CREATE TABLE tbl_formato_audiovisual (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nome varchar(20) NOT NULL
 );
 
 CREATE TABLE tbl_distribuidora (

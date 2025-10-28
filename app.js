@@ -33,6 +33,7 @@ const generoRoutes = require('./routes/genero-routes.js')
 const cargoRoutes = require('./routes/cargo-routes.js')
 const generoPessoaRoutes = require('./routes/genero-pessoa-routes.js')
 const producaoRoutes = require('./routes/producao-routes.js')
+const formatoAudiovisualRoutes = require('./routes/formato-audiovisual-routes.js')
 
 // Rotas da API
 app.use(filmeRoutes)
@@ -40,6 +41,7 @@ app.use(generoRoutes)
 app.use(cargoRoutes)
 app.use(generoPessoaRoutes)
 app.use(producaoRoutes)
+app.use(formatoAudiovisualRoutes)
 
 app.listen(PORT, () => {
     console.log('API aguardando requisições !!!')
