@@ -1,30 +1,30 @@
 /*******************************************************************************
  * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model 
- *          para o CRUD de Cargos.
- * Data: 22/10/2025
+ *          para o CRUD de Produção.
+ * Data: 28/10/2025
  * Autor: Nathan
  * Versão: 1.0
  ******************************************************************************/
 
-// Import da model do DAO do Cargo
-const cargoDAO = require('../../model/DAO/cargo.js')
+// Import da model do DAO da produção
+const producaoDAO = require('../../model/DAO/producao.js')
 
 // Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
 
-// Retorna uma lista de todos os cargos
-const listarCargos = async () => {
+// Retorna uma lista de todas as produções
+const listarProducoes = async () => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
-        // Chama a função do DAO para retornar a lista de cargos do BD
-        let resultCargos = await cargoDAO.getSelectAllRoles()
+        // Chama a função do DAO para retornar a lista de produções do BD
+        let resultProducoes = await producaoDAO.getSelectAllProductions()
 
-        if (resultCargos) {
-            if (resultCargos.length > 0) {
+        if (resultProducoes) {
+            if (resultProducoes.length > 0) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                MESSAGES.DEFAULT_HEADER.items.cargos = resultCargos
+                MESSAGES.DEFAULT_HEADER.items.producoes = resultProducoes
 
                 return MESSAGES.DEFAULT_HEADER // 200
             } else {
@@ -38,20 +38,20 @@ const listarCargos = async () => {
     }
 }
 
-// Retorna um cargo filtrando pelo ID
-const buscarCargoId = async (id) => {
+// Retorna uma produção filtrando pelo ID
+const buscarProducaoId = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
         // Validação da chegada do ID
         if (!isNaN(id) && id != '' && id != null && id > 0) {
-            let resultCargos = await cargoDAO.getSelectbyIdRoles(Number(id))
+            let resultProdocoes = await producaoDAO.getSelectbyIdProductions(Number(id))
 
-            if (resultCargos) {
-                if (resultCargos.length > 0) {
+            if (resultProdocoes) {
+                if (resultProdocoes.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.cargo = resultCargos
+                    MESSAGES.DEFAULT_HEADER.items.producao = resultProdocoes
 
                     return MESSAGES.DEFAULT_HEADER
                 } else {
@@ -70,8 +70,8 @@ const buscarCargoId = async (id) => {
     }
 }
 
-// Insere um cargo
-const inserirCargo = async (cargo, contentType) => {
+// Insere uma produção
+const inserirProducao = async (producao, contentType) => {
 
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
@@ -80,23 +80,23 @@ const inserirCargo = async (cargo, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados do cargo
-            let validar = await validarDadosCargo(cargo)
+            // Chama a função de validar todos os dados da produção
+            let validar = await validarDadosProducao(producao)
 
             if (!validar) {
-                // Chama a função para inserir um novo cargo no BD
-                let resultCargos = await cargoDAO.setInsertRoles(cargo)
+                // Chama a função para inserir uma nova produção no BD
+                let resultProducoes = await producaoDAO.setInsertProductions(producao)
 
-                if (resultCargos) {
+                if (resultProducoes) {
                     // Chama a função para receber o ID gerado no BD
-                    let lastID = await cargoDAO.getSelectLastID()
+                    let lastID = await producaoDAO.getSelectLastID()
                     if (lastID) {
-                        // Adiciona o ID no JSON com os dados do cargo
-                        cargo.id = lastID
+                        // Adiciona o ID no JSON com os dados da produção
+                        producao.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items = cargo
+                        MESSAGES.DEFAULT_HEADER.items = producao
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
@@ -117,8 +117,8 @@ const inserirCargo = async (cargo, contentType) => {
     }
 }
 
-// Atualiza um cargo buscando pelo ID
-const atualizarCargo = async (cargo, id, contentType) => {
+// Atualiza uma produção buscando pelo ID
+const atualizarProducao = async (producao, id, contentType) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
@@ -126,34 +126,34 @@ const atualizarCargo = async (cargo, id, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados do cargo
-            let validar = await validarDadosCargo(cargo)
+            // Chama a função de validar todos os dados do produção
+            let validar = await validarDadosProducao(producao)
 
             if (!validar) {
 
                 // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-                let validarID = await buscarCargoId(id)
+                let validarID = await buscarProducaoId(id)
 
                 if (validarID.status_code == 200) {
 
-                    // Adiciona o ID do cargo no JSON de dados para ser encaminhado ao DAO
-                    cargo.id = Number(id)
+                    // Adiciona o ID do produção no JSON de dados para ser encaminhado ao DAO
+                    producao.id = Number(id)
 
-                    // Chama a função para inserir um novo cargo no BD
-                    let resultCargo = await cargoDAO.setUpdateRoles(cargo)
+                    // Chama a função para inserir uma nova produção no BD
+                    let resultProducao = await producaoDAO.setUpdateProductions(producao)
 
-                    if (resultCargo) {
+                    if (resultProducao) {
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items.cargo = cargo
+                        MESSAGES.DEFAULT_HEADER.items.producao = producao
 
                         return MESSAGES.DEFAULT_HEADER // 200
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
                 } else {
-                    return validarID // A função buscarCargoId poderá retornar (400 ou 404 ou 500)
+                    return validarID // A função buscarProducaoId poderá retornar (400 ou 404 ou 500)
                 }
 
             } else {
@@ -167,21 +167,21 @@ const atualizarCargo = async (cargo, id, contentType) => {
     }
 }
 
-// Exclui um cargo buscando pelo ID
-const excluirCargo = async (id) => {
+// Exclui uma producao buscando pelo ID
+const excluirProducao = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
         // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-        let validarID = await buscarCargoId(id)
+        let validarID = await buscarProducaoId(id)
 
         if (validarID.status_code == 200) {
 
-            // Chama a função para inserir um novo cargo no BD
-            let resultCargos = await cargoDAO.setDeleteRoles(id)
+            // Chama a função para inserir uma nova producao no BD
+            let resultProducao = await producaoDAO.setDeleteProductions(id)
 
-            if (resultCargos) {
+            if (resultProducao) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETE_ITEM.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETE_ITEM.status_code
                 MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETE_ITEM.message
@@ -191,25 +191,32 @@ const excluirCargo = async (id) => {
                 return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
             }
         } else {
-            return validarID // A função buscarCargoID poderá retornar (400 ou 404 ou 500)
+            return validarID // A função buscarProducaoID poderá retornar (400 ou 404 ou 500)
         }
     } catch (error) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
 
-// Validação dos dados de cadastro e atualização do cargo
-const validarDadosCargo = async (cargo) => {
+// Validação dos dados de cadastro e atualização da produção
+const validarDadosProducao = async (producao) => {
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     // Validação de todas as entradas
 
-    if (cargo.nome == '' || cargo.nome == undefined || cargo.nome == null || cargo.nome.length > 50) {
+    if (producao.nome == '' || producao.nome == undefined || producao.nome == null || producao.nome.length > 100) {
         MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Nome incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (cargo.descricao == undefined) {
-        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Descrição incorreta]'
+    } else if (producao.pais_origem == '' || producao.pais_origem == undefined || producao.pais_origem == null ||
+        producao.pais_origem.length > 50) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[País de origem incorreto]'
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+    } else if (producao.fundacao == undefined || producao.fundacao.length != 10) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Fundação incorreta]'
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+    } else if (producao.site == undefined) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Site incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else {
         return false
@@ -218,9 +225,9 @@ const validarDadosCargo = async (cargo) => {
 }
 
 module.exports = {
-    listarCargos,
-    buscarCargoId,
-    inserirCargo,
-    atualizarCargo,
-    excluirCargo
+    listarProducoes,
+    buscarProducaoId,
+    inserirProducao,
+    atualizarProducao,
+    excluirProducao
 }

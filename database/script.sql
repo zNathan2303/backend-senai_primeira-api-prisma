@@ -125,14 +125,42 @@ CREATE TABLE tbl_genero_pessoa (
 	nome varchar(20) NOT NULL
 );
 
--- TABELAS FALTANDO FAZER O CRUD
-
 CREATE TABLE tbl_producao (
 	id int PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
 	pais_origem varchar(50),
 	fundacao date,
 	site varchar(255)
 );
+
+INSERT INTO tbl_producao (nome, pais_origem, fundacao, site) VALUES
+('Warner Bros. Pictures', 'Estados Unidos', '1923-04-04', 'https://www.warnerbros.com'),
+('Universal Pictures', 'Estados Unidos', '1912-04-30', 'https://www.universalpictures.com'),
+('Paramount Pictures', 'Estados Unidos', '1912-05-08', 'https://www.paramount.com'),
+('Walt Disney Pictures', 'Estados Unidos', '1923-10-16', 'https://www.waltdisneystudios.com'),
+('Columbia Pictures', 'Estados Unidos', '1924-01-10', 'https://www.sonypictures.com'),
+('Netflix Studios', 'Estados Unidos', '1997-08-29', 'https://www.netflix.com'),
+('Studio Ghibli', 'Japão', '1985-06-15', 'https://www.studioghibli.jp'),
+('BBC Films', 'Reino Unido', '1990-06-18', 'https://www.bbc.co.uk/bbcfilms'),
+('20th Century Studios', 'Estados Unidos', '1935-05-31', 'https://www.20thcenturystudios.com'),
+('O2 Filmes', 'Brasil', '1991-01-01', 'https://www.o2filmes.com');
+
+-- BODY PARA REQUISIÇÕES POST E PUT
+-- {
+--   "nome": "Warner Bros. Pictures",
+--   "pais_origem": "Estados Unidos",
+--   "fundacao": "1923-04-04",
+--   "site": "https://www.warnerbros.com"
+-- }
+-- {
+--   "id": 3,
+--   "nome": "Paramount Global",
+--   "pais_origem": "Estados Unidos",
+--   "fundacao": "1912-05-08",
+--   "site": "https://www.paramount.com"
+-- }
+
+-- TABELAS FALTANDO FAZER O CRUD
 
 CREATE TABLE tbl_profissional (
 	id int PRIMARY KEY AUTO_INCREMENT,
