@@ -2,6 +2,8 @@ create database db_locadora_filme_ds2m_25_2;
 
 use db_locadora_filme_ds2m_25_2;
 
+-- CRUD DA TABELAS FEITAS
+
 create table tbl_filme(
 	id int primary key auto_increment not null,
 	nome varchar(100) not null,
@@ -67,15 +69,69 @@ CREATE TABLE tbl_genero (
 	nome varchar(50) NOT NULL
 );
 
+INSERT INTO tbl_genero (nome) VALUES
+('Ação'),
+('Aventura'),
+('Comédia'),
+('Drama'),
+('Terror'),
+('Ficção Científica'),
+('Romance'),
+('Animação'),
+('Suspense'),
+('Fantasia');
+
+-- BODY PARA REQUISIÇÕES POST E PUT
+-- {
+--   "nome": "Comédia"
+-- }
+
+-- {
+--   "nome": "Comédia Romântica"
+-- }
+
 CREATE TABLE tbl_cargo (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	nome varchar(50) NOT NULL,
 	descricao TEXT
 );
 
+INSERT INTO tbl_cargo (nome, descricao) VALUES
+('Diretor', 'Responsável pela direção geral do projeto ou empresa.'),
+('Produtor', 'Coordena a produção e supervisiona o andamento das atividades.'),
+('Roteirista', 'Cria o roteiro e a estrutura narrativa da obra.'),
+('Ator', 'Interpreta personagens em filmes, séries ou peças.'),
+('Diretor de Fotografia', 'Responsável pela iluminação e enquadramento das cenas.'),
+('Editor', 'Faz a montagem e edição das imagens gravadas.'),
+('Designer de Som', 'Cria e edita os efeitos e trilhas sonoras.'),
+('Figurinista', 'Cria e seleciona as roupas e acessórios dos personagens.'),
+('Maquiador', 'Cuida da caracterização visual dos atores.'),
+('Assistente de Produção', 'Auxilia em tarefas logísticas e administrativas da produção.');
+
+-- BODY PARA REQUISIÇÕES POST E PUT
+-- {
+--   "nome": "Roteirista",
+--   "descricao": "Cria o roteiro e a estrutura narrativa da obra."
+-- }
+-- {
+--   "id": 6,
+--   "nome": "Editor de Vídeo",
+--   "descricao": "Responsável pela edição final das cenas filmadas."
+-- }
+
+
 CREATE TABLE tbl_genero_pessoa (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	nome varchar(20) NOT NULL
+);
+
+-- TABELAS FALTANDO FAZER O CRUD
+
+CREATE TABLE tbl_producao (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	pais_origem varchar(50),
+	fundacao date,
+	site varchar(255)
 );
 
 CREATE TABLE tbl_profissional (
@@ -92,13 +148,6 @@ CREATE TABLE tbl_personagem (
 	idade int,
 	descricao varchar(200),
 	papel varchar(100) NOT NULL
-);
-
-CREATE TABLE tbl_producao (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	pais_origem varchar(50),
-	fundacao date,
-	site varchar(255)
 );
 
 CREATE TABLE tbl_formato_audiovisual (
