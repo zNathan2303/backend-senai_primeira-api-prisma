@@ -183,30 +183,38 @@ INSERT INTO tbl_formato_audiovisual (nome) VALUES
 --   "nome": "Documentário Curto"
 -- }
 
--- TABELAS FALTANDO FAZER O CRUD
-
-CREATE TABLE tbl_profissional (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nome varchar(100) NOT NULL,
-	data_nascimento date,
-	nacionalidade varchar(50) NOT NULL,
-	biografia text
-);
-
-CREATE TABLE tbl_personagem (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nome varchar(200) NOT NULL,
-	idade int,
-	descricao varchar(200),
-	papel varchar(100) NOT NULL
-);
-
 CREATE TABLE tbl_distribuidora (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	nome varchar(100) NOT NULL,
-	pais_origem varchar(50),
+	pais_origem varchar(50) NOT NULL,
 	site varchar(255)
 );
+
+INSERT INTO tbl_distribuidora (nome, pais_origem, site) VALUES
+('Warner Bros. Pictures', 'Estados Unidos', 'https://www.warnerbros.com'),
+('Universal Pictures', 'Estados Unidos', 'https://www.universalpictures.com'),
+('Paramount Pictures', 'Estados Unidos', 'https://www.paramount.com'),
+('Walt Disney Studios Motion Pictures', 'Estados Unidos', 'https://www.waltdisneystudios.com'),
+('Columbia Pictures', 'Estados Unidos', 'https://www.sonypictures.com'),
+('20th Century Studios', 'Estados Unidos', 'https://www.20thcenturystudios.com'),
+('Netflix', 'Estados Unidos', 'https://www.netflix.com'),
+('Lionsgate Films', 'Estados Unidos', 'https://www.lionsgate.com'),
+('Studio Ghibli', 'Japão', 'https://www.ghibli.jp'),
+('EuropaCorp', 'França', 'https://www.europacorp.com');
+
+-- BODY PARA REQUISIÇÕES POST E PUT
+-- {
+--   "nome": "Paris Filmes",
+--   "pais_origem": "Brasil",
+--   "site": "https://www.parisfilmes.com.br"
+-- }
+-- {
+--   "nome": "Paramount Pictures International",
+--   "pais_origem": "Estados Unidos",
+--   "site": "https://www.paramount.com/movies"
+-- }
+
+-- TABELAS FALTANDO FAZER O CRUD
 
 CREATE TABLE tbl_plataforma_streaming (
 	id int PRIMARY KEY AUTO_INCREMENT,
