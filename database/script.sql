@@ -41,8 +41,6 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  'https://m.media-amazon.com/images/M/MV5BMzMxYWE5ZjMtMGJiMi00YmZjLTg2MGEtMWY1YjBkNWUxNzQ5XkEyXkFqcGc@._V1_.jpg'
 );
 
-select * from tbl_filme;
-
 -- BODY PARA AS REQUISIÇÕES DE INSERÇÃO DE FILMES
 -- {
 --     "nome": "Jujutsu Kaisen 0",
@@ -213,12 +211,3 @@ INSERT INTO tbl_distribuidora (nome, pais_origem, site) VALUES
 --   "pais_origem": "Estados Unidos",
 --   "site": "https://www.paramount.com/movies"
 -- }
-
--- TABELAS FALTANDO FAZER O CRUD
-
-CREATE TABLE tbl_plataforma_streaming (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nome varchar(100) NOT NULL,
-	site varchar(255),
-	pais_origem varchar(50)
-);
