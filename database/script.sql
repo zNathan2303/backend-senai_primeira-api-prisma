@@ -116,12 +116,6 @@ INSERT INTO tbl_cargo (nome, descricao) VALUES
 --   "descricao": "Responsável pela edição final das cenas filmadas."
 -- }
 
-
-CREATE TABLE tbl_genero_pessoa (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nome varchar(20) NOT NULL
-);
-
 CREATE TABLE tbl_producao (
 	id int PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
@@ -211,3 +205,42 @@ INSERT INTO tbl_distribuidora (nome, pais_origem, site) VALUES
 --   "pais_origem": "Estados Unidos",
 --   "site": "https://www.paramount.com/movies"
 -- }
+
+CREATE TABLE tbl_personagem (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(200) NOT NULL,
+	imagem VARCHAR(255) NOT NULL,
+	idade INT,
+	descricao TEXT,
+	papel VARCHAR(100) NOT NULL
+);
+
+INSERT INTO tbl_personagem (nome, imagem, idade, descricao, papel)
+VALUES
+('Tony Stark', 'https://example.com/img/tony_stark.jpg', 48, 'Gênio bilionário e filantropo, criador da armadura do Homem de Ferro.', 'Protagonista'),
+('Pepper Potts', 'https://example.com/img/pepper_potts.jpg', 45, 'CEO das Indústrias Stark e parceira de Tony Stark.', 'Co-protagonista'),
+('James Rhodes', 'https://example.com/img/james_rhodes.jpg', 47, 'Amigo de Tony Stark e piloto da armadura Máquina de Combate.', 'Apoiador'),
+('Thanos', 'https://example.com/img/thanos.jpg', 1000, 'Titã poderoso em busca das Joias do Infinito.', 'Antagonista'),
+('Peter Parker', 'https://example.com/img/peter_parker.jpg', 17, 'Jovem herói que luta ao lado dos Vingadores como o Homem-Aranha.', 'Coadjuvante');
+
+-- BODY PARA REQUISIÇÕES POST E PUT
+-- {
+--   "nome": "Natasha Romanoff",
+--   "imagem": "https://example.com/img/natasha_romanoff.jpg",
+--   "idade": 35,
+--   "descricao": "Ex-espiã russa e membro dos Vingadores, conhecida como Viúva Negra.",
+--   "papel": "Protagonista"
+-- }
+-- {
+--   "id": 3,
+--   "nome": "James 'Rhodey' Rhodes",
+--   "imagem": "https://example.com/img/war_machine.jpg",
+--   "idade": 48,
+--   "descricao": "Coronel da Força Aérea dos EUA e operador da armadura Máquina de Combate.",
+--   "papel": "Apoiador"
+-- }
+
+
+
+
+

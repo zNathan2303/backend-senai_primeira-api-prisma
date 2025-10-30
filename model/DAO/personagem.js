@@ -1,10 +1,9 @@
 /*******************************************************************************
- * Objetivo: Arquivo responsável pelo CRUD de dados no MySQL referente aos 
- *          gêneros de pessoas
- * Data: 27/10/2025
+ * Objetivo: Arquivo responsável pelo CRUD de dados no MySQL referente aos personagens
+ * Data: 30/10/2025
  * Autor: Nathan
  * Versão: 1.0
- ******************************************************************************/
+******************************************************************************/
 
 // Import da dependencia do Prisma qu permite a execução de script SQL no BD
 const { PrismaClient } = require('../../generated/prisma')
@@ -12,10 +11,10 @@ const { PrismaClient } = require('../../generated/prisma')
 // Cria um novo objeto baseado na classe do PrismaClient
 const prisma = new PrismaClient()
 
-// Retorna uma lista de todos os gêneros do banco de dados
-const getSelectAllPersonGender = async () => {
+// Retorna uma lista de todos os personagens do banco de dados
+const getSelectAllCharacters = async () => {
     try {
-        let sql = `select * from tbl_genero_pessoa order by id desc`
+        let sql = `select * from tbl_personagem order by id desc`
 
         // Encaminha para o BD o script SQL
         let result = await prisma.$queryRawUnsafe(sql)
@@ -28,10 +27,10 @@ const getSelectAllPersonGender = async () => {
     }
 }
 
-// Retorna um gênero filtrando pelo id do banco de dados
-const getSelectbyIdPersonGender = async (id) => {
+// Retorna um personagem filtrando pelo id do banco de dados
+const getSelectbyIdCharacters = async (id) => {
     try {
-        let sql = `select * from tbl_genero_pessoa where id = ${id}`
+        let sql = `select * from tbl_personagem where id = ${id}`
 
         // Encaminha para o BD o script SQL
         let result = await prisma.$queryRawUnsafe(sql)
@@ -46,13 +45,21 @@ const getSelectbyIdPersonGender = async (id) => {
     }
 }
 
-// Insere um gênero novo no banco de dados
-const setInsertPersonGender = async (genero) => {
+// Insere um personagem novo no banco de dados
+const setInsertCharacters = async (personagem) => {
     try {
-        let sql = `INSERT INTO tbl_genero_pessoa (
-                nome
+        let sql = `INSERT INTO tbl_personagem (
+                nome,
+                imagem,
+                idade,
+                descricao,
+                papel
             ) VALUES (
-                '${genero.nome}'
+                '${personagem.nome}',
+                '${personagem.imagem}',
+                '${personagem.idade}',
+                '${personagem.descricao}',
+                '${personagem.papel}'
             )`
 
         // Encaminha para o BD o script SQL
@@ -71,7 +78,7 @@ const setInsertPersonGender = async (genero) => {
 const getSelectLastID = async () => {
     try {
         // Script SQL para retornar apenas o ultimo ID do BD
-        let sql = `select id from tbl_genero_pessoa order by id desc limit 1;`
+        let sql = `select id from tbl_personagem order by id desc limit 1;`
 
         // Encaminha para o BD o script SQL
         let result = await prisma.$queryRawUnsafe(sql)
@@ -85,13 +92,17 @@ const getSelectLastID = async () => {
     }
 }
 
-// Altera um gênero no banco de dados
-const setUpdatePersonGender = async (genero) => {
+// Altera um personagem no banco de dados
+const setUpdateCharacters = async (personagem) => {
     try {
-        let sql = `UPDATE tbl_genero_pessoa SET 
-                nome = '${genero.nome}'
+        let sql = `UPDATE tbl_personagem SET 
+                nome = '${personagem.nome}',
+                imagem = '${personagem.imagem}',
+                idade = '${personagem.idade}',
+                descricao = '${personagem.descricao}',
+                papel = '${personagem.papel}'
             WHERE 
-                id = ${genero.id};`
+                id = ${personagem.id};`
 
         // $executeRawUnsafe() -> Executa o script SQL que não tem retorno de valores
         let result = await prisma.$executeRawUnsafe(sql)
@@ -106,10 +117,10 @@ const setUpdatePersonGender = async (genero) => {
     }
 }
 
-// Exclui um gênero pelo id no banco de dados
-const setDeletePersonGender = async (id) => {
+// Exclui um personagem pelo id no banco de dados
+const setDeleteCharacters = async (id) => {
     try {
-        let sql = `DELETE FROM tbl_genero_pessoa WHERE id = ${id};`
+        let sql = `DELETE FROM tbl_personagem WHERE id = ${id};`
 
         // $executeRawUnsafe() -> Executa o script SQL que não tem retorno de valores
         let result = await prisma.$executeRawUnsafe(sql)
@@ -124,10 +135,10 @@ const setDeletePersonGender = async (id) => {
 }
 
 module.exports = {
-    getSelectAllPersonGender,
-    getSelectbyIdPersonGender,
+    getSelectAllCharacters,
+    getSelectbyIdCharacters,
+    setInsertCharacters,
     getSelectLastID,
-    setInsertPersonGender,
-    setUpdatePersonGender,
-    setDeletePersonGender
+    setUpdateCharacters,
+    setDeleteCharacters
 }
