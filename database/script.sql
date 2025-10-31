@@ -232,8 +232,7 @@ VALUES
 --   "papel": "Protagonista"
 -- }
 -- {
---   "id": 3,
---   "nome": "James 'Rhodey' Rhodes",
+--   "nome": "James Rhodey Rhodes",
 --   "imagem": "https://example.com/img/war_machine.jpg",
 --   "idade": 48,
 --   "descricao": "Coronel da Força Aérea dos EUA e operador da armadura Máquina de Combate.",
