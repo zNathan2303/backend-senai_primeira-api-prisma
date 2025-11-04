@@ -5,7 +5,7 @@ info:
    API destinada a controle de uma locadora de filmes
   termsOfService: http://swagger.io/terms/
   contact:
-    email: nathansilvacosta2303@email.com
+    email: nathansilvacosta2303@gmail.com
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -862,18 +862,27 @@ components:
           type: integer
         nome:
           type: string
+          maxLength: 100
+          nullable: false
         sinopse:
           type: string
         data_lancamento:
           type: string
+          example: yyyy-mm-dd
         duracao:
           type: string
+          example: "hh:mm:ss"
         orcamento:
           type: number
+          maximum: 999999999.99
+          nullable: false
         trailer:
           type: string
+          maxLength: 200
         capa:
           type: string
+          maxLength: 200
+          nullable: false
     Genero:
       type: object
       required:
@@ -883,6 +892,8 @@ components:
           type: integer
         nome:
           type: string
+          maxLength: 50
+          nullable: false
     Cargo:
       type: object
       required:
@@ -892,6 +903,8 @@ components:
           type: integer
         nome:
           type: string
+          maxLength: 50
+          nullable: false
         descricao:
           type: string
     Producao:
@@ -904,12 +917,18 @@ components:
           type: integer
         nome:
           type: string
+          maxLength: 100
+          nullable: false
         pais_origem:
           type: string
+          maxLength: 50
+          nullable: false
         fundacao:
           type: string
+          example: yyyy-mm-dd
         site:
           type: string
+          maxLength: 255
     FormatoAudiovisual:
       type: object
       required:
@@ -919,6 +938,8 @@ components:
           type: integer
         nome:
           type: string
+          maxLength: 40
+          nullable: false
     Distribuidora:
       type: object
       required:
@@ -929,10 +950,15 @@ components:
           type: integer
         nome:
           type: string
+          maxLength: 100
+          nullable: false
         pais_origem:
           type: string
+          maxLength: 50
+          nullable: false
         site:
           type: string
+          maxLength: 255
     Personagem:
       type: object
       required:
@@ -944,11 +970,17 @@ components:
           type: integer
         nome:
           type: string
+          maxLength: 200
+          nullable: false
         imagem:
           type: string
+          maxLength: 255
+          nullable: false
         idade:
           type: integer
         descricao:
           type: string
         papel:
           type: string
+          maxLength: 100
+          nullable: false
