@@ -14,99 +14,103 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: http://localhost:8080/v1/locadora
+  - url: http://localhost:8080
 paths:
-  /v1/aluno:
+  /v1/locadora/filme:
+    get:
+      tags:
+        - filme
+      summary: Busca todos os filmes
+      description: Retorna uma lista de filmes
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filme'
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
     post:
       tags:
         - filme
-      summary: Adiciona um novo filme
-      description: Adiciona um novo filme
+      summary: Cria um filme
+      description: Cria um novo filme
       requestBody:
-        description: JSON contendo os dados do novo filme a ser inserido no sistema
+        description: Cria um novo filme
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/tbl_filme'
+              $ref: '#/components/schemas/Filme'
         required: true
       responses:
         '201':
-          description: Criado com sucesso
+          description: Item criado com sucesso
         '400':
-          description: Invalid input
+          description: Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+  /v1/locadora/filme/{id}:
     get:
       tags:
-        - aluno
-      summary: Lista todos os alunos
-      description: Listagem de todos os alunos registrados no sistema
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Aluno'          
-           
-        '404':
-          description: Not Found
-  /v1/aluno/{id}:
-    get:
-      tags:
-        - aluno
-      summary: Busca um aluno prlo ID
-      description: Retorna um aluno pelo ID
+        - filme
+      summary: Busca um filme pelo ID
+      description: Retorna um filme pelo ID
       parameters:
         - name: id
           in: path
-          description: ID of pet to return
+          description: ID do filme de retorno
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '200':
-          description: successful operation
+          description: Requisição bem sucedida
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Aluno'          
+                $ref: '#/components/schemas/Filme'          
         '400':
-          description: Invalid ID supplied
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
         '404':
-          description: Pet not found
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
     put:
       tags:
-        - aluno
-      summary: Update an existing pet
-      description: Update an existing pet by Id
+        - filme
+      summary: Atualiza um filme existente
+      description: Atualiza um filme existente pelo ID
       parameters:
         - name: id
           in: path
-          description: ID of pet to return
+          description: ID do filme de retorno
           required: true
           schema:
             type: integer
             format: int64
       requestBody:
-        description: Update an existent pet in the store
+        description: Atualiza um filme existente
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Aluno'
+              $ref: '#/components/schemas/Filme'
         required: true
       responses:
         '200':
-          description: Successful operation
+          description: Item atualizado com sucesso
         '400':
           description: Invalid ID supplied
         '404':
           description: Pet not found
-       
     delete:
       tags:
-        - aluno
+        - filme
       summary: Delete aluno
       description: Excluir um aluno
       parameters:
@@ -126,26 +130,13 @@ paths:
           description: Pet not found
 components:
   schemas:
-    Aluno:
-        required:
-          - nome
-        type: object
-        properties:
-          id:
-            type: integer
-          nome:
-            type: string
-          celular:
-            type: string
-          email:
-            type: string
-    tbl_filme:
+    Filme:
+      type: object
       required:
         - nome
         - duracao
         - orcamento
         - capa
-      type: object
       properties:
         id:
           type: integer
@@ -163,19 +154,19 @@ components:
           type: string
         capa:
           type: string
-    tbl_genero:
+    Genero:
+      type: object
       required:
         - nome
-      type: object
       properties:
         id:
           type: integer
         nome:
           type: string
-    tbl_cargo:
+    Cargo:
+      type: object
       required:
         - nome
-      type: object
       properties:
         id:
           type: integer
@@ -183,20 +174,11 @@ components:
           type: string
         descricao:
           type: string
-    tbl_genero_pessoa:
-      required:
-        - nome
+    Producao:
       type: object
-      properties:
-        id:
-          type: integer
-        nome:
-          type: string
-    tbl_producao:
       required:
         - nome
         - pais_origem
-      type: object
       properties:
         id:
           type: integer
@@ -208,20 +190,20 @@ components:
           type: string
         site:
           type: string
-    tbl_formato_audiovisual:
+    FormatoAudiovisual:
+      type: object
       required:
         - nome
-      type: object
       properties:
         id:
           type: integer
         nome:
           type: string
-    tbl_distribuidora:
+    Distribuidora:
+      type: object
       required:
         - nome
         - pais_origem
-      type: object
       properties:
         id:
           type: integer
@@ -231,12 +213,22 @@ components:
           type: string
         site:
           type: string
-  requestBodies:
-    Aluno:
-      description: Objeto que deve ser enviado no Body das requisicoes
-      content:
-        application/json:
-        
-          schema:
-            $ref: '#/components/schemas/Aluno'
-    
+    Personagem:
+      type: object
+      required:
+        - nome
+        - imagem
+        - papel
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        imagem:
+          type: string
+        idade:
+          type: integer
+        descricao:
+          type: string
+        papel:
+          type: string
