@@ -105,29 +105,749 @@ paths:
         '200':
           description: Item atualizado com sucesso
         '400':
-          description: Invalid ID supplied
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
         '404':
-          description: Pet not found
+          description: Não foram encontrados dados de retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
     delete:
       tags:
         - filme
-      summary: Delete aluno
-      description: Excluir um aluno
+      summary: Apaga um filme
+      description: Excluir um filme
       parameters:
         - name: id
           in: path
-          description: ID of pet to return
+          description: ID do filme de retorno
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '200':
-          description: successful operation
+          description: Item apagado com sucesso
         '400':
-          description: Invalid ID supplied
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
         '404':
-          description: Pet not found
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+  
+  /v1/locadora/genero:
+    get:
+      tags:
+        - genero
+      summary: Busca todos os generos
+      description: Retorna uma lista de generos
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genero'
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    post:
+      tags:
+        - genero
+      summary: Cria um genero
+      description: Cria um novo genero
+      requestBody:
+        description: Cria um novo genero
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+        required: true
+      responses:
+        '201':
+          description: Item criado com sucesso
+        '400':
+          description: Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+  /v1/locadora/genero/{id}:
+    get:
+      tags:
+        - genero
+      summary: Busca um genero pelo ID
+      description: Retorna um genero pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do genero de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genero'          
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    put:
+      tags:
+        - genero
+      summary: Atualiza um genero existente
+      description: Atualiza um genero existente pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do genero de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualiza um genero existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+        required: true
+      responses:
+        '200':
+          description: Item atualizado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    delete:
+      tags:
+        - genero
+      summary: Apaga um genero
+      description: Excluir um genero
+      parameters:
+        - name: id
+          in: path
+          description: ID do genero de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Item apagado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+
+  /v1/locadora/cargo:
+    get:
+      tags:
+        - cargo
+      summary: Busca todos os cargos
+      description: Retorna uma lista de cargos
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cargo'
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    post:
+      tags:
+        - cargo
+      summary: Cria um cargo
+      description: Cria um novo cargo
+      requestBody:
+        description: Cria um novo cargo
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cargo'
+        required: true
+      responses:
+        '201':
+          description: Item criado com sucesso
+        '400':
+          description: Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+  /v1/locadora/cargo/{id}:
+    get:
+      tags:
+        - cargo
+      summary: Busca um cargo pelo ID
+      description: Retorna um cargo pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do cargo de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cargo'          
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    put:
+      tags:
+        - cargo
+      summary: Atualiza um cargo existente
+      description: Atualiza um cargo existente pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do cargo de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualiza um cargo existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cargo'
+        required: true
+      responses:
+        '200':
+          description: Item atualizado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    delete:
+      tags:
+        - cargo
+      summary: Apaga um cargo
+      description: Excluir um cargo
+      parameters:
+        - name: id
+          in: path
+          description: ID do cargo de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Item apagado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+
+  /v1/locadora/producao:
+    get:
+      tags:
+        - producao
+      summary: Busca todas as producoes
+      description: Retorna uma lista de producoes
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producao'
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    post:
+      tags:
+        - producao
+      summary: Cria uma producao
+      description: Cria uma nova producao
+      requestBody:
+        description: Cria uma nova producao
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producao'
+        required: true
+      responses:
+        '201':
+          description: Item criado com sucesso
+        '400':
+          description: Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+  /v1/locadora/producao/{id}:
+    get:
+      tags:
+        - producao
+      summary: Busca uma producao pelo ID
+      description: Retorna uma producao pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID da producao de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producao'          
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    put:
+      tags:
+        - producao
+      summary: Atualiza uma producao existente
+      description: Atualiza uma producao existente pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID da producao de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualiza uma producao existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producao'
+        required: true
+      responses:
+        '200':
+          description: Item atualizado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    delete:
+      tags:
+        - producao
+      summary: Apaga uma producao
+      description: Excluir uma producao
+      parameters:
+        - name: id
+          in: path
+          description: ID da producao de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Item apagado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+
+  /v1/locadora/formato-audiovisual:
+    get:
+      tags:
+        - formato audiovisual
+      summary: Busca todos os formatos audiovisuais
+      description: Retorna uma lista de formatos audiovisuais
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormatoAudiovisual'
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    post:
+      tags:
+        - formato audiovisual
+      summary: Cria um formato audiovisual
+      description: Cria um novo formato audiovisual
+      requestBody:
+        description: Cria um novo formato audiovisual
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormatoAudiovisual'
+        required: true
+      responses:
+        '201':
+          description: Item criado com sucesso
+        '400':
+          description: Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+  /v1/locadora/formato-audiovisual/{id}:
+    get:
+      tags:
+        - formato audiovisual
+      summary: Busca um formato audiovisual pelo ID
+      description: Retorna um formato audiovisual pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do formato audiovisual de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormatoAudiovisual'          
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    put:
+      tags:
+        - formato audiovisual
+      summary: Atualiza um formato audiovisual existente
+      description: Atualiza um formato audiovisual existente pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do formato audiovisual de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualiza um formato audiovisual existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormatoAudiovisual'
+        required: true
+      responses:
+        '200':
+          description: Item atualizado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    delete:
+      tags:
+        - formato audiovisual
+      summary: Apaga um formato audiovisual
+      description: Excluir um formato audiovisual
+      parameters:
+        - name: id
+          in: path
+          description: ID do formato audiovisual de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Item apagado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+
+  /v1/locadora/distribuidora:
+    get:
+      tags:
+        - distribuidora
+      summary: Busca todas as distribuidoras
+      description: Retorna uma lista de distribuidoras
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distribuidora'
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    post:
+      tags:
+        - distribuidora
+      summary: Cria uma distribuidora
+      description: Cria uma nova distribuidora
+      requestBody:
+        description: Cria uma nova distribuidora
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Distribuidora'
+        required: true
+      responses:
+        '201':
+          description: Item criado com sucesso
+        '400':
+          description: Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+  /v1/locadora/distribuidora/{id}:
+    get:
+      tags:
+        - distribuidora
+      summary: Busca uma distribuidora pelo ID
+      description: Retorna uma distribuidora pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID da distribuidora de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distribuidora'          
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    put:
+      tags:
+        - distribuidora
+      summary: Atualiza uma distribuidora existente
+      description: Atualiza uma distribuidora existente pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID da distribuidora de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualiza uma distribuidora existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Distribuidora'
+        required: true
+      responses:
+        '200':
+          description: Item atualizado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    delete:
+      tags:
+        - distribuidora
+      summary: Apaga uma distribuidora
+      description: Excluir uma distribuidora
+      parameters:
+        - name: id
+          in: path
+          description: ID da distribuidora de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Item apagado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+
+  /v1/locadora/personagem:
+    get:
+      tags:
+        - personagem
+      summary: Busca todos os personagens
+      description: Retorna uma lista de personagens
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Personagem'
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    post:
+      tags:
+        - personagem
+      summary: Cria um personagem
+      description: Cria um novo personagem
+      requestBody:
+        description: Cria um novo personagem
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Personagem'
+        required: true
+      responses:
+        '201':
+          description: Item criado com sucesso
+        '400':
+          description: Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+  /v1/locadora/personagem/{id}:
+    get:
+      tags:
+        - personagem
+      summary: Busca um personagem pelo ID
+      description: Retorna um personagem pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do personagem de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Requisição bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Personagem'          
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    put:
+      tags:
+        - personagem
+      summary: Atualiza um personagem existente
+      description: Atualiza um personagem existente pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do personagem de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualiza um personagem existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Personagem'
+        required: true
+      responses:
+        '200':
+          description: Item atualizado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '415':
+          description: Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
+    delete:
+      tags:
+        - personagem
+      summary: Apaga um personagem
+      description: Excluir um personagem
+      parameters:
+        - name: id
+          in: path
+          description: ID do personagem de retorno
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Item apagado com sucesso
+        '400':
+          description: (referente a validação do ID) - Não foi possível processar a requisição pois existem campos obrigatórios que devem ser encaminhados e antedidos conforme documentação
+        '404':
+          description: Não foram encontrados dados de retorno
+        '500':
+          description: Não foi possível processar a requisição devido a erros internos no servidor (CONTROLLER ou MODELAGEM DE DADOS)
 components:
   schemas:
     Filme:
