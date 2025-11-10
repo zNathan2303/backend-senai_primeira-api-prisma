@@ -239,6 +239,13 @@ VALUES
 --   "papel": "Apoiador"
 -- }
 
+CREATE TABLE tbl_filme_genero (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	id_filme int NOT NULL,
+    id_genero int NOT NULL,
+    FOREIGN KEY (id_filme) REFERENCES tbl_filme(id),
+    FOREIGN KEY (id_genero) REFERENCES tbl_genero(id)
+);
 
 
 
