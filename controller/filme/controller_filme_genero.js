@@ -20,8 +20,8 @@ const listarFilmesGeneros = async () => {
 
         if (resultFilmesGenero) {
             if (resultFilmesGenero.length > 0) {
-                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCESS_REQUEST.status
-                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCESS_REQUEST.status_code
+                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                 MESSAGES.DEFAULT_HEADER.items.filmes_generos = resultFilmesGenero
 
                 return MESSAGES.DEFAULT_HEADER
@@ -44,8 +44,8 @@ const buscarFilmeGeneroId = async (id) => {
             let resultFilmesGenerosID = await filmeGeneroDAO.getSelectGenreMoviesByID(Number(id))
             if (resultFilmesGenerosID) {
                 if (resultFilmesGenerosID.length > 0) {
-                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCESS_REQUEST.status
-                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCESS_REQUEST.status_code
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                     MESSAGES.DEFAULT_HEADER.items.filmes_generos = resultFilmesGenerosID
                     return MESSAGES.DEFAULT_HEADER
                 } else {
@@ -71,8 +71,8 @@ const listarGenerosIdFilme = async (idFilme) => {
             let resultFilmesGenerosID = await filmeGeneroDAO.getSelectGenresByIdMovies(Number(idFilme))
             if (resultFilmesGenerosID) {
                 if (resultFilmesGenerosID.length > 0) {
-                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCESS_REQUEST.status
-                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCESS_REQUEST.status_code
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                     MESSAGES.DEFAULT_HEADER.items.filmes_generos = resultFilmesGenerosID
                     return MESSAGES.DEFAULT_HEADER
                 } else {
@@ -86,6 +86,8 @@ const listarGenerosIdFilme = async (idFilme) => {
             return MESSAGES.ERROR_REQUIRED_FIELDS
         }
     } catch (error) {
+        console.log(error);
+
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
@@ -101,8 +103,8 @@ const listarFilmesIdGenero = async (idGenero) => {
 
             if (resultFilmesGenerosID) {
                 if (resultFilmesGenerosID.length > 0) {
-                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCESS_REQUEST.status
-                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCESS_REQUEST.status_code
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                     MESSAGES.DEFAULT_HEADER.items.filmes_generos = resultFilmesGenerosID
 
                     return MESSAGES.DEFAULT_HEADER

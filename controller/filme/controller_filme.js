@@ -28,6 +28,15 @@ const listarFilmes = async () => {
             if (resultFilmes.length > 0) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
+
+                for (const filme of resultFilmes) {
+                    /* ADICIONAR NO JSON DADOS DO GENERO */
+                    // Pesquisa no BD todos os generos que foram associados ao filme
+                    let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
+                    // Cria o atributo genero e coloca o resultado do BD com os generos
+                    filme.genero = resultDadosGeneros.items.filmes_generos
+                }
+
                 MESSAGES.DEFAULT_HEADER.items.filmes = resultFilmes
 
                 return MESSAGES.DEFAULT_HEADER // 200
@@ -38,6 +47,8 @@ const listarFilmes = async () => {
             return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
         }
     } catch (error) {
+        console.log(error);
+
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
@@ -55,6 +66,13 @@ const buscarFilmeId = async (id) => {
                 if (resultFilmes.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
+
+                    /* ADICIONAR NO JSON DADOS DO GENERO */
+                    // Pesquisa no BD todos os generos que foram associados ao filme
+                    let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(resultFilmes[0].id)
+                    // Cria o atributo genero e coloca o resultado do BD com os generos
+                    resultFilmes[0].genero = resultDadosGeneros.items.filmes_generos
+
                     MESSAGES.DEFAULT_HEADER.items.filme = resultFilmes
 
                     return MESSAGES.DEFAULT_HEADER
@@ -98,7 +116,9 @@ const inserirFilme = async (filme, contentType) => {
                     if (lastID) {
 
                         // Processar a inserção dos dados na tabela de relação entre Filme e Genero
-                        filme.genero.forEach(async (genero) => {
+                        // !!! FOREACH NÃO SE DÁ BEM COM ASYNC !!! -> filme.genero.forEach(async (genero) => {
+                        // !!! UTILIZAR FOROF QUANDO FOR UTILIZAR ASYNC !!!
+                        for (genero of filme.genero) {
                             // Cria o JSON com o ID do filme do filme e o ID do genero
                             let filmeGenero = {
                                 id_filme: lastID,
@@ -109,14 +129,23 @@ const inserirFilme = async (filme, contentType) => {
                             let resultFilmesGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, contentType)
 
                             if (resultFilmesGenero.status_code != 201)
-                                return resultFilmesGenero
-                        })
+                                return MESSAGES.ERROR_RELATION_INSERTION // 500 - Problema na tabela de relação
+                        }
 
                         // Adiciona o ID no JSON com os dados do filme
                         filme.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
+
+                        /* ADICIONAR NO JSON DADOS DO GENERO */
+                        // Apaga o atributo genero apenas com os IDs que foram enviados no POST
+                        delete filme.genero
+                        // Pesquisa no BD todos os generos que foram associados ao filme
+                        let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(lastID)
+                        // Cria novamente o atributo genero e coloca o resultado do BD com os generos
+                        filme.genero = resultDadosGeneros.items.filmes_generos
+
                         MESSAGES.DEFAULT_HEADER.items = filme
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
