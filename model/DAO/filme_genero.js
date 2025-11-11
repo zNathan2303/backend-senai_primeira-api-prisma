@@ -97,7 +97,7 @@ const getSelectLastGenreByID = async () => {
         let result = await prisma.$queryRawUnsafe(sql)
 
         if (Array.isArray(result))
-            return Number(result[0].id_genero)
+            return result
         else
             return false
 
@@ -109,8 +109,13 @@ const getSelectLastGenreByID = async () => {
 // Insere uma nova relação de filme com genero no banco de dados
 const setInsertMoviesGenres = async (filmeGenero) => {
     try {
-        let sql = `insert into tbl_filme_genero (id_filme, id_genero)
-                    values (${filmeGenero.id_filme}, ${filmeGenero.id_genero})`
+        let sql = `INSERT INTO tbl_filme_genero (
+                id_filme, 
+                id_genero
+            ) VALUES (
+                ${filmeGenero.id_filme}, 
+                ${filmeGenero.id_genero}
+            )`
 
         let result = await prisma.$queryRawUnsafe(sql)
 

@@ -10,7 +10,7 @@
 const filmeGeneroDAO = require('../../model/DAO/filme_genero.js')
 
 // Import do arquivo de mensagens
-const DEFAULT_MESSAGES = require('../modulo/config_message.js')
+const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
 
 // Retorna uma lista de todas as relações de filme e genero
 const listarFilmesGeneros = async () => {
@@ -133,14 +133,14 @@ const inserirFilmeGenero = async (filmeGenero, contentType) => {
 
             if (!validacao) {
 
-                let resultFilmeGenre = await filmeGeneroDAO.setInsertMoviesGenres(genero)
+                let resultFilmeGenre = await filmeGeneroDAO.setInsertMoviesGenres(filmeGenero)
 
                 if (resultFilmeGenre) {
-                    let ultimoID = await filmeGeneroDAO.getSelectLastGenreByID()
-                    if (ultimoID) {
-                        filmeGenero.id = ultimoID
-                        MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCESS_CREATED_ITEM.status
-                        MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCESS_CREATED_ITEM.status_code
+                    let lastID = await filmeGeneroDAO.getSelectLastGenreByID()
+                    if (lastID) {
+                        filmeGenero.id = lastID
+                        MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
+                        MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.items = filmeGenero
 
                         return MESSAGES.DEFAULT_HEADER

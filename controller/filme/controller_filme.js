@@ -99,8 +99,17 @@ const inserirFilme = async (filme, contentType) => {
 
                         // Processar a inserção dos dados na tabela de relação entre Filme e Genero
                         filme.genero.forEach(async (genero) => {
-                            let filmeGenero = { id_filme: lastID, id_genero: genero.id }
-                            let resultFilmesGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero)
+                            // Cria o JSON com o ID do filme do filme e o ID do genero
+                            let filmeGenero = {
+                                id_filme: lastID,
+                                id_genero: genero.id
+                            }
+
+                            // Encaminha o JSON com o ID do filme e do genero para a controllerFilmeGenero
+                            let resultFilmesGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, contentType)
+
+                            if (resultFilmesGenero.status_code != 201)
+                                return resultFilmesGenero
                         })
 
                         // Adiciona o ID no JSON com os dados do filme
