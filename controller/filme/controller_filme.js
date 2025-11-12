@@ -10,7 +10,7 @@
 // Import da model do DAO do Filme
 const filmeDAO = require('../../model/DAO/filme.js')
 
-//Import da controller de relação entre Filme e Genero
+// Import das controllers
 const controllerFilmeGenero = require('./controller_filme_genero.js')
 
 // Import do arquivo de mensagens
@@ -26,17 +26,18 @@ const listarFilmes = async () => {
 
         if (resultFilmes) {
             if (resultFilmes.length > 0) {
-                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
-                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-
+                // Processamento para adicionar os generos ao filmes
                 for (const filme of resultFilmes) {
-                    /* ADICIONAR NO JSON DADOS DO GENERO */
                     // Pesquisa no BD todos os generos que foram associados ao filme
-                    let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
-                    // Cria o atributo genero e coloca o resultado do BD com os generos
-                    filme.genero = resultDadosGeneros.items.filmes_generos
+                    let resultGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
+
+                    if (resultGeneros.status_code == 200)
+                        // Cria o atributo genero e coloca o resultado do BD com os generos
+                        filme.genero = resultGeneros.items.filmes_generos
                 }
 
+                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                 MESSAGES.DEFAULT_HEADER.items.filmes = resultFilmes
 
                 return MESSAGES.DEFAULT_HEADER // 200
@@ -47,8 +48,6 @@ const listarFilmes = async () => {
             return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
         }
     } catch (error) {
-        console.log(error);
-
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
@@ -64,15 +63,16 @@ const buscarFilmeId = async (id) => {
 
             if (resultFilmes) {
                 if (resultFilmes.length > 0) {
-                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
-                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-
                     /* ADICIONAR NO JSON DADOS DO GENERO */
                     // Pesquisa no BD todos os generos que foram associados ao filme
                     let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(resultFilmes[0].id)
-                    // Cria o atributo genero e coloca o resultado do BD com os generos
-                    resultFilmes[0].genero = resultDadosGeneros.items.filmes_generos
 
+                    if (resultDadosGeneros.status_code == 200)
+                        // Cria o atributo genero e coloca o resultado do BD com os generos
+                        resultFilmes[0].genero = resultDadosGeneros.items.filmes_generos
+
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                     MESSAGES.DEFAULT_HEADER.items.filme = resultFilmes
 
                     return MESSAGES.DEFAULT_HEADER
@@ -184,15 +184,40 @@ const atualizarFilme = async (filme, id, contentType) => {
                 // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
                 let validarID = await buscarFilmeId(id)
 
+                console.log(validarID.items.filme[0]);
+
+
                 if (validarID.status_code == 200) {
+                    // Excluir os generos existentes
+                    let generosApagados = await controllerFilmeGenero.excluirFilmeGeneroByFilmeId(id)
+
+                    console.log(generosApagados);
+
+
+                    if (generosApagados)
+                        if (generosApagados.status_code != 200)
+                            return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
+
+                    // // Adicionar os generos recebidos
+                    // for (const genero of filme.genero) {
+                    //     let filmeGenero = {
+                    //         id_filme: id,
+                    //         id_genero: genero.id
+                    //     }
+                    //     let generoResult = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, 'APPLICATION/JSON')
+
+                    //     if (generoResult.status_code != 201)
+                    //         return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
+                    // }
 
                     // Adiciona o ID do filme no JSON de dados para ser encaminhado ao DAO
                     filme.id = Number(id)
 
                     // Chama a função para inserir um novo filme no BD
-                    let resultFilmes = await filmeDAO.setUpdateMovies(filme)
+                    let resultFilmes = await filmeDAO.setUpdateMovies(filme) // Retorna true/false
 
                     if (resultFilmes) {
+
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
@@ -213,6 +238,8 @@ const atualizarFilme = async (filme, id, contentType) => {
             return MESSAGES.ERROR_CONTENT_TYPE
         }
     } catch (error) {
+        console.log(error);
+
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }

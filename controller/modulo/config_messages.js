@@ -84,6 +84,12 @@ const ERROR_RELATION_INSERTION = {
     message: 'A requisição do item principal foi processada com sucesso, porém houveram problemas ao inserir dados na tabela de relação!!!'
 }
 
+const ERROR_RELATION_UPDATE = {
+    status: false,
+    status_code: 500,
+    message: 'A requisição do item principal foi processada com sucesso, porém houveram problemas ao atualizar dados na tabela de relação!!!'
+}
+
 module.exports = {
     DEFAULT_HEADER,
     SUCCESS_REQUEST,
@@ -95,5 +101,6 @@ module.exports = {
     ERROR_CONTENT_TYPE,
     SUCCESS_UPDATED_ITEM,
     SUCCESS_DELETE_ITEM,
-    ERROR_RELATION_INSERTION
+    ERROR_RELATION_INSERTION,
+    ERROR_RELATION_UPDATE
 }

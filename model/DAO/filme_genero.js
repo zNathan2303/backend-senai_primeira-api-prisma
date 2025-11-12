@@ -97,7 +97,7 @@ const getSelectLastGenreByID = async () => {
         let result = await prisma.$queryRawUnsafe(sql)
 
         if (Array.isArray(result))
-            return result
+            return Number(result[0].id)
         else
             return false
 
@@ -150,10 +150,27 @@ const setUpdateMoviesGenres = async (filmeGenero) => {
     }
 }
 
-// Exclui uma relação de filme com genero no banco de dados
+// Exclui uma relação de filme com genero no banco de dados pelo id da relação
 const setDeleteMoviesGenres = async (id) => {
     try {
         let sql = `delete from tbl_filme_genero where id = ${id}`
+
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if (result)
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
+// Exclui uma relação de filme com genero no banco de dados pelo id do filme
+const setDeleteMoviesGenresByMovieId = async (idFilme) => {
+    try {
+        let sql = `delete from tbl_filme_genero where id_filme = ${idFilme}`
 
         let result = await prisma.$queryRawUnsafe(sql)
 
@@ -175,5 +192,6 @@ module.exports = {
     getSelectLastGenreByID,
     setInsertMoviesGenres,
     setUpdateMoviesGenres,
-    setDeleteMoviesGenres
+    setDeleteMoviesGenres,
+    setDeleteMoviesGenresByMovieId
 }

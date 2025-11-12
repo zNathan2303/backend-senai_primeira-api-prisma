@@ -86,8 +86,6 @@ const listarGenerosIdFilme = async (idFilme) => {
             return MESSAGES.ERROR_REQUIRED_FIELDS
         }
     } catch (error) {
-        console.log(error);
-
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
@@ -139,6 +137,7 @@ const inserirFilmeGenero = async (filmeGenero, contentType) => {
 
                 if (resultFilmeGenre) {
                     let lastID = await filmeGeneroDAO.getSelectLastGenreByID()
+
                     if (lastID) {
                         filmeGenero.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
@@ -206,33 +205,13 @@ const atualizarFilmeGenero = async (filmeGenero, contentType, id) => {
 }
 
 // Excluir uma relação entre filme e genero
-const excluirFilmeGenero = async (id) => {
+const excluirFilmeGeneroById = async (id) => {
+    return await excluirFilmeGenero(id, filmeGeneroDAO.setDeleteMoviesGenres)
+}
 
-    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
-
-    try {
-        let validarID = await buscarFilmeGeneroId(id)
-
-        if (validarID.status_code == 200) {
-
-            id = Number(id)
-            let resultFilmesGeneros = await filmeGeneroDAO.setDeleteMoviesGenres(id)
-
-            if (resultFilmesGeneros) {
-                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCESS_DELETED_ITEM.status
-                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCESS_DELETED_ITEM.status_code
-                MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCESS_DELETED_ITEM.message
-
-                return MESSAGES.DEFAULT_HEADER
-            } else {
-                return MESSAGES.ERROR_INTERNAL_SERVER_MODEL
-            }
-        } else {
-            validarID
-        }
-    } catch (error) {
-        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER
-    }
+// Excluir uma relação entre filme e genero pelo id do filme
+const excluirFilmeGeneroByFilmeId = async (filmeId) => {
+    return await excluirFilmeGenero(filmeId, filmeGeneroDAO.setDeleteMoviesGenresByMovieId)
 }
 
 const validarDadosFilmeGenero = async (filmeGenero) => {
@@ -247,6 +226,33 @@ const validarDadosFilmeGenero = async (filmeGenero) => {
     }
 }
 
+const excluirFilmeGenero = async (id, funcaoExcluir) => {
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
+    try {
+        let validarID = await buscarFilmeGeneroId(id)
+
+        if (validarID.status_code == 200) {
+
+            let resultFilmesGeneros = await funcaoExcluir(Number(id))
+
+            if (resultFilmesGeneros) {
+                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETE_ITEM.status
+                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETE_ITEM.status_code
+                MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETE_ITEM.message
+
+                return MESSAGES.DEFAULT_HEADER
+            } else {
+                return MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+            }
+        } else {
+            return validarID
+        }
+    } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
 module.exports = {
     listarFilmesGeneros,
     buscarFilmeGeneroId,
@@ -254,5 +260,6 @@ module.exports = {
     listarFilmesIdGenero,
     inserirFilmeGenero,
     atualizarFilmeGenero,
-    excluirFilmeGenero
+    excluirFilmeGeneroById,
+    excluirFilmeGeneroByFilmeId
 }
