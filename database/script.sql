@@ -247,6 +247,13 @@ CREATE TABLE tbl_filme_genero (
     FOREIGN KEY (id_genero) REFERENCES tbl_genero(id)
 );
 
-
+DELIMITER $$
+CREATE TRIGGER trg_apaga_relacoes_filme_delete
+BEFORE DELETE ON tbl_filme
+FOR EACH ROW
+BEGIN
+	DELETE FROM tbl_filme_genero WHERE id_filme = OLD.id;
+END$$
+DELIMITER ;
 
 
