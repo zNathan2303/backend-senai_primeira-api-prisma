@@ -256,4 +256,18 @@ BEGIN
 END$$
 DELIMITER ;
 
+CREATE TABLE tbl_classificacao_indicativa (
+	id int PRIMARY KEY AUTO_INCREMENT,
+    nivel VARCHAR(5) NOT NULL,
+    descricao VARCHAR(50) NOT NULL
+);
+
+INSERT INTO tbl_classificacao_indicativa (nivel, descricao)
+VALUES
+('L', 'Livre para todos os públicos'),
+('10', 'Não recomendado para menores de 10 anos'),
+('12', 'Não recomendado para menores de 12 anos'),
+('14', 'Não recomendado para menores de 14 anos'),
+('16', 'Não recomendado para menores de 16 anos'),
+('18', 'Não recomendado para menores de 18 anos');
 
