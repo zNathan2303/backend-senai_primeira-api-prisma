@@ -184,31 +184,27 @@ const atualizarFilme = async (filme, id, contentType) => {
                 // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
                 let validarID = await buscarFilmeId(id)
 
-                console.log(validarID.items.filme[0]);
-
-
                 if (validarID.status_code == 200) {
-                    // Excluir os generos existentes
-                    let generosApagados = await controllerFilmeGenero.excluirFilmeGeneroByFilmeId(id)
+                    // Verifica se o filme possui generos cadastrados
+                    if (validarID.items.filme[0].genero) {
+                        // Exclui os generos existentes
+                        let generosApagados = await controllerFilmeGenero.excluirFilmeGeneroByFilmeId(Number(id))
 
-                    console.log(generosApagados);
-
-
-                    if (generosApagados)
                         if (generosApagados.status_code != 200)
                             return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
+                    }
 
-                    // // Adicionar os generos recebidos
-                    // for (const genero of filme.genero) {
-                    //     let filmeGenero = {
-                    //         id_filme: id,
-                    //         id_genero: genero.id
-                    //     }
-                    //     let generoResult = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, 'APPLICATION/JSON')
+                    // Adicionar os generos recebidos
+                    for (const genero of filme.genero) {
+                        let filmeGenero = {
+                            id_filme: id,
+                            id_genero: genero.id
+                        }
+                        let generoResult = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, 'APPLICATION/JSON')
 
-                    //     if (generoResult.status_code != 201)
-                    //         return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
-                    // }
+                        if (generoResult.status_code != 201)
+                            return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
+                    }
 
                     // Adiciona o ID do filme no JSON de dados para ser encaminhado ao DAO
                     filme.id = Number(id)
@@ -238,8 +234,6 @@ const atualizarFilme = async (filme, id, contentType) => {
             return MESSAGES.ERROR_CONTENT_TYPE
         }
     } catch (error) {
-        console.log(error);
-
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }

@@ -38,10 +38,21 @@ const listarFilmesGeneros = async () => {
 
 // Retorna uma relação entre filme e genero filtrando pelo ID
 const buscarFilmeGeneroId = async (id) => {
+    return await buscarFilmeGenero(id, filmeGeneroDAO.getSelectGenreMoviesByID)
+}
+
+// Retorna uma relação entre filme e genero filtrando pelo ID do filme
+const buscarFilmeGeneroByFilmeId = async (filmeId) => {
+    return await buscarFilmeGenero(filmeId, filmeGeneroDAO.getSelectGenreMoviesByMovieID)
+}
+
+// Função generalista para buscar uma relação de filme genero
+const buscarFilmeGenero = async (id, funcaoBuscar) => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
         if (!isNaN(id) && id != null && id != '' && id != undefined && id > 0) {
-            let resultFilmesGenerosID = await filmeGeneroDAO.getSelectGenreMoviesByID(Number(id))
+            let resultFilmesGenerosID = await funcaoBuscar(Number(id))
+
             if (resultFilmesGenerosID) {
                 if (resultFilmesGenerosID.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
@@ -206,12 +217,12 @@ const atualizarFilmeGenero = async (filmeGenero, contentType, id) => {
 
 // Excluir uma relação entre filme e genero
 const excluirFilmeGeneroById = async (id) => {
-    return await excluirFilmeGenero(id, filmeGeneroDAO.setDeleteMoviesGenres)
+    return await excluirFilmeGenero(id, filmeGeneroDAO.setDeleteMoviesGenres, buscarFilmeGeneroId)
 }
 
 // Excluir uma relação entre filme e genero pelo id do filme
 const excluirFilmeGeneroByFilmeId = async (filmeId) => {
-    return await excluirFilmeGenero(filmeId, filmeGeneroDAO.setDeleteMoviesGenresByMovieId)
+    return await excluirFilmeGenero(filmeId, filmeGeneroDAO.setDeleteMoviesGenresByMovieId, buscarFilmeGeneroByFilmeId)
 }
 
 const validarDadosFilmeGenero = async (filmeGenero) => {
@@ -226,11 +237,12 @@ const validarDadosFilmeGenero = async (filmeGenero) => {
     }
 }
 
-const excluirFilmeGenero = async (id, funcaoExcluir) => {
+// Função generalista para excluir uma relação entre filme genero
+const excluirFilmeGenero = async (id, funcaoExcluir, funcaoBuscarPeloId) => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
-        let validarID = await buscarFilmeGeneroId(id)
+        let validarID = await funcaoBuscarPeloId(id)
 
         if (validarID.status_code == 200) {
 
@@ -261,5 +273,6 @@ module.exports = {
     inserirFilmeGenero,
     atualizarFilmeGenero,
     excluirFilmeGeneroById,
-    excluirFilmeGeneroByFilmeId
+    excluirFilmeGeneroByFilmeId,
+    buscarFilmeGeneroByFilmeId
 }
