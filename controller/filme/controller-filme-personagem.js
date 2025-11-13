@@ -1,28 +1,27 @@
 /*******************************************************************************
  * Objetivo: Arquivo Responsável pela manipulação de dados entre o APP e a
  *          MODEL para o CRUD na relação entre filme e genero.
- * Data: 10/11/2025
+ * Data: 12/11/2025
  * Autor: Nathan
  * Versão: 1.0
  ******************************************************************************/
 
-//Import da model do DAO do filme Genero
-const filmeGeneroDAO = require('../../model/DAO/filme_genero.js')
+const filmePersonagemDAO = require('../../model/DAO/filme-personagem.js')
 
-// Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
 
-// Retorna uma lista de todas as relações de filme e genero
-const listarFilmesGeneros = async () => {
+// Retorna uma lista de todas as relações de filme e personagem
+const listarFilmesPersonagens = async () => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
-    try {
-        let resultFilmesGenero = await filmeGeneroDAO.getSelectAllMoviesGenre()
 
-        if (resultFilmesGenero) {
-            if (resultFilmesGenero.length > 0) {
+    try {
+        let result = await filmePersonagemDAO.getSelectAllMovieCharacter()
+
+        if (result) {
+            if (result.length > 0) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                MESSAGES.DEFAULT_HEADER.items.filmes_generos = resultFilmesGenero
+                MESSAGES.DEFAULT_HEADER.items.filmes_personagens = result
 
                 return MESSAGES.DEFAULT_HEADER
             } else {
@@ -36,28 +35,28 @@ const listarFilmesGeneros = async () => {
     }
 }
 
-// Retorna uma relação entre filme e genero filtrando pelo ID
-const buscarFilmeGeneroId = async (id) => {
-    return await buscarFilmeGenero(id, filmeGeneroDAO.getSelectGenreMoviesByID)
+// Retorna uma relação entre filme e personagem filtrando pelo ID
+const buscarFilmePersonagemId = async (id) => {
+    return await buscarFilmePersonagem(id, filmePersonagemDAO.getSelectMovieCharacterByID)
 }
 
-// Retorna uma relação entre filme e genero filtrando pelo ID do filme
-const buscarFilmeGeneroByFilmeId = async (filmeId) => {
-    return await buscarFilmeGenero(filmeId, filmeGeneroDAO.getSelectGenreMoviesByMovieID)
+// Retorna uma relação entre filme e personagem filtrando pelo ID do filme
+const buscarFilmePersonagemByFilmeId = async (filmeId) => {
+    return await buscarFilmePersonagem(filmeId, filmePersonagemDAO.getSelectMovieCharacterByMovieID)
 }
 
-// Função generalista para buscar uma relação de filme genero
-const buscarFilmeGenero = async (id, funcaoBuscar) => {
+// Função generalista para buscar uma relação de filme personagem
+const buscarFilmePersonagem = async (id, funcaoBuscar) => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
         if (!isNaN(id) && id != null && id != '' && id != undefined && id > 0) {
-            let resultFilmesGenerosID = await funcaoBuscar(Number(id))
+            let result = await funcaoBuscar(Number(id))
 
-            if (resultFilmesGenerosID) {
-                if (resultFilmesGenerosID.length > 0) {
+            if (result) {
+                if (result.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.filmes_generos = resultFilmesGenerosID
+                    MESSAGES.DEFAULT_HEADER.items.filmes_personagens = result
                     return MESSAGES.DEFAULT_HEADER
                 } else {
                     return MESSAGES.ERROR_NOT_FOUND
@@ -74,17 +73,17 @@ const buscarFilmeGenero = async (id, funcaoBuscar) => {
     }
 }
 
-// Retorna generos filtrando pelo ID do filme
-const listarGenerosIdFilme = async (idFilme) => {
+// Retorna personagens filtrando pelo ID do filme
+const listarPersonagensByIdFilme = async (idFilme) => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
         if (!isNaN(idFilme) && idFilme != null && idFilme != '' && idFilme != undefined && idFilme > 0) {
-            let resultFilmesGenerosID = await filmeGeneroDAO.getSelectGenresByIdMovies(Number(idFilme))
-            if (resultFilmesGenerosID) {
-                if (resultFilmesGenerosID.length > 0) {
+            let result = await filmePersonagemDAO.getSelectCharactersByMovieId(Number(idFilme))
+            if (result) {
+                if (result.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.filmes_generos = resultFilmesGenerosID
+                    MESSAGES.DEFAULT_HEADER.items.filmes_personagens = result
                     return MESSAGES.DEFAULT_HEADER
                 } else {
                     return MESSAGES.ERROR_NOT_FOUND
@@ -101,20 +100,19 @@ const listarGenerosIdFilme = async (idFilme) => {
     }
 }
 
-// Retorna filmes filtrando pelo ID do genero
-const listarFilmesIdGenero = async (idGenero) => {
-
+// Retorna filmes filtrando pelo ID do personagem
+const listarFilmesByIdPersonagem = async (idPersonagem) => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
-        if (!isNaN(idGenero) && idGenero != null && idGenero != '' && idGenero != undefined && idGenero > 0) {
-            let resultFilmesGenerosID = await filmeGeneroDAO.getSelectMoviesByIdGenres(Number(idGenero))
+        if (!isNaN(idPersonagem) && idPersonagem != null && idPersonagem != '' && idPersonagem != undefined && idPersonagem > 0) {
+            let result = await filmePersonagemDAO.getSelectMoviesByCharacterId(Number(idPersonagem))
 
-            if (resultFilmesGenerosID) {
-                if (resultFilmesGenerosID.length > 0) {
+            if (result) {
+                if (result.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.filmes_generos = resultFilmesGenerosID
+                    MESSAGES.DEFAULT_HEADER.items.filmes_personagens = result
 
                     return MESSAGES.DEFAULT_HEADER
                 } else {
@@ -132,28 +130,25 @@ const listarFilmesIdGenero = async (idGenero) => {
     }
 }
 
-// Insere uma nova relação entre filme e genero
-const inserirFilmeGenero = async (filmeGenero, contentType) => {
-
+// Insere uma nova relação entre filme e personagem
+const inserirFilmePersonagem = async (filmePersonagem, contentType) => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
         if (String(contentType).toLocaleUpperCase() == 'APPLICATION/JSON') {
-
-            let validacao = await validarDadosFilmeGenero(filmeGenero)
+            let validacao = await validarDadosFilmePersonagem(filmePersonagem)
 
             if (!validacao) {
+                let result = await filmePersonagemDAO.setInsertMovieCharacter(filmePersonagem)
 
-                let resultFilmeGenre = await filmeGeneroDAO.setInsertMoviesGenres(filmeGenero)
-
-                if (resultFilmeGenre) {
-                    let lastID = await filmeGeneroDAO.getSelectLastGenreByID()
+                if (result) {
+                    let lastID = await filmePersonagemDAO.getSelectLastID()
 
                     if (lastID) {
-                        filmeGenero.id = lastID
+                        filmePersonagem.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
-                        MESSAGES.DEFAULT_HEADER.items = filmeGenero
+                        MESSAGES.DEFAULT_HEADER.items = filmePersonagem
 
                         return MESSAGES.DEFAULT_HEADER
                     } else {
@@ -173,29 +168,26 @@ const inserirFilmeGenero = async (filmeGenero, contentType) => {
     }
 }
 
-// Atualiza uma relação entre filme e genero
-const atualizarFilmeGenero = async (filmeGenero, contentType, id) => {
-
+// Atualiza uma relação entre filme e personagem
+const atualizarFilmePersonagem = async (filmePersonagem, contentType, id) => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
         if (String(contentType).toLocaleUpperCase() == 'APPLICATION/JSON') {
-            let validacao = await validarDadosFilmeGenero(filmeGenero)
+            let validacao = await validarDadosFilmePersonagem(filmePersonagem)
 
             if (!validacao) {
-
-                let confirmarId = await buscarFilmeGeneroId(id)
+                let confirmarId = await buscarFilmePersonagemId(id)
 
                 if (confirmarId.status_code == 200) {
-                    filmeGenero.id = Number(id)
+                    filmePersonagem.id = Number(id)
 
-                    let resultFilmesGeneros = await filmeGeneroDAO.setUpdateMoviesGenres(filmeGenero)
+                    let result = await filmePersonagemDAO.setUpdateMovieCharacter(filmePersonagem)
 
-                    if (resultFilmesGeneros) {
-
+                    if (result) {
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCESS_UPDATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCESS_CREATED_ITEM.status_code
-                        MESSAGES.DEFAULT_HEADER.items.filme_genero = filmeGenero
+                        MESSAGES.DEFAULT_HEADER.items.filme_personagem = filmePersonagem
 
                         return MESSAGES.DEFAULT_HEADER
                     } else {
@@ -215,30 +207,32 @@ const atualizarFilmeGenero = async (filmeGenero, contentType, id) => {
     }
 }
 
-// Excluir uma relação entre filme e genero
+// Excluir uma relação entre filme e personagem
 const excluirFilmeGeneroById = async (id) => {
-    return await excluirFilmeGenero(id, filmeGeneroDAO.setDeleteMoviesGenres, buscarFilmeGeneroId)
+    return await excluirFilmePersonagem(id, filmePersonagemDAO.setDeleteMovieCharacter, buscarFilmePersonagemId)
 }
 
-// Excluir uma relação entre filme e genero pelo id do filme
+// Excluir uma relação entre filme e personagem pelo id do filme
 const excluirFilmeGeneroByFilmeId = async (filmeId) => {
-    return await excluirFilmeGenero(filmeId, filmeGeneroDAO.setDeleteMoviesGenresByMovieId, buscarFilmeGeneroByFilmeId)
+    return await excluirFilmePersonagem(filmeId, filmePersonagemDAO.setDeleteMovieCharacterByMovieId, buscarFilmePersonagemByFilmeId)
 }
 
-const validarDadosFilmeGenero = async (filmeGenero) => {
-    if (filmeGenero.id_filme <= 0 || isNaN(filmeGenero.id_filme) || filmeGenero.id_filme == "" || filmeGenero.id_filme == null || filmeGenero.id_filme == undefined) {
+const validarDadosFilmePersonagem = async (filmePersonagem) => {
+    if (filmePersonagem.id_filme <= 0 || isNaN(filmePersonagem.id_filme) || filmePersonagem.id_filme == "" ||
+        filmePersonagem.id_filme == null || filmePersonagem.id_filme == undefined) {
         MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Id_Filme Incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (filmeGenero.id_genero <= 0 || isNaN(filmeGenero.id_genero) || filmeGenero.id_genero == "" || filmeGenero.id_genero == null || filmeGenero.id_genero == undefined) {
-        MESSAGES.ERROR_REQUIRED_FIELDS += '[Id_Genero Incorreto]'
+    } else if (filmePersonagem.id_personagem <= 0 || isNaN(filmePersonagem.id_personagem) || filmePersonagem.id_personagem == "" ||
+        filmePersonagem.id_personagem == null || filmePersonagem.id_personagem == undefined) {
+        MESSAGES.ERROR_REQUIRED_FIELDS += '[Id_Personagem Incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else {
         return false
     }
 }
 
-// Função generalista para excluir uma relação entre filme genero
-const excluirFilmeGenero = async (id, funcaoExcluir, funcaoBuscarPeloId) => {
+// Função generalista para excluir uma relação entre filme personagem
+const excluirFilmePersonagem = async (id, funcaoExcluir, funcaoBuscarPeloId) => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
@@ -246,9 +240,9 @@ const excluirFilmeGenero = async (id, funcaoExcluir, funcaoBuscarPeloId) => {
 
         if (validarID.status_code == 200) {
 
-            let resultFilmesGeneros = await funcaoExcluir(Number(id))
+            let result = await funcaoExcluir(Number(id))
 
-            if (resultFilmesGeneros) {
+            if (result) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETE_ITEM.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETE_ITEM.status_code
                 MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETE_ITEM.message
@@ -266,13 +260,13 @@ const excluirFilmeGenero = async (id, funcaoExcluir, funcaoBuscarPeloId) => {
 }
 
 module.exports = {
-    listarFilmesGeneros,
-    buscarFilmeGeneroId,
-    listarGenerosIdFilme,
-    listarFilmesIdGenero,
-    inserirFilmeGenero,
-    atualizarFilmeGenero,
+    listarFilmesPersonagens,
+    buscarFilmePersonagemId,
+    buscarFilmePersonagemByFilmeId,
+    listarPersonagensByIdFilme,
+    listarFilmesByIdPersonagem,
+    inserirFilmePersonagem,
+    atualizarFilmePersonagem,
     excluirFilmeGeneroById,
-    excluirFilmeGeneroByFilmeId,
-    buscarFilmeGeneroByFilmeId
+    excluirFilmeGeneroByFilmeId
 }
