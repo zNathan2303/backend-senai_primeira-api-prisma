@@ -218,13 +218,16 @@ const excluirFilmeGeneroByFilmeId = async (filmeId) => {
 }
 
 const validarDadosFilmePersonagem = async (filmePersonagem) => {
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
     if (filmePersonagem.id_filme <= 0 || isNaN(filmePersonagem.id_filme) || filmePersonagem.id_filme == "" ||
         filmePersonagem.id_filme == null || filmePersonagem.id_filme == undefined) {
         MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Id_Filme Incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else if (filmePersonagem.id_personagem <= 0 || isNaN(filmePersonagem.id_personagem) || filmePersonagem.id_personagem == "" ||
         filmePersonagem.id_personagem == null || filmePersonagem.id_personagem == undefined) {
-        MESSAGES.ERROR_REQUIRED_FIELDS += '[Id_Personagem Incorreto]'
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Id_Personagem Incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else {
         return false

@@ -253,6 +253,7 @@ BEFORE DELETE ON tbl_filme
 FOR EACH ROW
 BEGIN
 	DELETE FROM tbl_filme_genero WHERE id_filme = OLD.id;
+    DELETE FROM tbl_filme_personagem WHERE id_filme = OLD.id;
 END$$
 DELIMITER ;
 
@@ -271,3 +272,10 @@ VALUES
 ('16', 'Não recomendado para menores de 16 anos'),
 ('18', 'Não recomendado para menores de 18 anos');
 
+CREATE TABLE tbl_filme_personagem (
+	id int PRIMARY KEY AUTO_INCREMENT,
+    id_filme INT NOT NULL,
+    id_personagem INT NOT NULL,
+    FOREIGN KEY (id_filme) REFERENCES tbl_filme(id),
+    FOREIGN KEY (id_personagem) REFERENCES tbl_personagem(id)
+);

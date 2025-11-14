@@ -5,6 +5,7 @@
  * Autor: Nathan
  * Versão: 1.0 (CRUD básico do filme, sem as relações com outras tabelas)
  * Versão: 1.1 (CRUD do filme com relacionamento com a tabela genero)
+ * Versão: 1.2 (CRUD do filme com relacionamento com a tabela personagem)
  ******************************************************************************/
 
 // Import da model do DAO do Filme
@@ -12,6 +13,7 @@ const filmeDAO = require('../../model/DAO/filme.js')
 
 // Import das controllers
 const controllerFilmeGenero = require('./controller_filme_genero.js')
+const controllerFilmePersonagem = require('./controller-filme-personagem.js')
 
 // Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
@@ -26,14 +28,20 @@ const listarFilmes = async () => {
 
         if (resultFilmes) {
             if (resultFilmes.length > 0) {
-                // Processamento para adicionar os generos ao filmes
+
+                /* PROCESSAMENTO PARA ADICIONAR AS ENTIDADES QUE POSSUEM RELAÇÃO COM FILME */
                 for (const filme of resultFilmes) {
                     // Pesquisa no BD todos os generos que foram associados ao filme
                     let resultGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
-
                     if (resultGeneros.status_code == 200)
                         // Cria o atributo genero e coloca o resultado do BD com os generos
                         filme.genero = resultGeneros.items.filmes_generos
+
+                    // Pesquisa no BD todos os personagens que foram associados ao filme
+                    let resultPersonagens = await controllerFilmePersonagem.listarPersonagensByIdFilme(filme.id)
+                    if (resultPersonagens.status_code == 200)
+                        // Cria o atributo personagem e coloca o resultado do BD com os personagens
+                        filme.personagem = resultPersonagens.items.filmes_personagens
                 }
 
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
@@ -63,13 +71,18 @@ const buscarFilmeId = async (id) => {
 
             if (resultFilmes) {
                 if (resultFilmes.length > 0) {
-                    /* ADICIONAR NO JSON DADOS DO GENERO */
+
                     // Pesquisa no BD todos os generos que foram associados ao filme
                     let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(resultFilmes[0].id)
-
                     if (resultDadosGeneros.status_code == 200)
                         // Cria o atributo genero e coloca o resultado do BD com os generos
                         resultFilmes[0].genero = resultDadosGeneros.items.filmes_generos
+
+                    // Pesquisa no BD todos os personagens que foram associados ao filme
+                    let resultPersonagens = await controllerFilmePersonagem.listarPersonagensByIdFilme(resultFilmes[0].id)
+                    if (resultPersonagens.status_code == 200)
+                        // Cria o atributo personagem e coloca o resultado do BD com os personagens
+                        resultFilmes[0].personagem = resultPersonagens.items.filmes_personagens
 
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
@@ -115,21 +128,46 @@ const inserirFilme = async (filme, contentType) => {
                     let lastID = await filmeDAO.getSelectLastID()
                     if (lastID) {
 
-                        // Processar a inserção dos dados na tabela de relação entre Filme e Genero
-                        // !!! FOREACH NÃO SE DÁ BEM COM ASYNC !!! -> filme.genero.forEach(async (genero) => {
-                        // !!! UTILIZAR FOROF QUANDO FOR UTILIZAR ASYNC !!!
-                        for (genero of filme.genero) {
-                            // Cria o JSON com o ID do filme do filme e o ID do genero
-                            let filmeGenero = {
-                                id_filme: lastID,
-                                id_genero: genero.id
+                        if (filme.genero) {
+                            // Processar a inserção dos dados na tabela de relação entre Filme e Genero
+                            // !!! FOREACH NÃO SE DÁ BEM COM ASYNC !!! -> filme.genero.forEach(async (genero) => {
+                            // !!! UTILIZAR FOROF QUANDO FOR UTILIZAR ASYNC !!!
+                            for (const genero of filme.genero) {
+                                let filmeGenero = {
+                                    id_filme: lastID,
+                                    id_genero: genero.id
+                                }
+                                let resultFilmesGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, contentType)
+
+                                if (resultFilmesGenero.status_code != 201)
+                                    return MESSAGES.ERROR_RELATION_INSERTION // 500 - Problema na tabela de relação
                             }
 
-                            // Encaminha o JSON com o ID do filme e do genero para a controllerFilmeGenero
-                            let resultFilmesGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, contentType)
+                            /* ADICIONAR NO JSON DADOS DO GENERO */
+                            // Apaga o atributo que constem apenas os IDs que foram enviados no POST
+                            delete filme.genero
+                            // Pesquisa no BD todos os generos que foram associados ao filme
+                            let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(lastID)
+                            // Cria novamente o atributo genero e coloca o resultado do BD com os generos
+                            filme.genero = resultDadosGeneros.items.filmes_generos
+                        }
 
-                            if (resultFilmesGenero.status_code != 201)
-                                return MESSAGES.ERROR_RELATION_INSERTION // 500 - Problema na tabela de relação
+                        if (filme.personagem) {
+                            for (const personagem of filme.personagem) {
+                                let filmePersonagem = {
+                                    id_filme: lastID,
+                                    id_personagem: personagem.id
+                                }
+                                let resultFilmePersonagem = await controllerFilmePersonagem.inserirFilmePersonagem(filmePersonagem, contentType)
+
+                                if (resultFilmePersonagem.status_code != 201)
+                                    return MESSAGES.ERROR_RELATION_INSERTION // 500 - Problema na tabela de relação
+                            }
+
+                            /* ADICIONAR NO JSON DADOS DO PERSONAGEM */
+                            delete filme.personagem
+                            let resultDadosPersonagens = await controllerFilmePersonagem.listarPersonagensByIdFilme(lastID)
+                            filme.personagem = resultDadosPersonagens.items.filmes_personagens
                         }
 
                         // Adiciona o ID no JSON com os dados do filme
@@ -137,15 +175,6 @@ const inserirFilme = async (filme, contentType) => {
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
-
-                        /* ADICIONAR NO JSON DADOS DO GENERO */
-                        // Apaga o atributo genero apenas com os IDs que foram enviados no POST
-                        delete filme.genero
-                        // Pesquisa no BD todos os generos que foram associados ao filme
-                        let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(lastID)
-                        // Cria novamente o atributo genero e coloca o resultado do BD com os generos
-                        filme.genero = resultDadosGeneros.items.filmes_generos
-
                         MESSAGES.DEFAULT_HEADER.items = filme
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
@@ -193,17 +222,43 @@ const atualizarFilme = async (filme, id, contentType) => {
                         if (generosApagados.status_code != 200)
                             return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
                     }
+                    if (filme.genero) {
+                        // Adicionar os generos recebidos
+                        for (const genero of filme.genero) {
+                            let filmeGenero = {
+                                id_filme: id,
+                                id_genero: genero.id
+                            }
+                            let generoResult = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, 'APPLICATION/JSON')
 
-                    // Adicionar os generos recebidos
-                    for (const genero of filme.genero) {
-                        let filmeGenero = {
-                            id_filme: id,
-                            id_genero: genero.id
+                            if (generoResult.status_code != 201)
+                                return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
                         }
-                        let generoResult = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, 'APPLICATION/JSON')
+                    }
 
-                        if (generoResult.status_code != 201)
+                    // Verifica se o filme possui personagens cadastrados
+                    if (validarID.items.filme[0].personagem) {
+                        // Exclui os personagens existentes
+                        let personagensApagados = await controllerFilmePersonagem.excluirFilmeGeneroByFilmeId(Number(id))
+
+                        if (personagensApagados.status_code != 200)
                             return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
+                    }
+
+                    if (filme.personagem) {
+                        // Adicionar os personagens recebidos
+                        for (const personagem of filme.personagem) {
+                            let filmePersonagem = {
+                                id_filme: id,
+                                id_personagem: personagem.id
+                            }
+
+                            let personagemResult = await controllerFilmePersonagem.inserirFilmePersonagem(filmePersonagem, 'APPLICATION/JSON')
+                            console.log(personagemResult);
+
+                            if (personagemResult.status_code != 201)
+                                return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação
+                        }
                     }
 
                     // Adiciona o ID do filme no JSON de dados para ser encaminhado ao DAO
@@ -226,7 +281,6 @@ const atualizarFilme = async (filme, id, contentType) => {
                 } else {
                     return validarID // A função buscarFilmeID poderá retornar (400 ou 404 ou 500)
                 }
-
             } else {
                 return validar // 400 referente a validação dos dados
             }
