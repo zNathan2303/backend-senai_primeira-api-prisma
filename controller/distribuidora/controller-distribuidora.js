@@ -1,30 +1,30 @@
 /*******************************************************************************
- * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model 
- *          para o CRUD de personagens.
- * Data: 30/10/2025
+ * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model
+ *          para o CRUD de distribuidora.
+ * Data: 29/10/2025
  * Autor: Nathan
  * Versão: 1.0
  ******************************************************************************/
 
-// Import da model do DAO do personagem
-const personagemDAO = require('../../model/DAO/personagem.js')
+// Import da model do DAO da distribuidora
+const distribuidoraDAO = require('../../model/DAO/distribuidora.js')
 
 // Import do arquivo de mensagens
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
-// Retorna uma lista de todos os personagens
-const listarPersonagens = async () => {
+// Retorna uma lista de todas as distribuidoras
+const listarDistribuidoras = async () => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
-        // Chama a função do DAO para retornar a lista de personagens do BD
-        let resultPersonagens = await personagemDAO.getSelectAllCharacters()
+        // Chama a função do DAO para retornar a lista de distribuidoras do BD
+        let resultDistribuidoras = await distribuidoraDAO.getSelectAllDistributors()
 
-        if (resultPersonagens) {
-            if (resultPersonagens.length > 0) {
+        if (resultDistribuidoras) {
+            if (resultDistribuidoras.length > 0) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                MESSAGES.DEFAULT_HEADER.items.personagens = resultPersonagens
+                MESSAGES.DEFAULT_HEADER.items.distribuidoras = resultDistribuidoras
 
                 return MESSAGES.DEFAULT_HEADER // 200
             } else {
@@ -38,20 +38,20 @@ const listarPersonagens = async () => {
     }
 }
 
-// Retorna um personagem filtrando pelo ID
-const buscarPersonagemId = async (id) => {
+// Retorna uma produção filtrando pelo ID
+const buscarDistribuidoraId = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
         // Validação da chegada do ID
         if (!isNaN(id) && id != '' && id != null && id > 0) {
-            let resultPersonagens = await personagemDAO.getSelectbyIdCharacters(Number(id))
+            let resultProdocoes = await distribuidoraDAO.getSelectbyIdDistributors(id)
 
-            if (resultPersonagens) {
-                if (resultPersonagens.length > 0) {
+            if (resultProdocoes) {
+                if (resultProdocoes.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.personagem = resultPersonagens
+                    MESSAGES.DEFAULT_HEADER.items.producao = resultProdocoes
 
                     return MESSAGES.DEFAULT_HEADER
                 } else {
@@ -70,8 +70,8 @@ const buscarPersonagemId = async (id) => {
     }
 }
 
-// Insere um personagem
-const inserirPersonagem = async (personagem, contentType) => {
+// Insere uma distribuidora
+const inserirDistribuidora = async (distribuidora, contentType) => {
 
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
@@ -80,23 +80,23 @@ const inserirPersonagem = async (personagem, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados do personagem
-            let validar = await validarDadosPersonagem(personagem)
+            // Chama a função de validar todos os dados da distribuidora
+            let validar = await validarDadosDistribuidora(distribuidora)
 
             if (!validar) {
-                // Chama a função para inserir um novo personagem no BD
-                let resultPersonagens = await personagemDAO.setInsertCharacters(personagem)
+                // Chama a função para inserir uma nova distribuidora no BD
+                let resultDistribuidoras = await distribuidoraDAO.setInsertDistributors(distribuidora)
 
-                if (resultPersonagens) {
+                if (resultDistribuidoras) {
                     // Chama a função para receber o ID gerado no BD
-                    let lastID = await personagemDAO.getSelectLastID()
+                    let lastID = await distribuidoraDAO.getSelectLastID()
                     if (lastID) {
-                        // Adiciona o ID no JSON com os dados do personagem
-                        personagem.id = lastID
+                        // Adiciona o ID no JSON com os dados da distribuidora
+                        distribuidora.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items = personagem
+                        MESSAGES.DEFAULT_HEADER.items = distribuidora
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
@@ -117,8 +117,8 @@ const inserirPersonagem = async (personagem, contentType) => {
     }
 }
 
-// Atualiza um personagem buscando pelo ID
-const atualizarPersonagem = async (personagem, id, contentType) => {
+// Atualiza uma distribuidora buscando pelo ID
+const atualizarDistribuidora = async (distribuidora, id, contentType) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
@@ -126,34 +126,34 @@ const atualizarPersonagem = async (personagem, id, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados do personagem
-            let validar = await validarDadosPersonagem(personagem)
+            // Chama a função de validar todos os dados da distribuidora
+            let validar = await validarDadosDistribuidora(distribuidora)
 
             if (!validar) {
 
                 // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-                let validarID = await buscarPersonagemId(id)
+                let validarID = await buscarDistribuidoraId(id)
 
                 if (validarID.status_code == 200) {
 
-                    // Adiciona o ID do personagem no JSON de dados para ser encaminhado ao DAO
-                    personagem.id = Number(id)
+                    // Adiciona o ID do produção no JSON de dados para ser encaminhado ao DAO
+                    distribuidora.id = Number(id)
 
-                    // Chama a função para inserir um novo personagem no BD
-                    let resultPersonagem = await personagemDAO.setUpdateCharacters(personagem)
+                    // Chama a função para inserir uma nova distribuidora no BD
+                    let resultDistribuidora = await distribuidoraDAO.setUpdateDistributors(distribuidora)
 
-                    if (resultPersonagem) {
+                    if (resultDistribuidora) {
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items.personagem = personagem
+                        MESSAGES.DEFAULT_HEADER.items.distribuidora = distribuidora
 
                         return MESSAGES.DEFAULT_HEADER // 200
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
                 } else {
-                    return validarID // A função buscarPersonagemId poderá retornar (400 ou 404 ou 500)
+                    return validarID // A função buscarDistribuidoraId poderá retornar (400 ou 404 ou 500)
                 }
 
             } else {
@@ -167,21 +167,21 @@ const atualizarPersonagem = async (personagem, id, contentType) => {
     }
 }
 
-// Exclui um personagem buscando pelo ID
-const excluirPersonagem = async (id) => {
+// Exclui uma distribuidora buscando pelo ID
+const excluirDistribuidora = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
         // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-        let validarID = await buscarPersonagemId(id)
+        let validarID = await buscarDistribuidoraId(id)
 
         if (validarID.status_code == 200) {
 
-            // Chama a função para inserir um novo cargo no BD
-            let resultPersonagens = await personagemDAO.setDeleteCharacters(id)
+            // Chama a função para inserir uma nova distribuidora no BD
+            let resultDistribuidora = await distribuidoraDAO.setDeleteDistributors(id)
 
-            if (resultPersonagens) {
+            if (resultDistribuidora) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETE_ITEM.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETE_ITEM.status_code
                 MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETE_ITEM.message
@@ -191,34 +191,29 @@ const excluirPersonagem = async (id) => {
                 return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
             }
         } else {
-            return validarID // A função buscarPersonagemID poderá retornar (400 ou 404 ou 500)
+            return validarID // A função buscarDistribuidoraID poderá retornar (400 ou 404 ou 500)
         }
     } catch (error) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
 
-// Validação dos dados de cadastro e atualização do personagem
-const validarDadosPersonagem = async (personagem) => {
+// Validação dos dados de cadastro e atualização da distribuidora
+const validarDadosDistribuidora = async (distribuidora) => {
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     // Validação de todas as entradas
 
-    if (personagem.nome == '' || personagem.nome == undefined || personagem.nome == null || personagem.nome.length > 200) {
+    if (distribuidora.nome == '' || distribuidora.nome == undefined || distribuidora.nome == null || distribuidora.nome.length > 100) {
         MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Nome incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (personagem.imagem == '' || personagem.imagem == undefined || personagem.imagem == null || personagem.imagem.length > 255) {
-        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Imagem incorreta]'
+    } else if (distribuidora.pais_origem == '' || distribuidora.pais_origem == undefined || distribuidora.pais_origem == null ||
+        distribuidora.pais_origem.length > 50) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[País de origem incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (personagem.idade == undefined) {
-        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Idade incorreta]'
-        return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (personagem.descricao == undefined) {
-        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Descrição incorreto]'
-        return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (personagem.papel == '' || personagem.papel == undefined || personagem.papel == null || personagem.papel.length > 100) {
-        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Papel incorreto]'
+    } else if (distribuidora.site == undefined || distribuidora.site.length > 255) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Site incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else {
         return false
@@ -227,9 +222,9 @@ const validarDadosPersonagem = async (personagem) => {
 }
 
 module.exports = {
-    listarPersonagens,
-    buscarPersonagemId,
-    inserirPersonagem,
-    atualizarPersonagem,
-    excluirPersonagem
+    listarDistribuidoras,
+    buscarDistribuidoraId,
+    inserirDistribuidora,
+    atualizarDistribuidora,
+    excluirDistribuidora
 }

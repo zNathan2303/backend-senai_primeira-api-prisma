@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model 
+ * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model
  *          para o CRUD de Cargos.
  * Data: 22/10/2025
  * Autor: Nathan
@@ -7,24 +7,24 @@
  ******************************************************************************/
 
 // Import da model do DAO do Cargo
-const formatoDAO = require('../../model/DAO/formato-audiovisual.js')
+const cargoDAO = require('../../model/DAO/cargo.js')
 
 // Import do arquivo de mensagens
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
-// Retorna uma lista de todos os formatos
-const listarFormatosAudiovisuais = async () => {
+// Retorna uma lista de todos os cargos
+const listarCargos = async () => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
-        // Chama a função do DAO para retornar a lista de formatos do BD
-        let resultFormatos = await formatoDAO.getSelectAllAudiovisualFormats()
+        // Chama a função do DAO para retornar a lista de cargos do BD
+        let resultCargos = await cargoDAO.getSelectAllRoles()
 
-        if (resultFormatos) {
-            if (resultFormatos.length > 0) {
+        if (resultCargos) {
+            if (resultCargos.length > 0) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                MESSAGES.DEFAULT_HEADER.items.formatos = resultFormatos
+                MESSAGES.DEFAULT_HEADER.items.cargos = resultCargos
 
                 return MESSAGES.DEFAULT_HEADER // 200
             } else {
@@ -38,20 +38,20 @@ const listarFormatosAudiovisuais = async () => {
     }
 }
 
-// Retorna um formato filtrando pelo ID
-const buscarFormatoAudiovisualId = async (id) => {
+// Retorna um cargo filtrando pelo ID
+const buscarCargoId = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
         // Validação da chegada do ID
         if (!isNaN(id) && id != '' && id != null && id > 0) {
-            let resultFormatos = await formatoDAO.getSelectbyIdAudiovisualFormats(Number(id))
+            let resultCargos = await cargoDAO.getSelectbyIdRoles(Number(id))
 
-            if (resultFormatos) {
-                if (resultFormatos.length > 0) {
+            if (resultCargos) {
+                if (resultCargos.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.formato = resultFormatos
+                    MESSAGES.DEFAULT_HEADER.items.cargo = resultCargos
 
                     return MESSAGES.DEFAULT_HEADER
                 } else {
@@ -70,8 +70,8 @@ const buscarFormatoAudiovisualId = async (id) => {
     }
 }
 
-// Insere um formato
-const inserirFormatoAudiovisual = async (formato, contentType) => {
+// Insere um cargo
+const inserirCargo = async (cargo, contentType) => {
 
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
@@ -80,23 +80,23 @@ const inserirFormatoAudiovisual = async (formato, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados do formato
-            let validar = await validarDadosFormato(formato)
+            // Chama a função de validar todos os dados do cargo
+            let validar = await validarDadosCargo(cargo)
 
             if (!validar) {
-                // Chama a função para inserir um novo formato no BD
-                let resultFormatos = await formatoDAO.setInsertAudiovisualFormats(formato)
+                // Chama a função para inserir um novo cargo no BD
+                let resultCargos = await cargoDAO.setInsertRoles(cargo)
 
-                if (resultFormatos) {
+                if (resultCargos) {
                     // Chama a função para receber o ID gerado no BD
-                    let lastID = await formatoDAO.getSelectLastID()
+                    let lastID = await cargoDAO.getSelectLastID()
                     if (lastID) {
-                        // Adiciona o ID no JSON com os dados do formato
-                        formato.id = lastID
+                        // Adiciona o ID no JSON com os dados do cargo
+                        cargo.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items = formato
+                        MESSAGES.DEFAULT_HEADER.items = cargo
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
@@ -117,8 +117,8 @@ const inserirFormatoAudiovisual = async (formato, contentType) => {
     }
 }
 
-// Atualiza um formato buscando pelo ID
-const atualizarFormatoAudiovisual = async (formato, id, contentType) => {
+// Atualiza um cargo buscando pelo ID
+const atualizarCargo = async (cargo, id, contentType) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
@@ -126,34 +126,34 @@ const atualizarFormatoAudiovisual = async (formato, id, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados do formato
-            let validar = await validarDadosFormato(formato)
+            // Chama a função de validar todos os dados do cargo
+            let validar = await validarDadosCargo(cargo)
 
             if (!validar) {
 
                 // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-                let validarID = await buscarFormatoAudiovisualId(id)
+                let validarID = await buscarCargoId(id)
 
                 if (validarID.status_code == 200) {
 
-                    // Adiciona o ID do formato no JSON de dados para ser encaminhado ao DAO
-                    formato.id = Number(id)
+                    // Adiciona o ID do cargo no JSON de dados para ser encaminhado ao DAO
+                    cargo.id = Number(id)
 
-                    // Chama a função para inserir um novo formato no BD
-                    let resultFormato = await formatoDAO.setUpdateAudiovisualFormats(formato)
+                    // Chama a função para inserir um novo cargo no BD
+                    let resultCargo = await cargoDAO.setUpdateRoles(cargo)
 
-                    if (resultFormato) {
+                    if (resultCargo) {
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items.formato = formato
+                        MESSAGES.DEFAULT_HEADER.items.cargo = cargo
 
                         return MESSAGES.DEFAULT_HEADER // 200
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
                 } else {
-                    return validarID // A função buscarFormatoId poderá retornar (400 ou 404 ou 500)
+                    return validarID // A função buscarCargoId poderá retornar (400 ou 404 ou 500)
                 }
 
             } else {
@@ -167,21 +167,21 @@ const atualizarFormatoAudiovisual = async (formato, id, contentType) => {
     }
 }
 
-// Exclui um formato buscando pelo ID
-const excluirFormatoAudiovisual = async (id) => {
+// Exclui um cargo buscando pelo ID
+const excluirCargo = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
         // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-        let validarID = await buscarFormatoAudiovisualId(id)
+        let validarID = await buscarCargoId(id)
 
         if (validarID.status_code == 200) {
 
             // Chama a função para inserir um novo cargo no BD
-            let resultFormatos = await formatoDAO.setDeleteAudiovisualFormats(id)
+            let resultCargos = await cargoDAO.setDeleteRoles(id)
 
-            if (resultFormatos) {
+            if (resultCargos) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETE_ITEM.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETE_ITEM.status_code
                 MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETE_ITEM.message
@@ -191,22 +191,25 @@ const excluirFormatoAudiovisual = async (id) => {
                 return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
             }
         } else {
-            return validarID // A função buscarFormatoID poderá retornar (400 ou 404 ou 500)
+            return validarID // A função buscarCargoID poderá retornar (400 ou 404 ou 500)
         }
     } catch (error) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
 
-// Validação dos dados de cadastro e atualização do formato
-const validarDadosFormato = async (formato) => {
+// Validação dos dados de cadastro e atualização do cargo
+const validarDadosCargo = async (cargo) => {
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     // Validação de todas as entradas
 
-    if (formato.nome == '' || formato.nome == undefined || formato.nome == null || formato.nome.length > 40) {
+    if (cargo.nome == '' || cargo.nome == undefined || cargo.nome == null || cargo.nome.length > 50) {
         MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Nome incorreto]'
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+    } else if (cargo.descricao == undefined) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Descrição incorreta]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else {
         return false
@@ -215,9 +218,9 @@ const validarDadosFormato = async (formato) => {
 }
 
 module.exports = {
-    listarFormatosAudiovisuais,
-    buscarFormatoAudiovisualId,
-    inserirFormatoAudiovisual,
-    atualizarFormatoAudiovisual,
-    excluirFormatoAudiovisual
+    listarCargos,
+    buscarCargoId,
+    inserirCargo,
+    atualizarCargo,
+    excluirCargo
 }

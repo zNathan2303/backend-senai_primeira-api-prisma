@@ -12,11 +12,11 @@
 const filmeDAO = require('../../model/DAO/filme.js')
 
 // Import das controllers
-const controllerFilmeGenero = require('./controller_filme_genero.js')
+const controllerFilmeGenero = require('./controller-filme-genero.js')
 const controllerFilmePersonagem = require('./controller-filme-personagem.js')
 
 // Import do arquivo de mensagens
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
 // Retorna uma lista de todos os filmes
 const listarFilmes = async () => {

@@ -1,30 +1,30 @@
 /*******************************************************************************
- * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model 
- *          para o CRUD de distribuidora.
- * Data: 29/10/2025
+ * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model
+ *          para o CRUD de Cargos.
+ * Data: 22/10/2025
  * Autor: Nathan
  * Versão: 1.0
  ******************************************************************************/
 
-// Import da model do DAO da distribuidora
-const distribuidoraDAO = require('../../model/DAO/distribuidora.js')
+// Import da model do DAO do Cargo
+const formatoDAO = require('../../model/DAO/formato-audiovisual.js')
 
 // Import do arquivo de mensagens
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
-// Retorna uma lista de todas as distribuidoras
-const listarDistribuidoras = async () => {
+// Retorna uma lista de todos os formatos
+const listarFormatosAudiovisuais = async () => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
-        // Chama a função do DAO para retornar a lista de distribuidoras do BD
-        let resultDistribuidoras = await distribuidoraDAO.getSelectAllDistributors()
+        // Chama a função do DAO para retornar a lista de formatos do BD
+        let resultFormatos = await formatoDAO.getSelectAllAudiovisualFormats()
 
-        if (resultDistribuidoras) {
-            if (resultDistribuidoras.length > 0) {
+        if (resultFormatos) {
+            if (resultFormatos.length > 0) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                MESSAGES.DEFAULT_HEADER.items.distribuidoras = resultDistribuidoras
+                MESSAGES.DEFAULT_HEADER.items.formatos = resultFormatos
 
                 return MESSAGES.DEFAULT_HEADER // 200
             } else {
@@ -38,20 +38,20 @@ const listarDistribuidoras = async () => {
     }
 }
 
-// Retorna uma produção filtrando pelo ID
-const buscarDistribuidoraId = async (id) => {
+// Retorna um formato filtrando pelo ID
+const buscarFormatoAudiovisualId = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
         // Validação da chegada do ID
         if (!isNaN(id) && id != '' && id != null && id > 0) {
-            let resultProdocoes = await distribuidoraDAO.getSelectbyIdDistributors(id)
+            let resultFormatos = await formatoDAO.getSelectbyIdAudiovisualFormats(Number(id))
 
-            if (resultProdocoes) {
-                if (resultProdocoes.length > 0) {
+            if (resultFormatos) {
+                if (resultFormatos.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.producao = resultProdocoes
+                    MESSAGES.DEFAULT_HEADER.items.formato = resultFormatos
 
                     return MESSAGES.DEFAULT_HEADER
                 } else {
@@ -70,8 +70,8 @@ const buscarDistribuidoraId = async (id) => {
     }
 }
 
-// Insere uma distribuidora
-const inserirDistribuidora = async (distribuidora, contentType) => {
+// Insere um formato
+const inserirFormatoAudiovisual = async (formato, contentType) => {
 
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
@@ -80,23 +80,23 @@ const inserirDistribuidora = async (distribuidora, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados da distribuidora
-            let validar = await validarDadosDistribuidora(distribuidora)
+            // Chama a função de validar todos os dados do formato
+            let validar = await validarDadosFormato(formato)
 
             if (!validar) {
-                // Chama a função para inserir uma nova distribuidora no BD
-                let resultDistribuidoras = await distribuidoraDAO.setInsertDistributors(distribuidora)
+                // Chama a função para inserir um novo formato no BD
+                let resultFormatos = await formatoDAO.setInsertAudiovisualFormats(formato)
 
-                if (resultDistribuidoras) {
+                if (resultFormatos) {
                     // Chama a função para receber o ID gerado no BD
-                    let lastID = await distribuidoraDAO.getSelectLastID()
+                    let lastID = await formatoDAO.getSelectLastID()
                     if (lastID) {
-                        // Adiciona o ID no JSON com os dados da distribuidora
-                        distribuidora.id = lastID
+                        // Adiciona o ID no JSON com os dados do formato
+                        formato.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items = distribuidora
+                        MESSAGES.DEFAULT_HEADER.items = formato
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
@@ -117,8 +117,8 @@ const inserirDistribuidora = async (distribuidora, contentType) => {
     }
 }
 
-// Atualiza uma distribuidora buscando pelo ID
-const atualizarDistribuidora = async (distribuidora, id, contentType) => {
+// Atualiza um formato buscando pelo ID
+const atualizarFormatoAudiovisual = async (formato, id, contentType) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
@@ -126,34 +126,34 @@ const atualizarDistribuidora = async (distribuidora, id, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados da distribuidora
-            let validar = await validarDadosDistribuidora(distribuidora)
+            // Chama a função de validar todos os dados do formato
+            let validar = await validarDadosFormato(formato)
 
             if (!validar) {
 
                 // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-                let validarID = await buscarDistribuidoraId(id)
+                let validarID = await buscarFormatoAudiovisualId(id)
 
                 if (validarID.status_code == 200) {
 
-                    // Adiciona o ID do produção no JSON de dados para ser encaminhado ao DAO
-                    distribuidora.id = Number(id)
+                    // Adiciona o ID do formato no JSON de dados para ser encaminhado ao DAO
+                    formato.id = Number(id)
 
-                    // Chama a função para inserir uma nova distribuidora no BD
-                    let resultDistribuidora = await distribuidoraDAO.setUpdateDistributors(distribuidora)
+                    // Chama a função para inserir um novo formato no BD
+                    let resultFormato = await formatoDAO.setUpdateAudiovisualFormats(formato)
 
-                    if (resultDistribuidora) {
+                    if (resultFormato) {
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items.distribuidora = distribuidora
+                        MESSAGES.DEFAULT_HEADER.items.formato = formato
 
                         return MESSAGES.DEFAULT_HEADER // 200
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
                 } else {
-                    return validarID // A função buscarDistribuidoraId poderá retornar (400 ou 404 ou 500)
+                    return validarID // A função buscarFormatoId poderá retornar (400 ou 404 ou 500)
                 }
 
             } else {
@@ -167,21 +167,21 @@ const atualizarDistribuidora = async (distribuidora, id, contentType) => {
     }
 }
 
-// Exclui uma distribuidora buscando pelo ID
-const excluirDistribuidora = async (id) => {
+// Exclui um formato buscando pelo ID
+const excluirFormatoAudiovisual = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
         // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-        let validarID = await buscarDistribuidoraId(id)
+        let validarID = await buscarFormatoAudiovisualId(id)
 
         if (validarID.status_code == 200) {
 
-            // Chama a função para inserir uma nova distribuidora no BD
-            let resultDistribuidora = await distribuidoraDAO.setDeleteDistributors(id)
+            // Chama a função para inserir um novo cargo no BD
+            let resultFormatos = await formatoDAO.setDeleteAudiovisualFormats(id)
 
-            if (resultDistribuidora) {
+            if (resultFormatos) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETE_ITEM.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETE_ITEM.status_code
                 MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETE_ITEM.message
@@ -191,29 +191,22 @@ const excluirDistribuidora = async (id) => {
                 return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
             }
         } else {
-            return validarID // A função buscarDistribuidoraID poderá retornar (400 ou 404 ou 500)
+            return validarID // A função buscarFormatoID poderá retornar (400 ou 404 ou 500)
         }
     } catch (error) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
 
-// Validação dos dados de cadastro e atualização da distribuidora
-const validarDadosDistribuidora = async (distribuidora) => {
+// Validação dos dados de cadastro e atualização do formato
+const validarDadosFormato = async (formato) => {
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     // Validação de todas as entradas
 
-    if (distribuidora.nome == '' || distribuidora.nome == undefined || distribuidora.nome == null || distribuidora.nome.length > 100) {
+    if (formato.nome == '' || formato.nome == undefined || formato.nome == null || formato.nome.length > 40) {
         MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Nome incorreto]'
-        return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (distribuidora.pais_origem == '' || distribuidora.pais_origem == undefined || distribuidora.pais_origem == null ||
-        distribuidora.pais_origem.length > 50) {
-        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[País de origem incorreto]'
-        return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (distribuidora.site == undefined || distribuidora.site.length > 255) {
-        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Site incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else {
         return false
@@ -222,9 +215,9 @@ const validarDadosDistribuidora = async (distribuidora) => {
 }
 
 module.exports = {
-    listarDistribuidoras,
-    buscarDistribuidoraId,
-    inserirDistribuidora,
-    atualizarDistribuidora,
-    excluirDistribuidora
+    listarFormatosAudiovisuais,
+    buscarFormatoAudiovisualId,
+    inserirFormatoAudiovisual,
+    atualizarFormatoAudiovisual,
+    excluirFormatoAudiovisual
 }

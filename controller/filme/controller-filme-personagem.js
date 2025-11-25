@@ -8,7 +8,7 @@
 
 const filmePersonagemDAO = require('../../model/DAO/filme-personagem.js')
 
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
 // Retorna uma lista de todas as relações de filme e personagem
 const listarFilmesPersonagens = async () => {

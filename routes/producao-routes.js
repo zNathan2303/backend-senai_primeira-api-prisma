@@ -10,7 +10,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
-const controllerProducao = require('../controller/producao/controller_producao.js')
+const controllerProducao = require('../controller/producao/controller-producao.js')
 
 // Cria um objeto especialista no formato JSON para receber dados via POST e PUT
 const bodyParserJSON = bodyParser.json()

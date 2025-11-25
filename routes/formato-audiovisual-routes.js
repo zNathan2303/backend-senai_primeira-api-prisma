@@ -10,7 +10,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
-const controllerFormatoAudiovisual = require('../controller/formato-audiovisual/controller_formato_audiovisual.js')
+const controllerFormatoAudiovisual = require('../controller/formato-audiovisual/controller-formato-audiovisual.js')
 
 // Cria um objeto especialista no formato JSON para receber dados via POST e PUT
 const bodyParserJSON = bodyParser.json()

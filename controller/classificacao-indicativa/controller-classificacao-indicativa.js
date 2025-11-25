@@ -7,7 +7,7 @@
  ******************************************************************************/
 
 const classificacaoIndicativaDAO = require('../../model/DAO/classificacao-indicativa.js')
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
 const listarClassificacoesIndicativas = async () => {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))

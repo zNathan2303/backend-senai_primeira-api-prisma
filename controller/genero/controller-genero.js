@@ -1,30 +1,30 @@
 /*******************************************************************************
- * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model 
- *          para o CRUD de Cargos.
+ * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model
+ *          para o CRUD de Generos.
  * Data: 22/10/2025
  * Autor: Nathan
  * Versão: 1.0
  ******************************************************************************/
 
-// Import da model do DAO do Cargo
-const cargoDAO = require('../../model/DAO/cargo.js')
+// Import da model do DAO do Genero
+const generoDAO = require('../../model/DAO/genero.js')
 
 // Import do arquivo de mensagens
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
-// Retorna uma lista de todos os cargos
-const listarCargos = async () => {
+// Retorna uma lista de todos os generos
+const listarGeneros = async () => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
-        // Chama a função do DAO para retornar a lista de cargos do BD
-        let resultCargos = await cargoDAO.getSelectAllRoles()
+        // Chama a função do DAO para retornar a lista de generos do BD
+        let resultGeneros = await generoDAO.getSelectAllGenres()
 
-        if (resultCargos) {
-            if (resultCargos.length > 0) {
+        if (resultGeneros) {
+            if (resultGeneros.length > 0) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                MESSAGES.DEFAULT_HEADER.items.cargos = resultCargos
+                MESSAGES.DEFAULT_HEADER.items.generos = resultGeneros
 
                 return MESSAGES.DEFAULT_HEADER // 200
             } else {
@@ -38,20 +38,20 @@ const listarCargos = async () => {
     }
 }
 
-// Retorna um cargo filtrando pelo ID
-const buscarCargoId = async (id) => {
+// Retorna um genero filtrando pelo ID
+const buscarGeneroId = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     try {
         // Validação da chegada do ID
         if (!isNaN(id) && id != '' && id != null && id > 0) {
-            let resultCargos = await cargoDAO.getSelectbyIdRoles(Number(id))
+            let resultGeneros = await generoDAO.getSelectbyIdGenres(Number(id))
 
-            if (resultCargos) {
-                if (resultCargos.length > 0) {
+            if (resultGeneros) {
+                if (resultGeneros.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.cargo = resultCargos
+                    MESSAGES.DEFAULT_HEADER.items.genero = resultGeneros
 
                     return MESSAGES.DEFAULT_HEADER
                 } else {
@@ -70,8 +70,8 @@ const buscarCargoId = async (id) => {
     }
 }
 
-// Insere um cargo
-const inserirCargo = async (cargo, contentType) => {
+// Insere um genero
+const inserirGenero = async (genero, contentType) => {
 
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
@@ -80,23 +80,23 @@ const inserirCargo = async (cargo, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados do cargo
-            let validar = await validarDadosCargo(cargo)
+            // Chama a função de validar todos os dados do genero
+            let validar = await validarDadosGenero(genero)
 
             if (!validar) {
-                // Chama a função para inserir um novo cargo no BD
-                let resultCargos = await cargoDAO.setInsertRoles(cargo)
+                // Chama a função para inserir um novo genero no BD
+                let resultGeneros = await generoDAO.setInsertGenres(genero)
 
-                if (resultCargos) {
+                if (resultGeneros) {
                     // Chama a função para receber o ID gerado no BD
-                    let lastID = await cargoDAO.getSelectLastID()
+                    let lastID = await generoDAO.getSelectLastID()
                     if (lastID) {
-                        // Adiciona o ID no JSON com os dados do cargo
-                        cargo.id = lastID
+                        // Adiciona o ID no JSON com os dados do genero
+                        genero.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items = cargo
+                        MESSAGES.DEFAULT_HEADER.items = genero
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
@@ -117,8 +117,8 @@ const inserirCargo = async (cargo, contentType) => {
     }
 }
 
-// Atualiza um cargo buscando pelo ID
-const atualizarCargo = async (cargo, id, contentType) => {
+// Atualiza um genero buscando pelo ID
+const atualizarGenero = async (genero, id, contentType) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
@@ -126,34 +126,34 @@ const atualizarCargo = async (cargo, id, contentType) => {
         // Validação do tipo de conteúdo da requisição
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-            // Chama a função de validar todos os dados do cargo
-            let validar = await validarDadosCargo(cargo)
+            // Chama a função de validar todos os dados do genero
+            let validar = await validarDadosGenero(genero)
 
             if (!validar) {
 
                 // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-                let validarID = await buscarCargoId(id)
+                let validarID = await buscarGeneroId(id)
 
                 if (validarID.status_code == 200) {
 
-                    // Adiciona o ID do cargo no JSON de dados para ser encaminhado ao DAO
-                    cargo.id = Number(id)
+                    // Adiciona o ID do genero no JSON de dados para ser encaminhado ao DAO
+                    genero.id = Number(id)
 
-                    // Chama a função para inserir um novo cargo no BD
-                    let resultCargo = await cargoDAO.setUpdateRoles(cargo)
+                    // Chama a função para inserir um novo genero no BD
+                    let resultGenero = await generoDAO.setUpdateGenres(genero)
 
-                    if (resultCargo) {
+                    if (resultGenero) {
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items.cargo = cargo
+                        MESSAGES.DEFAULT_HEADER.items.genero = genero
 
                         return MESSAGES.DEFAULT_HEADER // 200
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
                 } else {
-                    return validarID // A função buscarCargoId poderá retornar (400 ou 404 ou 500)
+                    return validarID // A função buscarGeneroId poderá retornar (400 ou 404 ou 500)
                 }
 
             } else {
@@ -167,21 +167,21 @@ const atualizarCargo = async (cargo, id, contentType) => {
     }
 }
 
-// Exclui um cargo buscando pelo ID
-const excluirCargo = async (id) => {
+// Exclui um genero buscando pelo ID
+const excluirGenero = async (id) => {
     // Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
         // Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e válida o ID
-        let validarID = await buscarCargoId(id)
+        let validarID = await buscarGeneroId(id)
 
         if (validarID.status_code == 200) {
 
-            // Chama a função para inserir um novo cargo no BD
-            let resultCargos = await cargoDAO.setDeleteRoles(id)
+            // Chama a função para inserir um novo genero no BD
+            let resultGeneros = await generoDAO.setDeleteGenres(id)
 
-            if (resultCargos) {
+            if (resultGeneros) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETE_ITEM.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETE_ITEM.status_code
                 MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETE_ITEM.message
@@ -191,25 +191,22 @@ const excluirCargo = async (id) => {
                 return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
             }
         } else {
-            return validarID // A função buscarCargoID poderá retornar (400 ou 404 ou 500)
+            return validarID // A função buscarGeneroID poderá retornar (400 ou 404 ou 500)
         }
     } catch (error) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
 
-// Validação dos dados de cadastro e atualização do cargo
-const validarDadosCargo = async (cargo) => {
+// Validação dos dados de cadastro e atualização do genero
+const validarDadosGenero = async (genero) => {
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     // Validação de todas as entradas
 
-    if (cargo.nome == '' || cargo.nome == undefined || cargo.nome == null || cargo.nome.length > 50) {
+    if (genero.nome == '' || genero.nome == undefined || genero.nome == null || genero.nome.length > 50) {
         MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Nome incorreto]'
-        return MESSAGES.ERROR_REQUIRED_FIELDS
-    } else if (cargo.descricao == undefined) {
-        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Descrição incorreta]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else {
         return false
@@ -218,9 +215,9 @@ const validarDadosCargo = async (cargo) => {
 }
 
 module.exports = {
-    listarCargos,
-    buscarCargoId,
-    inserirCargo,
-    atualizarCargo,
-    excluirCargo
+    listarGeneros,
+    buscarGeneroId,
+    inserirGenero,
+    atualizarGenero,
+    excluirGenero
 }

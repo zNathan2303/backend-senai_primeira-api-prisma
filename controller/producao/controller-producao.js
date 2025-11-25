@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model 
+ * Objetivo: Arquivo responsável pela manipulação de dados entre o app e a model
  *          para o CRUD de Produção.
  * Data: 28/10/2025
  * Autor: Nathan
@@ -10,7 +10,7 @@
 const producaoDAO = require('../../model/DAO/producao.js')
 
 // Import do arquivo de mensagens
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
 // Retorna uma lista de todas as produções
 const listarProducoes = async () => {

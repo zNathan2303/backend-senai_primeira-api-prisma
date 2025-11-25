@@ -7,10 +7,10 @@
  ******************************************************************************/
 
 //Import da model do DAO do filme Genero
-const filmeGeneroDAO = require('../../model/DAO/filme_genero.js')
+const filmeGeneroDAO = require('../../model/DAO/filme-genero.js')
 
 // Import do arquivo de mensagens
-const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
+const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
 // Retorna uma lista de todas as relações de filme e genero
 const listarFilmesGeneros = async () => {
