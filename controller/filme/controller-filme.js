@@ -14,6 +14,7 @@ const filmeDAO = require('../../model/DAO/filme.js')
 // Import das controllers
 const controllerFilmeGenero = require('./controller-filme-genero.js')
 const controllerFilmePersonagem = require('./controller-filme-personagem.js')
+const controllerClassificacao = require('../classificacao-indicativa/controller-classificacao-indicativa.js')
 
 // Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
@@ -31,6 +32,11 @@ const listarFilmes = async () => {
 
                 /* PROCESSAMENTO PARA ADICIONAR AS ENTIDADES QUE POSSUEM RELAÇÃO COM FILME */
                 for (const filme of resultFilmes) {
+                    // Substituir o ID da classificação pelo JSON completo dela
+                    const resultClassificacao = await controllerClassificacao.buscarClassificacaoIndicativa(Number(filme.id_classificacao))
+                    filme.classificacao = resultClassificacao.items.classificacao_indicativa[0]
+                    delete filme.id_classificacao
+
                     // Pesquisa no BD todos os generos que foram associados ao filme
                     let resultGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
                     if (resultGeneros.status_code == 200)
@@ -71,6 +77,11 @@ const buscarFilmeId = async (id) => {
 
             if (resultFilmes) {
                 if (resultFilmes.length > 0) {
+
+                    // Substituir o ID da classificação pelo JSON completo dela
+                    const resultClassificacao = await controllerClassificacao.buscarClassificacaoIndicativa(Number(resultFilmes[0].id_classificacao))
+                    resultFilmes[0].classificacao = resultClassificacao.items.classificacao_indicativa
+                    delete resultFilmes[0].id_classificacao
 
                     // Pesquisa no BD todos os generos que foram associados ao filme
                     let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(resultFilmes[0].id)
@@ -254,7 +265,6 @@ const atualizarFilme = async (filme, id, contentType) => {
                             }
 
                             let personagemResult = await controllerFilmePersonagem.inserirFilmePersonagem(filmePersonagem, 'APPLICATION/JSON')
-                            console.log(personagemResult);
 
                             if (personagemResult.status_code != 201)
                                 return MESSAGES.ERROR_RELATION_UPDATE // 500 - Problema na tabela de relação

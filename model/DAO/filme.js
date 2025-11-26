@@ -13,9 +13,9 @@
                 npm install @prisma/client --save   -> Instalar o cliente do prisma (Executar scripts SQL no BD).
                 npx prisma init                     -> Prompt de comando para inicializar o prisma no projeto.
                 npx prisma migrate dev              -> Realiza o sincronismo entre o prisma e o BD (CUIDADO,
-                                                    nesse processo você poderá perder dados reais do BD, pois 
+                                                    nesse processo você poderá perder dados reais do BD, pois
                                                     ele pega e cria as tabelas programadas no ORM schema.prisma).
-                npx prisma generate                 -> Apenas realiza o sincronismo entre o prisma e o BD, geralmente 
+                npx prisma generate                 -> Apenas realiza o sincronismo entre o prisma e o BD, geralmente
                                                     usamos para rodar o projeto em um PC novo.
             Knex -> É uma dependencia atual que trabalha com MySQL
 
@@ -31,18 +31,18 @@ const { PrismaClient } = require('../../generated/prisma')
 const prisma = new PrismaClient()
 
 /*
-    $queryRawUnsafe() -> permite executar um script SQL de uma variavel 
+    $queryRawUnsafe() -> permite executar um script SQL de uma variavel
         e que retorna valores do banco (SELECT).
 
-    $executeRawUnsafe() -> permite executar um script SQL de uma variavel 
+    $executeRawUnsafe() -> permite executar um script SQL de uma variavel
         e que NÃO retorna dados do banco (INSERT, UPDATE, DELETE).
 
-    $queryRaw() -> permite executar um script SQL SEM estar em uma variavel 
-        e que retorna valores do banco (SELECT) 
+    $queryRaw() -> permite executar um script SQL SEM estar em uma variavel
+        e que retorna valores do banco (SELECT)
         e faz tratamentos de segurança contra SQL Injection.
 
-    $executeRaw() -> permite executar um script SQL SEM estar em uma variavel 
-        e que NÃO retorna dados do banco (INSERT, UPDATE, DELETE) 
+    $executeRaw() -> permite executar um script SQL SEM estar em uma variavel
+        e que NÃO retorna dados do banco (INSERT, UPDATE, DELETE)
         e faz tratamentos de segurança contra SQL Injection.
 */
 
@@ -88,13 +88,14 @@ const getSelectByIdMovies = async (id) => {
 const setInsertMovies = async (filme) => {
     try {
         let sql = `INSERT INTO tbl_filme (
-                nome, 
-                sinopse, 
-                data_lancamento, 
-                duracao, 
-                orcamento, 
-                trailer, 
-                capa
+                nome,
+                sinopse,
+                data_lancamento,
+                duracao,
+                orcamento,
+                trailer,
+                capa,
+                id_classificacao
             ) VALUES (
                 '${filme.nome}',
                 '${filme.sinopse}',
@@ -102,7 +103,8 @@ const setInsertMovies = async (filme) => {
                 '${filme.duracao}',
                 ${filme.orcamento},
                 '${filme.trailer}',
-                '${filme.capa}'
+                '${filme.capa}',
+                '${filme.id_classificacao}'
             )`
 
         // Encaminha para o BD o script SQL
@@ -138,15 +140,16 @@ const getSelectLastID = async () => {
 // Altera um filme no banco de dados
 const setUpdateMovies = async (filme) => {
     try {
-        let sql = `UPDATE tbl_filme SET 
+        let sql = `UPDATE tbl_filme SET
                 nome = '${filme.nome}',
                 sinopse = '${filme.sinopse}',
                 data_lancamento = '${filme.data_lancamento}',
                 duracao = '${filme.duracao}',
                 orcamento = ${filme.orcamento},
-                trailer = '${filme.trailer}', 
-                capa = '${filme.capa}' 
-            WHERE 
+                trailer = '${filme.trailer}',
+                capa = '${filme.capa}',
+                id_classificacao = '${filme.id_classificacao}'
+            WHERE
                 id = ${filme.id};
             `
 

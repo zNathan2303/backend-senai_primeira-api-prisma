@@ -2,6 +2,12 @@ create database db_locadora_filme_ds2m_25_2;
 
 use db_locadora_filme_ds2m_25_2;
 
+CREATE TABLE tbl_classificacao_indicativa (
+	id int PRIMARY KEY AUTO_INCREMENT,
+    nivel VARCHAR(5) NOT NULL,
+    descricao VARCHAR(50) NOT NULL
+);
+
 create table tbl_filme(
 	id int primary key auto_increment not null,
 	nome varchar(100) not null,
@@ -10,7 +16,9 @@ create table tbl_filme(
 	duracao time not null,
 	orcamento decimal (11,2) not null,
 	trailer varchar(200),
-	capa varchar(200) not null
+	capa varchar(200) not null,
+    id_classificacao int not null,
+    FOREIGN KEY (id_classificacao) references tbl_classificacao_indicativa(id)
 );
 
 CREATE TABLE tbl_genero (
@@ -51,12 +59,6 @@ CREATE TABLE tbl_personagem (
 	idade INT,
 	descricao TEXT,
 	papel VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE tbl_classificacao_indicativa (
-	id int PRIMARY KEY AUTO_INCREMENT,
-    nivel VARCHAR(5) NOT NULL,
-    descricao VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE tbl_filme_genero (

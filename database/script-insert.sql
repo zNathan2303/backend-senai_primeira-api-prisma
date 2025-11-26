@@ -1,5 +1,14 @@
+INSERT INTO tbl_classificacao_indicativa (nivel, descricao)
+VALUES
+('L', 'Livre para todos os públicos'),
+('10', 'Não recomendado para menores de 10 anos'),
+('12', 'Não recomendado para menores de 12 anos'),
+('14', 'Não recomendado para menores de 14 anos'),
+('16', 'Não recomendado para menores de 16 anos'),
+('18', 'Não recomendado para menores de 18 anos');
+
 INSERT INTO tbl_filme
-(nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa)
+(nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao)
 VALUES
 ('Koe no Katachi',
  'Como um jovem rebelde, o aluno do ensino fundamental Shouya Ishida buscava combater o tédio das formas mais cruéis. Quando a surda Shouko Nishimiya se transfere para sua turma, Shouya e o restante da turma a intimidam irrefletidamente por diversão. No entanto, quando sua mãe notifica a escola, ele é apontado como culpado por tudo o que lhe foi feito. Com a transferência de Shouko para fora da escola, Shouya fica à mercê de seus colegas. Ele é cruelmente ostracizado durante todo o ensino fundamental e médio, enquanto os professores fazem vista grossa.
@@ -11,7 +20,8 @@ Koe no Katachi conta a história comovente do reencontro de Shouya com Shouko e 
  '02:10:00',
  2000000.00,
  'https://www.youtube.com/watch?v=nfK6UgLra7g',
- 'https://upload.wikimedia.org/wikipedia/pt/thumb/4/47/Koe-no-Katachi-poster-film.jpg/250px-Koe-no-Katachi-poster-film.jpg'
+ 'https://upload.wikimedia.org/wikipedia/pt/thumb/4/47/Koe-no-Katachi-poster-film.jpg/250px-Koe-no-Katachi-poster-film.jpg',
+ 3
 ),
 
 ('Redline',
@@ -22,7 +32,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '01:42:00',
  3000000.00,
  'https://www.youtube.com/watch?v=sonTXTZqE-Q',
- 'https://m.media-amazon.com/images/M/MV5BMzMxYWE5ZjMtMGJiMi00YmZjLTg2MGEtMWY1YjBkNWUxNzQ5XkEyXkFqcGc@._V1_.jpg'
+ 'https://m.media-amazon.com/images/M/MV5BMzMxYWE5ZjMtMGJiMi00YmZjLTg2MGEtMWY1YjBkNWUxNzQ5XkEyXkFqcGc@._V1_.jpg',
+ 4
 ),
 
 ('Your Name',
@@ -31,7 +42,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '01:46:00',
  3500000.00,
  'https://www.youtube.com/watch?v=xU47nhruN-Q',
- 'https://m.media-amazon.com/images/I/71f6xG2z5xL._AC_UF894,1000_QL80_.jpg'),
+ 'https://m.media-amazon.com/images/I/71f6xG2z5xL._AC_UF894,1000_QL80_.jpg',
+ 2),
 
 ('Weathering With You',
  'Hodaka, um estudante fugitivo em Tóquio, conhece Hina, uma garota com a misteriosa habilidade de controlar o clima. Juntos, eles começam a oferecer serviços de dias ensolarados, mas logo descobrem que esse poder tem um preço alto — e que o destino de ambos está interligado às mudanças climáticas extremas da cidade.',
@@ -39,7 +51,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '01:52:00',
  15000000.00,
  'https://www.youtube.com/watch?v=Q6iK6DjV_iE',
- 'https://m.media-amazon.com/images/I/81vZt0LOIHL._AC_UF894,1000_QL80_.jpg'),
+ 'https://m.media-amazon.com/images/I/81vZt0LOIHL._AC_UF894,1000_QL80_.jpg',
+ 3),
 
 ('A Viagem de Chihiro',
  'Chihiro, uma garota de dez anos, entra por engano em um mundo de espíritos governado pela bruxa Yubaba. Ao ver seus pais transformados em porcos, Chihiro é forçada a trabalhar em um misterioso banho espiritual enquanto tenta descobrir como resgatá-los e encontrar o caminho de volta para casa.',
@@ -47,7 +60,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '02:05:00',
  19000000.00,
  'https://www.youtube.com/watch?v=5-cro68n7CE',
- 'https://m.media-amazon.com/images/I/81mhtgS-6dL._AC_UF894,1000_QL80_.jpg'),
+ 'https://m.media-amazon.com/images/I/81mhtgS-6dL._AC_UF894,1000_QL80_.jpg',
+ 1),
 
 ('Your Lie in April',
  'Kousei Arima, um prodígio do piano, perde a capacidade de ouvir a própria música após o trauma da morte de sua mãe. Sua vida muda quando ele conhece Kaori Miyazono, uma violonista cheia de vida que o desafia a voltar ao mundo da música e a enxergar a vida sob uma nova perspectiva.',
@@ -55,7 +69,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '02:02:00',
  5000000.00,
  'https://www.youtube.com/watch?v=3aL0gDZtFbE',
- 'https://m.media-amazon.com/images/I/71M1UZZLQ8L._AC_UF894,1000_QL80_.jpg'),
+ 'https://m.media-amazon.com/images/I/71M1UZZLQ8L._AC_UF894,1000_QL80_.jpg',
+ 3),
 
 ('Paprika',
  'A Dra. Atsuko Chiba usa uma tecnologia experimental chamada DC Mini para entrar nos sonhos das pessoas e ajudá-las em tratamentos psicológicos. Quando o dispositivo é roubado, sonhos começam a invadir a realidade, e ela precisa usar sua persona onírica, Paprika, para impedir que o caos se espalhe.',
@@ -63,7 +78,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '01:30:00',
  3500000.00,
  'https://www.youtube.com/watch?v=jJzEW_eE1G0',
- 'https://m.media-amazon.com/images/I/71FRd5nzPWL._AC_UF894,1000_QL80_.jpg'),
+ 'https://m.media-amazon.com/images/I/71FRd5nzPWL._AC_UF894,1000_QL80_.jpg',
+ 5),
 
 ('Ghost in the Shell',
  'Em um futuro cibernético, a agente Motoko Kusanagi e sua equipe perseguem um hacker conhecido como Mestre dos Fantoches, que invade mentes e manipula identidades. Conforme avança na investigação, Motoko questiona sua própria humanidade e propósito como ciborgue.',
@@ -71,7 +87,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '01:22:00',
  9000000.00,
  'https://www.youtube.com/watch?v=HofKQH0w0T8',
- 'https://m.media-amazon.com/images/I/81yp5ruZGuL._AC_UF894,1000_QL80_.jpg'),
+ 'https://m.media-amazon.com/images/I/81yp5ruZGuL._AC_UF894,1000_QL80_.jpg',
+ 5),
 
 ('Akira',
  'Em uma Neo-Tóquio pós-apocalíptica, dois amigos motociclistas, Kaneda e Tetsuo, são envolvidos em um projeto governamental secreto envolvendo poderes psíquicos devastadores. Tetsuo começa a perder o controle, ameaçando destruir a cidade, enquanto Kaneda tenta impedir uma nova catástrofe.',
@@ -79,7 +96,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '02:04:00',
  10000000.00,
  'https://www.youtube.com/watch?v=lw7qHOHos1o',
- 'https://m.media-amazon.com/images/I/91Z9C7cTU4L._AC_UF894,1000_QL80_.jpg'),
+ 'https://m.media-amazon.com/images/I/91Z9C7cTU4L._AC_UF894,1000_QL80_.jpg',
+ 6),
 
 ('Perfect Blue',
  'Mima, uma idol que abandona sua carreira musical para se tornar atriz, começa a sofrer pressão psicológica quando fãs obsessivos e eventos misteriosos ameaçam sua sanidade. A linha entre realidade e ilusão começa a se desfazer enquanto Mima luta para preservar sua identidade.',
@@ -87,7 +105,8 @@ Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anu
  '01:21:00',
  4000000.00,
  'https://www.youtube.com/watch?v=ks8k0-J9H-4',
- 'https://m.media-amazon.com/images/I/81Iff4fq98L._AC_UF894,1000_QL80_.jpg');
+ 'https://m.media-amazon.com/images/I/81Iff4fq98L._AC_UF894,1000_QL80_.jpg',
+ 6);
 
 INSERT INTO tbl_genero (nome) VALUES
 ('Drama'),
@@ -195,15 +214,6 @@ INSERT INTO tbl_personagem (nome, imagem, idade, descricao, papel) VALUES
 ('Mima Kirigoe', '', 21, 'Ex-idol que sofre perseguição psicológica.', 'Protagonista'),
 ('Rumi Hidaka', '', 35, 'Ex-idol e agente de Mima.', 'Antagonista'),
 ('Me-Mania', '', 30, 'Fã obcecado por Mima.', 'Antagonista');
-
-INSERT INTO tbl_classificacao_indicativa (nivel, descricao)
-VALUES
-('L', 'Livre para todos os públicos'),
-('10', 'Não recomendado para menores de 10 anos'),
-('12', 'Não recomendado para menores de 12 anos'),
-('14', 'Não recomendado para menores de 14 anos'),
-('16', 'Não recomendado para menores de 16 anos'),
-('18', 'Não recomendado para menores de 18 anos');
 
 INSERT INTO tbl_filme_genero (id_filme, id_genero) VALUES
 -- 1. Koe no Katachi
