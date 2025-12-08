@@ -16,6 +16,7 @@ const controllerFilmeGenero = require('./controller-filme-genero.js')
 const controllerFilmePersonagem = require('./controller-filme-personagem.js')
 const controllerClassificacao = require('../classificacao-indicativa/controller-classificacao-indicativa.js')
 const controllerProfissional = require('../profissional/controller-profissional.js')
+const controllerProducao = require('../producao/controller-producao.js')
 
 // Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
@@ -37,6 +38,10 @@ const listarFilmes = async () => {
                     const resultClassificacao = await controllerClassificacao.buscarClassificacaoIndicativa(Number(filme.id_classificacao))
                     filme.classificacao = resultClassificacao.items.classificacao_indicativa[0]
                     delete filme.id_classificacao
+
+                    const resultProducao = await controllerProducao.buscarProducaoId(Number(filme.id_producao))
+                    filme.producao = resultProducao.items.producao
+                    delete filme.id_producao
 
                     // Pesquisa no BD todos os generos que foram associados ao filme
                     let resultGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
@@ -89,6 +94,10 @@ const buscarFilmeId = async (id) => {
                     resultFilmes[0].classificacao = resultClassificacao.items.classificacao_indicativa
                     delete resultFilmes[0].id_classificacao
 
+                    const resultProducao = await controllerProducao.buscarProducaoId(Number(resultFilmes[0].id))
+                    resultFilmes[0].producao = resultProducao.items.producao
+                    delete resultFilmes[0].id_producao
+
                     // Pesquisa no BD todos os generos que foram associados ao filme
                     let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(resultFilmes[0].id)
                     if (resultDadosGeneros.status_code == 200)
@@ -104,7 +113,7 @@ const buscarFilmeId = async (id) => {
                     // Pesquisa no BD todos os diretores do filme
                     const resultDiretores = await controllerProfissional.listarDiretoresDeUmFilme(Number(resultFilmes[0].id))
                     if (resultDiretores.status_code == 200)
-                        filme.diretor = resultDiretores.items.diretores
+                        resultFilmes[0].diretor = resultDiretores.items.diretores
 
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
