@@ -15,6 +15,7 @@ const filmeDAO = require('../../model/DAO/filme.js')
 const controllerFilmeGenero = require('./controller-filme-genero.js')
 const controllerFilmePersonagem = require('./controller-filme-personagem.js')
 const controllerClassificacao = require('../classificacao-indicativa/controller-classificacao-indicativa.js')
+const controllerProfissional = require('../profissional/controller-profissional.js')
 
 // Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
@@ -48,6 +49,11 @@ const listarFilmes = async () => {
                     if (resultPersonagens.status_code == 200)
                         // Cria o atributo personagem e coloca o resultado do BD com os personagens
                         filme.personagem = resultPersonagens.items.filmes_personagens
+
+                    // Pesquisa no BD todos os diretores do filme
+                    const resultDiretores = await controllerProfissional.listarDiretoresDeUmFilme(Number(filme.id))
+                    if (resultDiretores.status_code == 200)
+                        filme.diretor = resultDiretores.items.diretores
                 }
 
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
@@ -94,6 +100,11 @@ const buscarFilmeId = async (id) => {
                     if (resultPersonagens.status_code == 200)
                         // Cria o atributo personagem e coloca o resultado do BD com os personagens
                         resultFilmes[0].personagem = resultPersonagens.items.filmes_personagens
+
+                    // Pesquisa no BD todos os diretores do filme
+                    const resultDiretores = await controllerProfissional.listarDiretoresDeUmFilme(Number(resultFilmes[0].id))
+                    if (resultDiretores.status_code == 200)
+                        filme.diretor = resultDiretores.items.diretores
 
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code

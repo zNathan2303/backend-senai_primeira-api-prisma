@@ -1,124 +1,167 @@
--- 1) Classificações
-INSERT INTO tbl_classificacao_indicativa (id, nivel, descricao) VALUES
-(1, 'L',  'Livre'),
-(2, '10', 'A partir de 10 anos'),
-(3, '12', 'A partir de 12 anos'),
-(4, '14', 'A partir de 14 anos'),
-(5, '16', 'A partir de 16 anos'),
-(6, '18', 'A partir de 18 anos');
+-- Uso do banco de dados (garantia)
+USE db_locadora_filme_ds2m_25_2;
 
--- 2) Gêneros
-INSERT INTO tbl_genero (id, nome) VALUES
-(1, 'Drama'),
-(2, 'Ação'),
-(3, 'Fantasia'),
-(4, 'Ficção Científica'),
-(5, 'Romance'),
-(6, 'Documentário');
+-- Classificacao Indicativa
+INSERT INTO tbl_classificacao_indicativa (nivel, descricao) VALUES
+('L', 'Livre para todos os públicos'),
+('10', 'Não recomendado para menores de 10 anos'),
+('12', 'Não recomendado para menores de 12 anos'),
+('14', 'Não recomendado para menores de 14 anos'),
+('16', 'Não recomendado para menores de 16 anos');
 
--- 3) Cargos
-INSERT INTO tbl_cargo (id, nome, descricao) VALUES
-(1, 'Diretor', 'Responsável pela direção do filme'),
-(2, 'Roteirista', 'Autor do roteiro'),
-(3, 'Produtor', 'Gerencia a produção'),
-(4, 'Diretor de Fotografia', 'Responsável pela fotografia'),
-(5, 'Compositor', 'Música e trilha sonora'),
-(6, 'Ator', 'Interpreta personagens');
+-- Genero
+INSERT INTO tbl_genero (nome) VALUES
+('Ficção Científica'),
+('Ação'),
+('Drama'),
+('Comédia'),
+('Terror'),
+('Aventura');
 
--- 4) Produções
-INSERT INTO tbl_producao (id, nome, pais_origem, fundacao, site) VALUES
-(1, 'Luz Filmes', 'Brasil', '2008-05-12', 'https://luzfilmes.example.com'),
-(2, 'Aurora Studios', 'EUA', '1999-11-20', 'https://aurorastudios.example.com'),
-(3, 'Céu Produções', 'Brasil', '2015-03-01', NULL),
-(4, 'Atlas Pictures', 'Reino Unido', '2003-07-15', 'https://atlas.example.com');
+-- Cargo
+INSERT INTO tbl_cargo (nome, descricao) VALUES
+('Diretor', 'Responsável pela direção artística e técnica do filme.'),
+('Ator', 'Interpreta um personagem no filme.'),
+('Roteirista', 'Escreve o roteiro do filme.');
 
--- 5) Formatos audiovisuais
-INSERT INTO tbl_formato_audiovisual (id, nome) VALUES
-(1, '2D'),
-(2, '3D'),
-(3, 'IMAX'),
-(4, 'Curta-Metragem');
+-- Formato Audiovisual
+INSERT INTO tbl_formato_audiovisual (nome) VALUES
+('Blu-ray'),
+('DVD'),
+('Digital 4K');
 
--- 6) Distribuidoras
-INSERT INTO tbl_distribuidora (id, nome, pais_origem, site) VALUES
-(1, 'Brasil Filmes', 'Brasil', 'https://brasilfilmes.example.com'),
-(2, 'Global Distribuição', 'EUA', 'https://globaldist.example.com'),
-(3, 'Continente Media', 'Reino Unido', NULL);
+-- Distribuidora
+INSERT INTO tbl_distribuidora (nome, pais_origem, site) VALUES
+('Warner Bros.', 'EUA', 'http://warnerbros.com'),
+('Universal', 'EUA', 'http://universal.com'),
+('Paramount', 'EUA', 'http://paramount.com');
 
--- 7) Personagens (crie personagens usados nos filmes)
-INSERT INTO tbl_personagem (id, nome, imagem, idade, descricao, papel) VALUES
-(1, 'Marcos Carvalho', 'https://images.example.com/marcos.jpg', 34, 'Jovem idealista que enfrenta dilemas pessoais e profissionais.', 'Protagonista'),
-(2, 'Sofia Almeida', 'https://images.example.com/sofia.jpg', 30, 'Investigadora astuta, parceira do protagonista.', 'Coadjuvante'),
-(3, 'Dr. Voss', 'https://images.example.com/voss.jpg', 55, 'Cientista enigmático com planos ambíguos.', 'Antagonista'),
-(4, 'Helena Duarte', 'https://images.example.com/helena.jpg', 42, 'Maestro que trabalha na reconciliação da família.', 'Protagonista'),
-(5, 'Kai', 'https://images.example.com/kai.jpg', 28, 'Guerreiro místico de outro reino.', 'Protagonista'),
-(6, 'Leonardo', 'https://images.example.com/leonardo.jpg', 60, 'Produtor veterano e mentor.', 'Coadjuvante');
+-- Producao (5 Produtoras, uma para cada filme)
+INSERT INTO tbl_producao (nome, pais_origem, fundacao, site) VALUES
+('Produtora Alpha Filmes', 'EUA', '1995-05-10', 'http://alphafilmes.com'),     -- ID 1
+('Estúdio Beta', 'Canadá', '2001-11-20', 'http://betaestudios.ca'),           -- ID 2
+('Cinema Gamma Britânico', 'Reino Unido', '1988-03-15', 'http://gamma.co.uk'), -- ID 3
+('Delta Pictures', 'Alemanha', '2010-07-01', 'http://deltapictures.de'),      -- ID 4
+('Epsilon Entertainment', 'França', '1975-01-25', 'http://epsilon.fr');        -- ID 5
 
--- 8) Profissionais (diretores, atores, roteiristas, etc.)
-INSERT INTO tbl_profissional (id, nome, imagem, data_nascimento, data_falecimento, nacionalidade, biografia) VALUES
-(1, 'Rafael Mendes', 'https://images.example.com/rafael.jpg', '1978-04-10', NULL, 'Brasil', 'Diretor e roteirista com foco em dramas humanos.'),
-(2, 'Ana Sousa', 'https://images.example.com/ana.jpg', '1985-09-02', NULL, 'Brasil', 'Atriz e produtora com experiência em filmes independentes.'),
-(3, 'Tom Harris', 'https://images.example.com/tom.jpg', '1970-01-22', NULL, 'Reino Unido', 'Diretor de efeitos visuais e cinema de fantasia.'),
-(4, 'Mariana Alves', 'https://images.example.com/mariana.jpg', '1992-06-17', NULL, 'Brasil', 'Atriz em ascensão, conhecida por papéis dramáticos.'),
-(5, 'Carlos Bento', 'https://images.example.com/carlos.jpg', '1964-02-28', NULL, 'Brasil', 'Produtor e executivo de estúdio.'),
-(6, 'Liu Wei', 'https://images.example.com/liu.jpg', '1988-10-05', NULL, 'China', 'Ator e dublê com experiência internacional.'),
-(7, 'Sofia Martins', 'https://images.example.com/sofia_m.jpg', '1975-12-11', NULL, 'Brasil', 'Compositora de trilha sonora e arranjos.'),
-(8, 'Diego Ramos', 'https://images.example.com/diego.jpg', '1980-03-03', NULL, 'Brasil', 'Diretor de fotografia veterano');
+-- Profissional (Diretores e Atores)
+INSERT INTO tbl_profissional (nome, imagem, data_nascimento, nacionalidade, biografia) VALUES
+-- Diretores (IDs 1-5)
+('Christopher Nolan', 'nolan.jpg', '1970-07-30', 'Britânico', 'Diretor renomado.'),
+('Denis Villeneuve', 'villeneuve.jpg', '1967-10-03', 'Canadense', 'Especialista em Sci-Fi.'),
+('Greta Gerwig', 'gerwig.jpg', '1983-08-04', 'Americana', 'Diretora e roteirista.'),
+('Bong Joon-ho', 'bong.jpg', '1969-09-14', 'Sul-Coreano', 'Vencedor de múltiplos prêmios.'),
+('Quentin Tarantino', 'tarantino.jpg', '1963-03-27', 'Americano', 'Mestre dos diálogos.'),
+-- Atores/Atrizes (IDs 6-15)
+('Leonardo DiCaprio', 'dicaprio.jpg', '1974-11-11', 'Americano', 'Ator premiado.'),          -- Ator 1
+('Marion Cotillard', 'cotillard.jpg', '1975-09-30', 'Francesa', 'Atriz talentosa.'),         -- Atriz 2
+('Timothée Chalamet', 'chalamet.jpg', '1995-12-27', 'Americano', 'Jovem ator em ascensão.'), -- Ator 3
+('Zendaya', 'zendaya.jpg', '1996-09-01', 'Americana', 'Atriz e cantora.'),                   -- Atriz 4
+('Saoirse Ronan', 'ronan.jpg', '1994-04-12', 'Irlandesa', 'Quatro vezes indicada ao Oscar.'), -- Atriz 5
+('Emma Watson', 'watson.jpg', '1990-04-15', 'Britânica', 'Famosa desde jovem.'),             -- Atriz 6
+('Song Kang-ho', 'song.jpg', '1967-01-17', 'Sul-Coreano', 'Ator ícone do cinema coreano.'),   -- Ator 7
+('Choi Woo-shik', 'choi.jpg', '1990-03-26', 'Sul-Coreano', 'Ator em ascensão.'),             -- Ator 8
+('Brad Pitt', 'pitt.jpg', '1963-12-18', 'Americano', 'Ícone de Hollywood.'),                 -- Ator 9
+('Uma Thurman', 'thurman.jpg', '1970-04-29', 'Americano', 'Musa de Tarantino.');             -- Atriz 10
 
--- 9) Filmes (usar id explícito para controle)
-INSERT INTO tbl_filme (id, nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
-(1, 'A Jornada da Estrela', 'Marcos embarca numa jornada para reconectar com sua família enquanto lida com escolhas éticas no trabalho.', '2023-08-11', '02:05:00', 3500000.00, 'https://youtube.example.com/trailer1', 'https://images.example.com/capa_jornada.jpg', 3, 1),
-(2, 'Noite de Neon', 'Em uma metrópole futurista, uma investigadora enfrenta corporações e segredos sobre a cidade.', '2024-04-18', '01:52:00', 12000000.00, 'https://youtube.example.com/trailer2', 'https://images.example.com/capa_neon.jpg', 5, 2),
-(3, 'O Último Concerto', 'Após a morte do maestro, uma família tenta reconstruir sua história através de memórias e música.', '2022-11-02', '01:40:00', 2200000.00, 'https://youtube.example.com/trailer3', 'https://images.example.com/capa_concerto.jpg', 1, 3),
-(4, 'Caçadores de Sombras', 'Um grupo de jovens descobre portais entre mundos e precisa lutar para salvar sua cidade.', '2021-07-09', '02:15:00', 45000000.00, 'https://youtube.example.com/trailer4', 'https://images.example.com/capa_cacadores.jpg', 4, 4),
-(5, 'Memórias do Tempo', 'Documentário que investiga relatos e objetos que atravessam gerações.', '2020-03-20', '01:10:00', 600000.00, 'https://youtube.example.com/trailer5', 'https://images.example.com/capa_memorias.jpg', 1, 1);
+-- Profissional Cargo (Definindo Cargos)
+INSERT INTO tbl_profissional_cargo (id_profissional, id_cargo) VALUES
+(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), -- Diretores (Cargo ID 1)
+(6, 2), (7, 2), (8, 2), (9, 2), (10, 2), (11, 2), (12, 2), (13, 2), (14, 2), (15, 2); -- Atores (Cargo ID 2)
 
--- 10) Relacionar filmes <-> gêneros
-INSERT INTO tbl_filme_genero (id, id_filme, id_genero) VALUES
-(1, 1, 1), -- A Jornada da Estrela -> Drama
-(2, 1, 5), -- Romance
-(3, 2, 4), -- Noite de Neon -> Ficção Científica
-(4, 2, 2), -- Ação
-(5, 3, 1), -- O Último Concerto -> Drama
-(6, 3, 6), -- Documentário/biográfico (uso documental)
-(7, 4, 2), -- Caçadores de Sombras -> Ação
-(8, 4, 3), -- Fantasia
-(9, 5, 6); -- Memórias do Tempo -> Documentário
+-- Producao Profissional (Ligando Diretores às Produtoras)
+INSERT INTO tbl_producao_profissional (id_producao, id_profissional) VALUES
+(1, 1), -- Nolan na Produtora Alpha
+(2, 2), -- Villeneuve no Estúdio Beta
+(3, 3), -- Gerwig no Cinema Gamma
+(4, 4), -- Bong na Delta Pictures
+(5, 5); -- Tarantino na Epsilon Entertainment
 
--- 11) Relacionar filmes <-> personagens
-INSERT INTO tbl_filme_personagem (id, id_filme, id_personagem) VALUES
-(1, 1, 1), -- Marcos -> A Jornada da Estrela
-(2, 1, 2), -- Sofia -> A Jornada da Estrela
-(3, 2, 3), -- Dr. Voss -> Noite de Neon
-(4, 3, 4), -- Helena -> O Último Concerto
-(5, 4, 5), -- Kai -> Caçadores de Sombras
-(6, 4, 6), -- Leonardo -> Caçadores de Sombras
-(7, 5, 4); -- Helena reaproveitada como personagem em doc (exemplo)
+-- Filme (5 Filmes, 1 para cada Producao)
+-- Filme 1: Inception (ID 1) -> Produtora 1 (Nolan) -> Classificação 3 (12)
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
+('A Origem', 'Um ladrão de segredos que rouba segredos corporativos através do uso de tecnologia de compartilhamento de sonhos.', '2010-07-16', '02:28:00', 160000000.00, 'trailer_origem.mp4', 'capa_origem.jpg', 3, 1);
 
--- 12) Associar profissionais aos cargos
-INSERT INTO tbl_profissional_cargo (id, id_profissional, id_cargo) VALUES
-(1, 1, 1), -- Rafael Mendes -> Diretor
-(2, 1, 2), -- também roteirista
-(3, 2, 6), -- Ana Sousa -> Ator
-(4, 3, 1), -- Tom Harris -> Diretor (fantasia)
-(5, 4, 6), -- Mariana Alves -> Ator
-(6, 5, 3), -- Carlos Bento -> Produtor
-(7, 6, 6), -- Liu Wei -> Ator
-(8, 7, 5), -- Sofia Martins -> Compositor
-(9, 8, 4); -- Diego Ramos -> Diretor de Fotografia
+-- Filme 2: Dune (ID 2) -> Produtora 2 (Villeneuve) -> Classificação 4 (14)
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
+('Duna', 'A jornada de Paul Atreides a um planeta perigoso para garantir o futuro de seu povo.', '2021-10-22', '02:35:00', 165000000.00, 'trailer_duna.mp4', 'capa_duna.jpg', 4, 2);
 
--- 13) Ligar atores (tbl_ator) -- qual profissional interpreta qual personagem
-INSERT INTO tbl_ator (id, idioma, id_personagem, id_profissional) VALUES
-(1, 'pt-BR', 1, 2), -- Ana Sousa interpreta Marcos (exemplo de casting alternativo)
-(2, 'pt-BR', 2, 4), -- Mariana Alves interpreta Sofia
-(3, 'en', 3, 6),    -- Liu Wei interpreta Dr. Voss (idioma inglês no filme)
-(4, 'pt-BR', 4, 1), -- Rafael (virtualmente dirige e atua; exemplo)
-(5, 'pt-BR', 5, 6); -- Liu Wei também como Kai (exemplo de versatilidade)
+-- Filme 3: Little Women (ID 3) -> Produtora 3 (Gerwig) -> Classificação 2 (10)
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
+('Adoráveis Mulheres', 'Quatro irmãs tentam viver a vida em meio à Guerra Civil Americana.', '2019-12-25', '02:15:00', 40000000.00, 'trailer_mulheres.mp4', 'capa_mulheres.jpg', 2, 3);
 
--- 14) Vínculo produção <-> profissionais (quem trabalha em qual produtora)
-INSERT INTO tbl_producao_profissional (id, id_producao, id_profissional) VALUES
-(1, 1, 1), -- Rafael -> Luz Filmes
-(2, 1, 5), -- Carlos Bento -> Luz Filmes
-(3, 2, 3), -- Tom Harris -> Aurora Studios
-(4, 3, 7), -- Sofia Martins -> Céu Produções (música)
-(5, 4, 8); -- Diego Ramos -> Atlas Pictures
+-- Filme 4: Parasite (ID 4) -> Produtora 4 (Bong) -> Classificação 5 (16)
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
+('Parasita', 'Uma família pobre se infiltra na vida de uma família rica, com consequências imprevistas.', '2019-05-30', '02:12:00', 11300000.00, 'trailer_parasita.mp4', 'capa_parasita.jpg', 5, 4);
+
+-- Filme 5: Pulp Fiction (ID 5) -> Produtora 5 (Tarantino) -> Classificação 5 (16)
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
+('Pulp Fiction', 'Várias histórias interconectadas de criminosos, gângsteres e ladrões em Los Angeles.', '1994-10-14', '02:34:00', 8000000.00, 'trailer_pulp.mp4', 'capa_pulp.jpg', 5, 5);
+
+
+-- Filme Genero
+INSERT INTO tbl_filme_genero (id_filme, id_genero) VALUES
+(1, 1), (1, 2), -- A Origem: Ficção Científica, Ação
+(2, 1), (2, 6), -- Duna: Ficção Científica, Aventura
+(3, 3), -- Adoráveis Mulheres: Drama
+(4, 3), (4, 4), -- Parasita: Drama, Comédia
+(5, 2), (5, 3); -- Pulp Fiction: Ação, Drama
+
+-- Personagem (Mínimo 2 por filme)
+INSERT INTO tbl_personagem (nome, imagem, idade, descricao, papel) VALUES
+-- Filme 1: A Origem
+('Dominick Cobb', 'cobb.jpg', 40, 'Ladrão de sonhos.', 'Principal'),      -- ID 1
+('Mal Cobb', 'mal.jpg', 35, 'Esposa de Cobb no mundo dos sonhos.', 'Principal'), -- ID 2
+-- Filme 2: Duna
+('Paul Atreides', 'paul.jpg', 20, 'O herdeiro da Casa Atreides.', 'Principal'), -- ID 3
+('Chani', 'chani.jpg', 20, 'Guerreira Fremen.', 'Principal'),              -- ID 4
+-- Filme 3: Adoráveis Mulheres
+('Jo March', 'jo.jpg', 25, 'Escritora ambiciosa.', 'Principal'),           -- ID 5
+('Meg March', 'meg.jpg', 28, 'A mais velha das irmãs.', 'Principal'),      -- ID 6
+-- Filme 4: Parasita
+('Kim Ki-taek', 'kitaek.jpg', 50, 'Pai da família Kim.', 'Principal'),     -- ID 7
+('Kim Ki-woo', 'kiwoo.jpg', 25, 'Filho da família Kim.', 'Principal'),     -- ID 8
+-- Filme 5: Pulp Fiction
+('Vincent Vega', 'vincent.jpg', 38, 'Assassino de aluguel.', 'Principal'), -- ID 9
+('Mia Wallace', 'mia.jpg', 30, 'Esposa do chefe.', 'Principal');           -- ID 10
+
+-- Ator (Ligando Atores a Personagens)
+INSERT INTO tbl_ator (idioma, id_personagem, id_profissional) VALUES
+-- Filme 1: A Origem
+('Inglês', 1, 6), -- DiCaprio (ID 6) como Dominick Cobb (ID 1)
+('Francês/Inglês', 2, 7), -- Cotillard (ID 7) como Mal Cobb (ID 2)
+-- Filme 2: Duna
+('Inglês', 3, 8), -- Chalamet (ID 8) como Paul Atreides (ID 3)
+('Inglês', 4, 9), -- Zendaya (ID 9) como Chani (ID 4)
+-- Filme 3: Adoráveis Mulheres
+('Inglês', 5, 10), -- Ronan (ID 10) como Jo March (ID 5)
+('Inglês', 6, 11), -- Watson (ID 11) como Meg March (ID 6)
+-- Filme 4: Parasita
+('Coreano', 7, 12), -- Song Kang-ho (ID 12) como Kim Ki-taek (ID 7)
+('Coreano', 8, 13), -- Choi Woo-shik (ID 13) como Kim Ki-woo (ID 8)
+-- Filme 5: Pulp Fiction
+('Inglês', 9, 14), -- Brad Pitt (ID 14) como Vincent Vega (ID 9) - *Usando Brad Pitt para fins de exemplo de população, embora John Travolta tenha feito o papel*
+('Inglês', 10, 15); -- Uma Thurman (ID 15) como Mia Wallace (ID 10)
+
+-- Relações Filme-Personagem (tbl_filme_personagem)
+
+INSERT INTO tbl_filme_personagem (id_filme, id_personagem) VALUES
+-- Filme 1: A Origem (ID 1)
+(1, 1), -- Dominick Cobb (ID 1)
+(1, 2), -- Mal Cobb (ID 2)
+
+-- Filme 2: Duna (ID 2)
+(2, 3), -- Paul Atreides (ID 3)
+(2, 4), -- Chani (ID 4)
+
+-- Filme 3: Adoráveis Mulheres (ID 3)
+(3, 5), -- Jo March (ID 5)
+(3, 6), -- Meg March (ID 6)
+
+-- Filme 4: Parasita (ID 4)
+(4, 7), -- Kim Ki-taek (ID 7)
+(4, 8), -- Kim Ki-woo (ID 8)
+
+-- Filme 5: Pulp Fiction (ID 5)
+(5, 9),  -- Vincent Vega (ID 9)
+(5, 10); -- Mia Wallace (ID 10)

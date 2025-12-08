@@ -27,6 +27,31 @@ const getSelectAllProfessionals = async () => {
     }
 }
 
+// Retorna uma lista de todos os profissionais que são diretores de um determinado filme
+const getSelectAllDiretorsOfAMovie = async (id) => {
+    try {
+        let sql = `
+            SELECT p.* FROM tbl_filme f
+            JOIN tbl_producao_profissional pp ON f.id_producao = pp.id_producao
+            JOIN tbl_profissional p ON pp.id_profissional = p.id
+            JOIN tbl_profissional_cargo pc ON p.id = pc.id_profissional
+            JOIN tbl_cargo c ON pc.id_cargo = c.id
+            WHERE f.id = ${id}
+            AND c.id = 1;
+        `
+
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if (Array.isArray(result))
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
 // Retorna um profissional filtrando pelo id do banco de dados
 const getSelectbyIdProfessionals = async (id) => {
     try {
@@ -153,5 +178,6 @@ module.exports = {
     setInsertProfessionals,
     getSelectLastID,
     setUpdateProfessionals,
-    setDeleteProfessionals
+    setDeleteProfessionals,
+    getSelectAllDiretorsOfAMovie
 }

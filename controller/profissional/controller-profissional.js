@@ -70,6 +70,38 @@ const buscarProfissionalId = async (id) => {
     }
 }
 
+// Retorna diretores de um filme
+const listarDiretoresDeUmFilme = async (id) => {
+    // Criando um objeto novo para as mensagens
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+    try {
+        // Validação da chegada do ID
+        if (!isNaN(id) && id != '' && id != null && id > 0) {
+            let resultDiretores = await profissionalDAO.getSelectAllDiretorsOfAMovie(Number(id))
+
+            if (resultDiretores) {
+                if (resultDiretores.length > 0) {
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
+                    MESSAGES.DEFAULT_HEADER.items.diretores = resultDiretores
+
+                    return MESSAGES.DEFAULT_HEADER
+                } else {
+                    return MESSAGES.ERROR_NOT_FOUND // 404
+                }
+            } else {
+                return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
+            }
+        } else {
+            MESSAGES.ERROR_REQUIRED_FIELDS.message += '[ID incorreto]'
+            return MESSAGES.ERROR_REQUIRED_FIELDS  // 400 referente a validação do ID
+        }
+
+    } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
+    }
+}
+
 // Insere um profissional
 const inserirProfissional = async (profissional, contentType) => {
 
@@ -231,5 +263,6 @@ module.exports = {
     buscarProfissionalId,
     inserirProfissional,
     atualizarProfissional,
-    excluirProfissional
+    excluirProfissional,
+    listarDiretoresDeUmFilme
 }
