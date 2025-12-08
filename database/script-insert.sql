@@ -1,295 +1,124 @@
-INSERT INTO tbl_classificacao_indicativa (nivel, descricao)
-VALUES
-('L', 'Livre para todos os públicos'),
-('10', 'Não recomendado para menores de 10 anos'),
-('12', 'Não recomendado para menores de 12 anos'),
-('14', 'Não recomendado para menores de 14 anos'),
-('16', 'Não recomendado para menores de 16 anos'),
-('18', 'Não recomendado para menores de 18 anos');
+-- 1) Classificações
+INSERT INTO tbl_classificacao_indicativa (id, nivel, descricao) VALUES
+(1, 'L',  'Livre'),
+(2, '10', 'A partir de 10 anos'),
+(3, '12', 'A partir de 12 anos'),
+(4, '14', 'A partir de 14 anos'),
+(5, '16', 'A partir de 16 anos'),
+(6, '18', 'A partir de 18 anos');
 
-INSERT INTO tbl_filme
-(nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao)
-VALUES
-('Koe no Katachi',
- 'Como um jovem rebelde, o aluno do ensino fundamental Shouya Ishida buscava combater o tédio das formas mais cruéis. Quando a surda Shouko Nishimiya se transfere para sua turma, Shouya e o restante da turma a intimidam irrefletidamente por diversão. No entanto, quando sua mãe notifica a escola, ele é apontado como culpado por tudo o que lhe foi feito. Com a transferência de Shouko para fora da escola, Shouya fica à mercê de seus colegas. Ele é cruelmente ostracizado durante todo o ensino fundamental e médio, enquanto os professores fazem vista grossa.
+-- 2) Gêneros
+INSERT INTO tbl_genero (id, nome) VALUES
+(1, 'Drama'),
+(2, 'Ação'),
+(3, 'Fantasia'),
+(4, 'Ficção Científica'),
+(5, 'Romance'),
+(6, 'Documentário');
 
-Agora em seu terceiro ano do ensino médio, Shouya ainda é atormentado por seus erros de menino. Sinceramente arrependido de suas ações passadas, ele parte em uma jornada de redenção: reencontrar Shouko e fazer as pazes.
+-- 3) Cargos
+INSERT INTO tbl_cargo (id, nome, descricao) VALUES
+(1, 'Diretor', 'Responsável pela direção do filme'),
+(2, 'Roteirista', 'Autor do roteiro'),
+(3, 'Produtor', 'Gerencia a produção'),
+(4, 'Diretor de Fotografia', 'Responsável pela fotografia'),
+(5, 'Compositor', 'Música e trilha sonora'),
+(6, 'Ator', 'Interpreta personagens');
 
-Koe no Katachi conta a história comovente do reencontro de Shouya com Shouko e suas tentativas honestas de se redimir, enquanto é continuamente assombrado pelas sombras de seu passado.',
- '2016-09-17',
- '02:10:00',
- 2000000.00,
- 'https://www.youtube.com/watch?v=nfK6UgLra7g',
- 'https://upload.wikimedia.org/wikipedia/pt/thumb/4/47/Koe-no-Katachi-poster-film.jpg/250px-Koe-no-Katachi-poster-film.jpg',
- 3
-),
+-- 4) Produções
+INSERT INTO tbl_producao (id, nome, pais_origem, fundacao, site) VALUES
+(1, 'Luz Filmes', 'Brasil', '2008-05-12', 'https://luzfilmes.example.com'),
+(2, 'Aurora Studios', 'EUA', '1999-11-20', 'https://aurorastudios.example.com'),
+(3, 'Céu Produções', 'Brasil', '2015-03-01', NULL),
+(4, 'Atlas Pictures', 'Reino Unido', '2003-07-15', 'https://atlas.example.com');
 
-('Redline',
- 'A cada cinco anos, uma corrida emocionante chamada Redline é realizada, e a competição mais esperada do universo tem apenas uma regra: não há nenhuma. Os pilotos são levados ao seu limite absoluto — uma sensação que o piloto aventureiro JP conhece muito bem. Tendo acabado de se classificar para participar da Redline, ele está ansioso para competir contra outros pilotos altamente qualificados, especialmente a bela estrela em ascensão e a única outra humana que se classificou, Sonoshee McLaren.
+-- 5) Formatos audiovisuais
+INSERT INTO tbl_formato_audiovisual (id, nome) VALUES
+(1, '2D'),
+(2, '3D'),
+(3, 'IMAX'),
+(4, 'Curta-Metragem');
 
-Mas a Redline deste ano pode ser muito mais perigosa do que o normal — foi anunciado que acontecerá no planeta Roboworld, com seus militares e criminosos impulsivos que buscam usar a corrida a seu favor. No entanto, o perigo potencial não detém os pilotos; na verdade, só aumenta a emoção. Confiando apenas na velocidade de seu veículo, JP se prepara para o evento que está por vir, com o objetivo de conquistar o primeiro lugar na maior corrida de sua vida.',
- '2009-08-14',
- '01:42:00',
- 3000000.00,
- 'https://www.youtube.com/watch?v=sonTXTZqE-Q',
- 'https://m.media-amazon.com/images/M/MV5BMzMxYWE5ZjMtMGJiMi00YmZjLTg2MGEtMWY1YjBkNWUxNzQ5XkEyXkFqcGc@._V1_.jpg',
- 4
-),
+-- 6) Distribuidoras
+INSERT INTO tbl_distribuidora (id, nome, pais_origem, site) VALUES
+(1, 'Brasil Filmes', 'Brasil', 'https://brasilfilmes.example.com'),
+(2, 'Global Distribuição', 'EUA', 'https://globaldist.example.com'),
+(3, 'Continente Media', 'Reino Unido', NULL);
 
-('Your Name',
- 'Mitsuha e Taki são dois adolescentes que vivem vidas totalmente diferentes. Um dia, ambos começam misteriosamente a trocar de corpo em dias aleatórios. Conforme tentam se comunicar e entender o motivo por trás desse fenômeno, acabam desenvolvendo um vínculo profundo que desafia o tempo e o destino.',
- '2016-08-26',
- '01:46:00',
- 3500000.00,
- 'https://www.youtube.com/watch?v=xU47nhruN-Q',
- 'https://m.media-amazon.com/images/I/71f6xG2z5xL._AC_UF894,1000_QL80_.jpg',
- 2),
+-- 7) Personagens (crie personagens usados nos filmes)
+INSERT INTO tbl_personagem (id, nome, imagem, idade, descricao, papel) VALUES
+(1, 'Marcos Carvalho', 'https://images.example.com/marcos.jpg', 34, 'Jovem idealista que enfrenta dilemas pessoais e profissionais.', 'Protagonista'),
+(2, 'Sofia Almeida', 'https://images.example.com/sofia.jpg', 30, 'Investigadora astuta, parceira do protagonista.', 'Coadjuvante'),
+(3, 'Dr. Voss', 'https://images.example.com/voss.jpg', 55, 'Cientista enigmático com planos ambíguos.', 'Antagonista'),
+(4, 'Helena Duarte', 'https://images.example.com/helena.jpg', 42, 'Maestro que trabalha na reconciliação da família.', 'Protagonista'),
+(5, 'Kai', 'https://images.example.com/kai.jpg', 28, 'Guerreiro místico de outro reino.', 'Protagonista'),
+(6, 'Leonardo', 'https://images.example.com/leonardo.jpg', 60, 'Produtor veterano e mentor.', 'Coadjuvante');
 
-('Weathering With You',
- 'Hodaka, um estudante fugitivo em Tóquio, conhece Hina, uma garota com a misteriosa habilidade de controlar o clima. Juntos, eles começam a oferecer serviços de dias ensolarados, mas logo descobrem que esse poder tem um preço alto — e que o destino de ambos está interligado às mudanças climáticas extremas da cidade.',
- '2019-07-19',
- '01:52:00',
- 15000000.00,
- 'https://www.youtube.com/watch?v=Q6iK6DjV_iE',
- 'https://m.media-amazon.com/images/I/81vZt0LOIHL._AC_UF894,1000_QL80_.jpg',
- 3),
+-- 8) Profissionais (diretores, atores, roteiristas, etc.)
+INSERT INTO tbl_profissional (id, nome, imagem, data_nascimento, data_falecimento, nacionalidade, biografia) VALUES
+(1, 'Rafael Mendes', 'https://images.example.com/rafael.jpg', '1978-04-10', NULL, 'Brasil', 'Diretor e roteirista com foco em dramas humanos.'),
+(2, 'Ana Sousa', 'https://images.example.com/ana.jpg', '1985-09-02', NULL, 'Brasil', 'Atriz e produtora com experiência em filmes independentes.'),
+(3, 'Tom Harris', 'https://images.example.com/tom.jpg', '1970-01-22', NULL, 'Reino Unido', 'Diretor de efeitos visuais e cinema de fantasia.'),
+(4, 'Mariana Alves', 'https://images.example.com/mariana.jpg', '1992-06-17', NULL, 'Brasil', 'Atriz em ascensão, conhecida por papéis dramáticos.'),
+(5, 'Carlos Bento', 'https://images.example.com/carlos.jpg', '1964-02-28', NULL, 'Brasil', 'Produtor e executivo de estúdio.'),
+(6, 'Liu Wei', 'https://images.example.com/liu.jpg', '1988-10-05', NULL, 'China', 'Ator e dublê com experiência internacional.'),
+(7, 'Sofia Martins', 'https://images.example.com/sofia_m.jpg', '1975-12-11', NULL, 'Brasil', 'Compositora de trilha sonora e arranjos.'),
+(8, 'Diego Ramos', 'https://images.example.com/diego.jpg', '1980-03-03', NULL, 'Brasil', 'Diretor de fotografia veterano');
 
-('A Viagem de Chihiro',
- 'Chihiro, uma garota de dez anos, entra por engano em um mundo de espíritos governado pela bruxa Yubaba. Ao ver seus pais transformados em porcos, Chihiro é forçada a trabalhar em um misterioso banho espiritual enquanto tenta descobrir como resgatá-los e encontrar o caminho de volta para casa.',
- '2001-07-20',
- '02:05:00',
- 19000000.00,
- 'https://www.youtube.com/watch?v=5-cro68n7CE',
- 'https://m.media-amazon.com/images/I/81mhtgS-6dL._AC_UF894,1000_QL80_.jpg',
- 1),
+-- 9) Filmes (usar id explícito para controle)
+INSERT INTO tbl_filme (id, nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
+(1, 'A Jornada da Estrela', 'Marcos embarca numa jornada para reconectar com sua família enquanto lida com escolhas éticas no trabalho.', '2023-08-11', '02:05:00', 3500000.00, 'https://youtube.example.com/trailer1', 'https://images.example.com/capa_jornada.jpg', 3, 1),
+(2, 'Noite de Neon', 'Em uma metrópole futurista, uma investigadora enfrenta corporações e segredos sobre a cidade.', '2024-04-18', '01:52:00', 12000000.00, 'https://youtube.example.com/trailer2', 'https://images.example.com/capa_neon.jpg', 5, 2),
+(3, 'O Último Concerto', 'Após a morte do maestro, uma família tenta reconstruir sua história através de memórias e música.', '2022-11-02', '01:40:00', 2200000.00, 'https://youtube.example.com/trailer3', 'https://images.example.com/capa_concerto.jpg', 1, 3),
+(4, 'Caçadores de Sombras', 'Um grupo de jovens descobre portais entre mundos e precisa lutar para salvar sua cidade.', '2021-07-09', '02:15:00', 45000000.00, 'https://youtube.example.com/trailer4', 'https://images.example.com/capa_cacadores.jpg', 4, 4),
+(5, 'Memórias do Tempo', 'Documentário que investiga relatos e objetos que atravessam gerações.', '2020-03-20', '01:10:00', 600000.00, 'https://youtube.example.com/trailer5', 'https://images.example.com/capa_memorias.jpg', 1, 1);
 
-('Your Lie in April',
- 'Kousei Arima, um prodígio do piano, perde a capacidade de ouvir a própria música após o trauma da morte de sua mãe. Sua vida muda quando ele conhece Kaori Miyazono, uma violonista cheia de vida que o desafia a voltar ao mundo da música e a enxergar a vida sob uma nova perspectiva.',
- '2016-09-10',
- '02:02:00',
- 5000000.00,
- 'https://www.youtube.com/watch?v=3aL0gDZtFbE',
- 'https://m.media-amazon.com/images/I/71M1UZZLQ8L._AC_UF894,1000_QL80_.jpg',
- 3),
+-- 10) Relacionar filmes <-> gêneros
+INSERT INTO tbl_filme_genero (id, id_filme, id_genero) VALUES
+(1, 1, 1), -- A Jornada da Estrela -> Drama
+(2, 1, 5), -- Romance
+(3, 2, 4), -- Noite de Neon -> Ficção Científica
+(4, 2, 2), -- Ação
+(5, 3, 1), -- O Último Concerto -> Drama
+(6, 3, 6), -- Documentário/biográfico (uso documental)
+(7, 4, 2), -- Caçadores de Sombras -> Ação
+(8, 4, 3), -- Fantasia
+(9, 5, 6); -- Memórias do Tempo -> Documentário
 
-('Paprika',
- 'A Dra. Atsuko Chiba usa uma tecnologia experimental chamada DC Mini para entrar nos sonhos das pessoas e ajudá-las em tratamentos psicológicos. Quando o dispositivo é roubado, sonhos começam a invadir a realidade, e ela precisa usar sua persona onírica, Paprika, para impedir que o caos se espalhe.',
- '2006-11-25',
- '01:30:00',
- 3500000.00,
- 'https://www.youtube.com/watch?v=jJzEW_eE1G0',
- 'https://m.media-amazon.com/images/I/71FRd5nzPWL._AC_UF894,1000_QL80_.jpg',
- 5),
+-- 11) Relacionar filmes <-> personagens
+INSERT INTO tbl_filme_personagem (id, id_filme, id_personagem) VALUES
+(1, 1, 1), -- Marcos -> A Jornada da Estrela
+(2, 1, 2), -- Sofia -> A Jornada da Estrela
+(3, 2, 3), -- Dr. Voss -> Noite de Neon
+(4, 3, 4), -- Helena -> O Último Concerto
+(5, 4, 5), -- Kai -> Caçadores de Sombras
+(6, 4, 6), -- Leonardo -> Caçadores de Sombras
+(7, 5, 4); -- Helena reaproveitada como personagem em doc (exemplo)
 
-('Ghost in the Shell',
- 'Em um futuro cibernético, a agente Motoko Kusanagi e sua equipe perseguem um hacker conhecido como Mestre dos Fantoches, que invade mentes e manipula identidades. Conforme avança na investigação, Motoko questiona sua própria humanidade e propósito como ciborgue.',
- '1995-11-18',
- '01:22:00',
- 9000000.00,
- 'https://www.youtube.com/watch?v=HofKQH0w0T8',
- 'https://m.media-amazon.com/images/I/81yp5ruZGuL._AC_UF894,1000_QL80_.jpg',
- 5),
+-- 12) Associar profissionais aos cargos
+INSERT INTO tbl_profissional_cargo (id, id_profissional, id_cargo) VALUES
+(1, 1, 1), -- Rafael Mendes -> Diretor
+(2, 1, 2), -- também roteirista
+(3, 2, 6), -- Ana Sousa -> Ator
+(4, 3, 1), -- Tom Harris -> Diretor (fantasia)
+(5, 4, 6), -- Mariana Alves -> Ator
+(6, 5, 3), -- Carlos Bento -> Produtor
+(7, 6, 6), -- Liu Wei -> Ator
+(8, 7, 5), -- Sofia Martins -> Compositor
+(9, 8, 4); -- Diego Ramos -> Diretor de Fotografia
 
-('Akira',
- 'Em uma Neo-Tóquio pós-apocalíptica, dois amigos motociclistas, Kaneda e Tetsuo, são envolvidos em um projeto governamental secreto envolvendo poderes psíquicos devastadores. Tetsuo começa a perder o controle, ameaçando destruir a cidade, enquanto Kaneda tenta impedir uma nova catástrofe.',
- '1988-07-16',
- '02:04:00',
- 10000000.00,
- 'https://www.youtube.com/watch?v=lw7qHOHos1o',
- 'https://m.media-amazon.com/images/I/91Z9C7cTU4L._AC_UF894,1000_QL80_.jpg',
- 6),
+-- 13) Ligar atores (tbl_ator) -- qual profissional interpreta qual personagem
+INSERT INTO tbl_ator (id, idioma, id_personagem, id_profissional) VALUES
+(1, 'pt-BR', 1, 2), -- Ana Sousa interpreta Marcos (exemplo de casting alternativo)
+(2, 'pt-BR', 2, 4), -- Mariana Alves interpreta Sofia
+(3, 'en', 3, 6),    -- Liu Wei interpreta Dr. Voss (idioma inglês no filme)
+(4, 'pt-BR', 4, 1), -- Rafael (virtualmente dirige e atua; exemplo)
+(5, 'pt-BR', 5, 6); -- Liu Wei também como Kai (exemplo de versatilidade)
 
-('Perfect Blue',
- 'Mima, uma idol que abandona sua carreira musical para se tornar atriz, começa a sofrer pressão psicológica quando fãs obsessivos e eventos misteriosos ameaçam sua sanidade. A linha entre realidade e ilusão começa a se desfazer enquanto Mima luta para preservar sua identidade.',
- '1997-07-01',
- '01:21:00',
- 4000000.00,
- 'https://www.youtube.com/watch?v=ks8k0-J9H-4',
- 'https://m.media-amazon.com/images/I/81Iff4fq98L._AC_UF894,1000_QL80_.jpg',
- 6);
-
-INSERT INTO tbl_genero (nome) VALUES
-('Drama'),
-('Ação'),
-('Aventura'),
-('Ficção Científica'),
-('Romance'),
-('Fantasia'),
-('Musical'),
-('Thriller Psicológico'),
-('Horror'),
-('Thriller');
-
-INSERT INTO tbl_cargo (nome, descricao) VALUES
-('Diretor', 'Responsável pela direção geral do projeto ou empresa.'),
-('Produtor', 'Coordena a produção e supervisiona o andamento das atividades.'),
-('Roteirista', 'Cria o roteiro e a estrutura narrativa da obra.'),
-('Ator', 'Interpreta personagens em filmes, séries ou peças.'),
-('Diretor de Fotografia', 'Responsável pela iluminação e enquadramento das cenas.'),
-('Editor', 'Faz a montagem e edição das imagens gravadas.'),
-('Designer de Som', 'Cria e edita os efeitos e trilhas sonoras.'),
-('Figurinista', 'Cria e seleciona as roupas e acessórios dos personagens.'),
-('Maquiador', 'Cuida da caracterização visual dos atores.'),
-('Assistente de Produção', 'Auxilia em tarefas logísticas e administrativas da produção.');
-
-INSERT INTO tbl_producao (nome, pais_origem, fundacao, site) VALUES
-('Kyoto Animation', 'Japão', '1981-06-30', NULL),
-('Madhouse', 'Japão', '1972-10-15', NULL),
-('CoMix Wave Films', 'Japão', '2007-11-01', NULL),
-('Studio Ghibli', 'Japão', '1985-06-15', NULL),
-('Production I.G', 'Japão', '1987-12-15', NULL),
-('C&I Entertainment', 'Japão', NULL, NULL),
-('Fuji TV', 'Japão', NULL, 'https://www.fujitv.co.jp/'),
-('Kodansha', 'Japão', NULL, 'https://www.kodansha.co.jp/'),
-('Toho', 'Japão', NULL, 'https://www.toho.co.jp/'),
-('TMS Entertainment', 'Japão', NULL, 'https://www.tms-e.co.jp/');
-
-
-INSERT INTO tbl_formato_audiovisual (nome) VALUES
-('Filme'),
-('Série'),
-('Documentário'),
-('Curta-metragem'),
-('Animação'),
-('Minissérie'),
-('Programa de TV'),
-('Websérie'),
-('Show'),
-('Videoclipe');
-
-INSERT INTO tbl_distribuidora (nome, pais_origem, site) VALUES
-('Shochiku', 'Japão', NULL),
-('Tohokushinsha Film', 'Japão', NULL),
-('Tōhō', 'Japão', 'https://www.toho.co.jp/'),
-('Sony Pictures Entertainment Japan', 'Japão', 'https://www.sonypictures.jp/'),
-('Toho (para Weathering With You)', 'Japão', 'https://www.toho.co.jp/');
-
-INSERT INTO tbl_personagem (nome, imagem, idade, descricao, papel) VALUES
--- Koe no Katachi (1)
-('Shouya Ishida', '', 17, 'Protagonista que busca redenção por seus erros do passado.', 'Protagonista'),
-('Shouko Nishimiya', '', 17, 'Garota surda intimidada no passado, alvo da redenção de Shouya.', 'Protagonista'),
-('Yuzuru Nishimiya', '', 14, 'Irmã protetora de Shouko.', 'Coadjuvante'),
-
--- Redline (2)
-('JP', '', 28, 'Piloto ousado que quer vencer a corrida Redline.', 'Protagonista'),
-('Sonoshee McLaren', '', 26, 'Pilota habilidosa e rival de JP.', 'Protagonista'),
-('Frisbee', '', 30, 'Mecânico e amigo de JP.', 'Coadjuvante'),
-
--- Your Name (3)
-('Taki Tachibana', '', 17, 'Jovem de Tóquio que troca de corpo com Mitsuha.', 'Protagonista'),
-('Mitsuha Miyamizu', '', 17, 'Garota do interior que troca de corpo com Taki.', 'Protagonista'),
-('Miki Okudera', '', 20, 'Colega de trabalho de Taki.', 'Coadjuvante'),
-
--- Weathering With You (4)
-('Hodaka Morishima', '', 16, 'Jovem fugitivo em Tóquio.', 'Protagonista'),
-('Hina Amano', '', 17, 'Garota com poder de controlar o clima.', 'Protagonista'),
-('Nagi Amano', '', 14, 'Irmão de Hina.', 'Coadjuvante'),
-
--- A Viagem de Chihiro (5)
-('Chihiro Ogino', '', 10, 'Garota presa no mundo dos espíritos.', 'Protagonista'),
-('Haku', '', 12, 'Espírito que ajuda Chihiro.', 'Protagonista'),
-('Yubaba', '', 200, 'Bruxa dona da casa de banhos.', 'Antagonista'),
-
--- Your Lie in April (6)
-('Kousei Arima', '', 14, 'Prodígio do piano traumatizado.', 'Protagonista'),
-('Kaori Miyazono', '', 14, 'Violinista que muda a vida de Kousei.', 'Protagonista'),
-('Tsubaki Sawabe', '', 14, 'Amiga de infância de Kousei.', 'Coadjuvante'),
-
--- Paprika (7)
-('Paprika', '', 28, 'Forma onírica de Atsuko Chiba.', 'Protagonista'),
-('Atsuko Chiba', '', 28, 'Pesquisadora responsável pelo DC Mini.', 'Protagonista'),
-('Dr. Tokita', '', 35, 'Criador do DC Mini.', 'Coadjuvante'),
-
--- Ghost in the Shell (8)
-('Motoko Kusanagi', '', 30, 'Ciborgue da Seção 9.', 'Protagonista'),
-('Batou', '', 35, 'Parceiro de Motoko.', 'Coadjuvante'),
-('Togusa', '', 30, 'Investigador da Seção 9.', 'Coadjuvante'),
-
--- Akira (9)
-('Kaneda', '', 16, 'Líder de uma gangue de motoqueiros.', 'Protagonista'),
-('Tetsuo Shima', '', 16, 'Amigo de Kaneda que ganha poderes psíquicos.', 'Antagonista'),
-('Kei', '', 17, 'Aliada de Kaneda.', 'Coadjuvante'),
-
--- Perfect Blue (10)
-('Mima Kirigoe', '', 21, 'Ex-idol que sofre perseguição psicológica.', 'Protagonista'),
-('Rumi Hidaka', '', 35, 'Ex-idol e agente de Mima.', 'Antagonista'),
-('Me-Mania', '', 30, 'Fã obcecado por Mima.', 'Antagonista');
-
-INSERT INTO tbl_filme_genero (id_filme, id_genero) VALUES
--- 1. Koe no Katachi
-(1, 1),
-
--- 2. Redline
-(2, 2),
-(2, 3),
-(2, 4),
-
--- 3. Your Name
-(3, 1),
-(3, 5),
-(3, 6),
-
--- 4. Weathering With You
-(4, 1),
-(4, 5),
-(4, 6),
-
--- 5. A Viagem de Chihiro
-(5, 3),
-(5, 6),
-
--- 6. Your Lie in April
-(6, 1),
-(6, 5),
-(6, 7),
-
--- 7. Paprika
-(7, 4),
-(7, 6),
-(7, 8),
-
--- 8. Ghost in the Shell
-(8, 2),
-(8, 4),
-(8, 10),
-
--- 9. Akira
-(9, 2),
-(9, 4),
-(9, 10),
-
--- 10. Perfect Blue
-(10, 1),
-(10, 8),
-(10, 9);
-
-INSERT INTO tbl_filme_personagem (id_filme, id_personagem) VALUES
--- Filme 1
-(1, 1), (1, 2), (1, 3),
-
--- Filme 2
-(2, 4), (2, 5), (2, 6),
-
--- Filme 3
-(3, 7), (3, 8), (3, 9),
-
--- Filme 4
-(4, 10), (4, 11), (4, 12),
-
--- Filme 5
-(5, 13), (5, 14), (5, 15),
-
--- Filme 6
-(6, 16), (6, 17), (6, 18),
-
--- Filme 7
-(7, 19), (7, 20), (7, 21),
-
--- Filme 8
-(8, 22), (8, 23), (8, 24),
-
--- Filme 9
-(9, 25), (9, 26), (9, 27),
-
--- Filme 10
-(10, 28), (10, 29), (10, 30);
+-- 14) Vínculo produção <-> profissionais (quem trabalha em qual produtora)
+INSERT INTO tbl_producao_profissional (id, id_producao, id_profissional) VALUES
+(1, 1, 1), -- Rafael -> Luz Filmes
+(2, 1, 5), -- Carlos Bento -> Luz Filmes
+(3, 2, 3), -- Tom Harris -> Aurora Studios
+(4, 3, 7), -- Sofia Martins -> Céu Produções (música)
+(5, 4, 8); -- Diego Ramos -> Atlas Pictures
