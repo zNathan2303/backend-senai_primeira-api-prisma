@@ -32,9 +32,11 @@ INSERT INTO tbl_formato_audiovisual (nome) VALUES
 
 -- Distribuidora
 INSERT INTO tbl_distribuidora (nome, pais_origem, site) VALUES
-('Warner Bros.', 'EUA', 'http://warnerbros.com'),
-('Universal', 'EUA', 'http://universal.com'),
-('Paramount', 'EUA', 'http://paramount.com');
+('Warner Bros.', 'EUA', 'http://warnerbros.com'), -- ID 1
+('Universal', 'EUA', 'http://universal.com'), -- ID 2
+('Paramount', 'EUA', 'http://paramount.com'), -- ID 3
+('CJ Entertainment', 'Coreia do Sul', 'http://cj.com'), -- NOVO ID 4
+('Miramax Films', 'EUA', 'http://miramax.com'); -- NOVO ID 5
 
 -- Producao (5 Produtoras, uma para cada filme)
 INSERT INTO tbl_producao (nome, pais_origem, fundacao, site) VALUES

@@ -93,12 +93,12 @@ const getSelectLastID = async () => {
 // Altera uma produção no banco de dados
 const setUpdateProductions = async (producao) => {
     try {
-        let sql = `UPDATE tbl_producao SET 
+        let sql = `UPDATE tbl_producao SET
                 nome = '${producao.nome}',
                 pais_origem = '${producao.pais_origem}',
                 fundacao = '${producao.fundacao}',
                 site = '${producao.site}'
-            WHERE 
+            WHERE
                 id = ${producao.id};`
 
         // $executeRawUnsafe() -> Executa o script SQL que não tem retorno de valores

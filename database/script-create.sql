@@ -2,6 +2,18 @@ create database db_locadora_filme_ds2m_25_2;
 
 use db_locadora_filme_ds2m_25_2;
 
+CREATE TABLE tbl_formato_audiovisual (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(40) NOT NULL
+);
+
+CREATE TABLE tbl_distribuidora (
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nome varchar(100) NOT NULL,
+	pais_origem varchar(50) NOT NULL,
+	site varchar(255)
+);
+
 CREATE TABLE tbl_classificacao_indicativa (
 	id int PRIMARY KEY AUTO_INCREMENT,
     nivel VARCHAR(5) NOT NULL,
@@ -44,18 +56,6 @@ CREATE TABLE tbl_cargo (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	nome varchar(50) NOT NULL,
 	descricao TEXT
-);
-
-CREATE TABLE tbl_formato_audiovisual (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nome varchar(40) NOT NULL
-);
-
-CREATE TABLE tbl_distribuidora (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nome varchar(100) NOT NULL,
-	pais_origem varchar(50) NOT NULL,
-	site varchar(255)
 );
 
 CREATE TABLE tbl_personagem (
