@@ -9,6 +9,9 @@
 // Import da model do DAO do profissional
 const profissionalDAO = require('../../model/DAO/profissional.js')
 
+// Import das controllers
+const controllerProfissionalCargo = require('./controller-profissional-cargo.js')
+
 // Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
@@ -22,6 +25,11 @@ const listarProfissionais = async () => {
 
         if (resultProfissionais) {
             if (resultProfissionais.length > 0) {
+                for (const profissional of resultProfissionais) {
+                    const resultCargo = await controllerProfissionalCargo.listarCargosIdProfissional(profissional.id)
+                    if (resultCargo.status_code == 200)
+                        profissional.cargos = resultCargo.items.profissionais_cargos
+                }
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                 MESSAGES.DEFAULT_HEADER.items.profissionais = resultProfissionais
@@ -49,6 +57,11 @@ const buscarProfissionalId = async (id) => {
 
             if (resultProfissionais) {
                 if (resultProfissionais.length > 0) {
+
+                    const resultCargo = await controllerProfissionalCargo.listarCargosIdProfissional(resultProfissionais[0].id)
+                    if (resultCargo.status_code == 200)
+                        resultProfissionais[0].cargos = resultCargo.items.profissionais_cargos
+
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                     MESSAGES.DEFAULT_HEADER.items.profissional = resultProfissionais
@@ -123,31 +136,44 @@ const inserirProfissional = async (profissional, contentType) => {
                     // Chama a função para receber o ID gerado no BD
                     let lastID = await profissionalDAO.getSelectLastID()
                     if (lastID) {
-                        // Adiciona o ID no JSON com os dados do profissional
-                        profissional.id = lastID
-                        MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
-                        MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
-                        MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
-                        MESSAGES.DEFAULT_HEADER.items = profissional
+                        if (profissional.cargo) {
+                            for (const cargo of profissional.cargo) {
+                                const profissionalCargo = {
+                                    id_profissional: lastID,
+                                    id_cargo: cargo.id
+                                }
+                                const resultProfissionalCargo = await controllerProfissionalCargo.inserirProfissionalCargo(profissionalCargo, contentType)
+
+                                if (resultProfissionalCargo.status_code != 201)
+                                    return MESSAGES.ERROR_RELATION_INSERTION
+                            }
+                            // Adiciona o ID no JSON com os dados do profissional
+                            profissional.id = lastID
+                            MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
+                            MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
+                            MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
+                            MESSAGES.DEFAULT_HEADER.items = profissional
+                        } else {
+                            return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
+                        }
+
+                        return MESSAGES.DEFAULT_HEADER // 201
                     } else {
                         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
                     }
-
-                    return MESSAGES.DEFAULT_HEADER // 201
                 } else {
-                    return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
+                    return validar // 400
                 }
-            } else {
-                return validar // 400
-            }
 
-        } else {
-            return MESSAGES.ERROR_CONTENT_TYPE
+            } else {
+                return MESSAGES.ERROR_CONTENT_TYPE
+            }
         }
     } catch (error) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
+
 
 // Atualiza um profissional buscando pelo ID
 const atualizarProfissional = async (profissional, id, contentType) => {
@@ -167,6 +193,26 @@ const atualizarProfissional = async (profissional, id, contentType) => {
                 let validarID = await buscarProfissionalId(id)
 
                 if (validarID.status_code == 200) {
+                    if (validarID.items.profissional[0].cargos) {
+                        const cargosApagados = await controllerProfissionalCargo.excluirProfissionalCargoByProfissionalId(Number(id))
+                        console.log(cargosApagados);
+
+                        if (cargosApagados.status_code != 200)
+                            return MESSAGES.ERROR_RELATION_UPDATE
+                    }
+
+                    if (profissional.cargo) {
+                        for (const cargo of profissional.cargo) {
+                            const profissionalCargo = {
+                                id_profissional: Number(id),
+                                id_cargo: cargo.id
+                            }
+                            const resultProfissionalCargo = await controllerProfissionalCargo.inserirProfissionalCargo(profissionalCargo, contentType)
+
+                            if (resultProfissionalCargo.status_code != 201)
+                                return MESSAGES.ERROR_RELATION_UPDATE
+                        }
+                    }
 
                     // Adiciona o ID do profissional no JSON de dados para ser encaminhado ao DAO
                     profissional.id = Number(id)
