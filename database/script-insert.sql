@@ -79,24 +79,22 @@ INSERT INTO tbl_producao_profissional (id_producao, id_profissional) VALUES
 
 -- Filme (5 Filmes, 1 para cada Producao)
 -- Filme 1: Inception (ID 1) -> Produtora 1 (Nolan) -> Classificação 3 (12)
-INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
-('A Origem', 'Um ladrão de segredos que rouba segredos corporativos através do uso de tecnologia de compartilhamento de sonhos.', '2010-07-16', '02:28:00', 160000000.00, 'trailer_origem.mp4', 'capa_origem.jpg', 3, 1);
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao, id_distribuidora, id_formato_audiovisual) VALUES
+('A Origem', 'Um ladrão de segredos que rouba segredos corporativos através do uso de tecnologia de compartilhamento de sonhos.', '2010-07-16', '02:28:00', 160000000.00, 'trailer_origem.mp4', 'capa_origem.jpg', 3, 1, 1, 1);
 
 -- Filme 2: Dune (ID 2) -> Produtora 2 (Villeneuve) -> Classificação 4 (14)
-INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
-('Duna', 'A jornada de Paul Atreides a um planeta perigoso para garantir o futuro de seu povo.', '2021-10-22', '02:35:00', 165000000.00, 'trailer_duna.mp4', 'capa_duna.jpg', 4, 2);
-
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao, id_distribuidora, id_formato_audiovisual) VALUES
+('Duna', 'A jornada de Paul Atreides a um planeta perigoso para garantir o futuro de seu povo.', '2021-10-22', '02:35:00', 165000000.00, 'trailer_duna.mp4', 'capa_duna.jpg', 4, 2, 2, 1);
 -- Filme 3: Little Women (ID 3) -> Produtora 3 (Gerwig) -> Classificação 2 (10)
-INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
-('Adoráveis Mulheres', 'Quatro irmãs tentam viver a vida em meio à Guerra Civil Americana.', '2019-12-25', '02:15:00', 40000000.00, 'trailer_mulheres.mp4', 'capa_mulheres.jpg', 2, 3);
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao, id_distribuidora, id_formato_audiovisual) VALUES
+('Adoráveis Mulheres', 'Quatro irmãs tentam viver a vida em meio à Guerra Civil Americana.', '2019-12-25', '02:15:00', 40000000.00, 'trailer_mulheres.mp4', 'capa_mulheres.jpg', 2, 3, 3, 1);
 
 -- Filme 4: Parasite (ID 4) -> Produtora 4 (Bong) -> Classificação 5 (16)
-INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
-('Parasita', 'Uma família pobre se infiltra na vida de uma família rica, com consequências imprevistas.', '2019-05-30', '02:12:00', 11300000.00, 'trailer_parasita.mp4', 'capa_parasita.jpg', 5, 4);
-
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao, id_distribuidora, id_formato_audiovisual) VALUES
+('Parasita', 'Uma família pobre se infiltra na vida de uma família rica, com consequências imprevistas.', '2019-05-30', '02:12:00', 11300000.00, 'trailer_parasita.mp4', 'capa_parasita.jpg', 5, 4, 4, 1);
 -- Filme 5: Pulp Fiction (ID 5) -> Produtora 5 (Tarantino) -> Classificação 5 (16)
-INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao) VALUES
-('Pulp Fiction', 'Várias histórias interconectadas de criminosos, gângsteres e ladrões em Los Angeles.', '1994-10-14', '02:34:00', 8000000.00, 'trailer_pulp.mp4', 'capa_pulp.jpg', 5, 5);
+INSERT INTO tbl_filme (nome, sinopse, data_lancamento, duracao, orcamento, trailer, capa, id_classificacao, id_producao, id_distribuidora, id_formato_audiovisual) VALUES
+('Pulp Fiction', 'Várias histórias interconectadas de criminosos, gângsteres e ladrões em Los Angeles.', '1994-10-14', '02:34:00', 8000000.00, 'trailer_pulp.mp4', 'capa_pulp.jpg', 5, 5, 5, 1);
 
 
 -- Filme Genero

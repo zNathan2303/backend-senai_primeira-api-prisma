@@ -27,8 +27,12 @@ create table tbl_filme(
 	capa varchar(200) not null,
     id_classificacao int not null,
     id_producao int not null,
+	id_distribuidora int not null,
+	id_formato_audiovisual int not null,
     FOREIGN KEY (id_classificacao) references tbl_classificacao_indicativa(id),
-    FOREIGN KEY (id_producao) REFERENCES tbl_producao(id)
+    FOREIGN KEY (id_producao) REFERENCES tbl_producao(id),
+    FOREIGN KEY (id_distribuidora) REFERENCES tbl_distribuidora(id),
+	FOREIGN KEY (id_formato_audiovisual) REFERENCES tbl_formato_audiovisual(id)
 );
 
 CREATE TABLE tbl_genero (
