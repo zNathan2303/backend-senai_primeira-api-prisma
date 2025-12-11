@@ -9,6 +9,9 @@
 // Import da model do DAO do personagem
 const personagemDAO = require('../../model/DAO/personagem.js')
 
+// Import das controlles
+const controllerAtor = require('../ator/controller-ator.js')
+
 // Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
 
@@ -22,6 +25,13 @@ const listarPersonagens = async () => {
 
         if (resultPersonagens) {
             if (resultPersonagens.length > 0) {
+
+                for (const personagem of resultPersonagens) {
+                    const atores = await controllerAtor.listarProfissionaisIdPersonagem(personagem.id)
+                    if (atores.status_code == 200)
+                        personagem.atores = atores.items.atores
+
+                }
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                 MESSAGES.DEFAULT_HEADER.items.personagens = resultPersonagens
@@ -49,6 +59,11 @@ const buscarPersonagemId = async (id) => {
 
             if (resultPersonagens) {
                 if (resultPersonagens.length > 0) {
+
+                    const atores = await controllerAtor.listarProfissionaisIdPersonagem(resultPersonagens[0].id)
+                    if (atores.status_code == 200)
+                        resultPersonagens[0].atores = atores.items.atores
+
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                     MESSAGES.DEFAULT_HEADER.items.personagem = resultPersonagens
@@ -91,6 +106,24 @@ const inserirPersonagem = async (personagem, contentType) => {
                     // Chama a função para receber o ID gerado no BD
                     let lastID = await personagemDAO.getSelectLastID()
                     if (lastID) {
+
+                        if (personagem.ator) {
+                            for (const ator of personagem.ator) {
+                                const personagemProfissional = {
+                                    id_personagem: lastID,
+                                    id_profissional: ator.id_profissional,
+                                    idioma: ator.idioma
+                                }
+                                const resultAtor = await controllerAtor.inserirPersonagemProfissional(personagemProfissional, contentType)
+
+                                if (resultAtor.status_code != 201)
+                                    return MESSAGES.ERROR_INTERNAL_SERVER_MODEL // 500
+                            }
+
+                            delete personagem.ator
+                            const resultDadosAtores = await controllerAtor.listarProfissionaisIdPersonagem(lastID)
+                            personagem.atores = resultDadosAtores.items.atores
+                        }
                         // Adiciona o ID no JSON com os dados do personagem
                         personagem.id = lastID
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
@@ -135,6 +168,27 @@ const atualizarPersonagem = async (personagem, id, contentType) => {
                 let validarID = await buscarPersonagemId(id)
 
                 if (validarID.status_code == 200) {
+
+                    if (validarID.items.personagem[0].atores) {
+                        // Exclui os atores relacionados ao personagem antes de atualizar
+                        const atoresApagados = await controllerAtor.excluirPersonagemProfissionalByPersonagemId(Number(id))
+
+                        if (atoresApagados.status_code != 200)
+                            return MESSAGES.ERROR_RELATION_UPDATE // 500
+
+                    }
+                    if (personagem.ator) {
+                        for (const ator of personagem.ator) {
+                            const personagemProfissional = {
+                                id_personagem: Number(id),
+                                id_profissional: ator.id_profissional,
+                                idioma: ator.idioma
+                            }
+                            const resultAtor = await controllerAtor.inserirPersonagemProfissional(personagemProfissional, contentType)
+                            if (resultAtor.status_code != 201)
+                                return MESSAGES.ERROR_RELATION_UPDATE
+                        }
+                    }
 
                     // Adiciona o ID do personagem no JSON de dados para ser encaminhado ao DAO
                     personagem.id = Number(id)
