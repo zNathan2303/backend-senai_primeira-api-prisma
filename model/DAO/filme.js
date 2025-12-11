@@ -95,7 +95,10 @@ const setInsertMovies = async (filme) => {
                 orcamento,
                 trailer,
                 capa,
-                id_classificacao
+                id_classificacao,
+                id_producao,
+                id_formato_audiovisual,
+                id_distribuidora
             ) VALUES (
                 '${filme.nome}',
                 '${filme.sinopse}',
@@ -104,7 +107,10 @@ const setInsertMovies = async (filme) => {
                 ${filme.orcamento},
                 '${filme.trailer}',
                 '${filme.capa}',
-                '${filme.id_classificacao}'
+                ${filme.id_classificacao},
+                ${filme.id_producao},
+                ${filme.id_formato_audiovisual},
+                ${filme.id_distribuidora}
             )`
 
         // Encaminha para o BD o script SQL
@@ -115,6 +121,8 @@ const setInsertMovies = async (filme) => {
         else
             return false
     } catch (error) {
+        console.log(error);
+
         return false
     }
 }

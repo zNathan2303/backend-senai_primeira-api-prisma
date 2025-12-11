@@ -45,13 +45,13 @@ const buscarDistribuidoraId = async (id) => {
     try {
         // Validação da chegada do ID
         if (!isNaN(id) && id != '' && id != null && id > 0) {
-            let resultProdocoes = await distribuidoraDAO.getSelectbyIdDistributors(id)
+            let result = await distribuidoraDAO.getSelectbyIdDistributors(id)
 
-            if (resultProdocoes) {
-                if (resultProdocoes.length > 0) {
+            if (result) {
+                if (result.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-                    MESSAGES.DEFAULT_HEADER.items.producao = resultProdocoes
+                    MESSAGES.DEFAULT_HEADER.items.distribuidora = result
 
                     return MESSAGES.DEFAULT_HEADER
                 } else {

@@ -55,6 +55,8 @@ const buscarProducaoId = async (id) => {
         // Validação da chegada do ID
         if (!isNaN(id) && id != '' && id != null && id > 0) {
             let resultProdocoes = await producaoDAO.getSelectbyIdProductions(Number(id))
+            console.log(resultProdocoes);
+
 
             if (resultProdocoes) {
                 if (resultProdocoes.length > 0) {

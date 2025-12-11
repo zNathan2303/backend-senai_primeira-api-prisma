@@ -17,6 +17,8 @@ const controllerFilmePersonagem = require('./controller-filme-personagem.js')
 const controllerClassificacao = require('../classificacao-indicativa/controller-classificacao-indicativa.js')
 const controllerProfissional = require('../profissional/controller-profissional.js')
 const controllerProducao = require('../producao/controller-producao.js')
+const controllerDistribuidora = require('../distribuidora/controller-distribuidora.js')
+const controllerFormatoAudiovisual = require('../formato-audiovisual/controller-formato-audiovisual.js')
 
 // Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config-messages.js')
@@ -40,8 +42,16 @@ const listarFilmes = async () => {
                     delete filme.id_classificacao
 
                     const resultProducao = await controllerProducao.buscarProducaoId(Number(filme.id_producao))
-                    filme.producao = resultProducao.items.producao
+                    filme.producao = resultProducao.items.producao[0]
                     delete filme.id_producao
+
+                    const resultDistribuidora = await controllerDistribuidora.buscarDistribuidoraId(Number(filme.id_distribuidora))
+                    filme.distribuidora = resultDistribuidora.items.distribuidora[0]
+                    delete filme.id_distribuidora
+
+                    const resultFormato = await controllerFormatoAudiovisual.buscarFormatoAudiovisualId(Number(filme.id_formato_audiovisual))
+                    filme.formato_audiovisual = resultFormato.items.formato[0]
+                    delete filme.id_formato_audiovisual
 
                     // Pesquisa no BD todos os generos que foram associados ao filme
                     let resultGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
@@ -91,11 +101,19 @@ const buscarFilmeId = async (id) => {
 
                     // Substituir o ID da classificação pelo JSON completo dela
                     const resultClassificacao = await controllerClassificacao.buscarClassificacaoIndicativa(Number(resultFilmes[0].id_classificacao))
-                    resultFilmes[0].classificacao = resultClassificacao.items.classificacao_indicativa
+                    resultFilmes[0].classificacao = resultClassificacao.items.classificacao_indicativa[0]
                     delete resultFilmes[0].id_classificacao
 
-                    const resultProducao = await controllerProducao.buscarProducaoId(Number(resultFilmes[0].id))
-                    resultFilmes[0].producao = resultProducao.items.producao
+                    const resultDistribuidora = await controllerDistribuidora.buscarDistribuidoraId(Number(resultFilmes[0].id_distribuidora))
+                    resultFilmes[0].distribuidora = resultDistribuidora.items.distribuidora[0]
+                    delete resultFilmes[0].id_distribuidora
+
+                    const resultFormato = await controllerFormatoAudiovisual.buscarFormatoAudiovisualId(Number(resultFilmes[0].id_formato_audiovisual))
+                    resultFilmes[0].formato_audiovisual = resultFormato.items.formato[0]
+                    delete resultFilmes[0].id_formato_audiovisual
+
+                    const resultProducao = await controllerProducao.buscarProducaoId(Number(resultFilmes[0].id_producao))
+                    resultFilmes[0].producao = resultProducao.items.producao[0]
                     delete resultFilmes[0].id_producao
 
                     // Pesquisa no BD todos os generos que foram associados ao filme
@@ -132,6 +150,8 @@ const buscarFilmeId = async (id) => {
         }
 
     } catch (error) {
+        console.log(error);
+
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
 }
@@ -381,6 +401,22 @@ const validarDadosFilme = async (filme) => {
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else if (filme.capa == '' || filme.capa == undefined || filme.capa == null || filme.capa.length > 200) {
         MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Capa incorreta]'
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+    } else if (filme.id_distribuidora <= 0 || isNaN(filme.id_distribuidora) || filme.id_distribuidora == "" ||
+        filme.id_distribuidora == null || filme.id_distribuidora == undefined) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Id_Distribuidora incorreto]'
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+    } else if (filme.id_classificacao <= 0 || isNaN(filme.id_classificacao) || filme.id_classificacao == "" ||
+        filme.id_classificacao == null || filme.id_classificacao == undefined) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Id_Classificacao incorreto]'
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+    } else if (filme.id_producao <= 0 || isNaN(filme.id_producao) || filme.id_producao == "" ||
+        filme.id_producao == null || filme.id_producao == undefined) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Id_Producao incorreto]'
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+    } else if (filme.id_formato_audiovisual <= 0 || isNaN(filme.id_formato_audiovisual) || filme.id_formato_audiovisual == "" ||
+        filme.id_formato_audiovisual == null || filme.id_formato_audiovisual == undefined) {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += '[Id_Formato_Audiovisual incorreto]'
         return MESSAGES.ERROR_REQUIRED_FIELDS
     } else {
         return false
